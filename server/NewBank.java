@@ -1,7 +1,10 @@
-package newbank.server;
+package server;
 
 import java.util.HashMap;
 
+/**
+ * The type New bank.
+ */
 public class NewBank {
 	
 	private static final NewBank bank = new NewBank();
@@ -26,18 +29,37 @@ public class NewBank {
 		customers.put("John", john);
 	}
 	
-	public static NewBank getBank() {
+	/**
+	 * Gets bank.
+	 *
+	 * @return the bank
+	 */
+public static NewBank getBank() {
 		return bank;
 	}
 	
-	public synchronized CustomerID checkLogInDetails(String userName, String password) {
+	/**
+	 * Check log in details customer id.
+	 *
+	 * @param userName the user name
+	 * @param password the password
+	 * @return the customer id
+	 */
+public synchronized CustomerID checkLogInDetails(String userName, String password) {
 		if(customers.containsKey(userName)) {
 			return new CustomerID(userName);
 		}
 		return null;
 	}
 
-	// commands from the NewBank customer are processed in this method
+	/**
+	 * Process request string.
+	 *
+	 * @param customer the customer
+	 * @param request the request
+	 * @return the string
+	 */
+// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
 		if(customers.containsKey(customer.getKey())) {
 			switch(request) {

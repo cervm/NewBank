@@ -1,4 +1,4 @@
-package newbank.client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,14 +7,23 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ExampleClient extends Thread{
-	
+/** The type Example client. */
+public class ExampleClient extends Thread {
+
 	private Socket server;
 	private PrintWriter bankServerOut;	
 	private BufferedReader userInput;
 	private Thread bankServerResponceThread;
-	
-	public ExampleClient(String ip, int port) throws UnknownHostException, IOException {
+
+  /**
+   * Instantiates a new Example client.
+   *
+   * @param ip the ip
+   * @param port the port
+   * @throws UnknownHostException the unknown host exception
+   * @throws IOException the io exception
+   */
+  public ExampleClient(String ip, int port) throws UnknownHostException, IOException {
 		server = new Socket(ip,port);
 		userInput = new BufferedReader(new InputStreamReader(System.in)); 
 		bankServerOut = new PrintWriter(server.getOutputStream(), true); 
@@ -50,8 +59,17 @@ public class ExampleClient extends Thread{
 			}
 		}
 	}
-	
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+
+  /**
+   * The entry point of application.
+   *
+   * @param args the input arguments
+   * @throws UnknownHostException the unknown host exception
+   * @throws IOException the io exception
+   * @throws InterruptedException the interrupted exception
+   */
+  public static void main(String[] args)
+      throws UnknownHostException, IOException, InterruptedException {
 		new ExampleClient("localhost",14002).start();
 	}
 }

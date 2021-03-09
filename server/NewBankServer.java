@@ -1,14 +1,23 @@
-package newbank.server;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * The type New bank server.
+ */
 public class NewBankServer extends Thread{
 	
 	private ServerSocket server;
 	
-	public NewBankServer(int port) throws IOException {
+	/**
+	 * Instantiates a new New bank server.
+	 *
+	 * @param port the port
+	 * @throws IOException the io exception
+	 */
+public NewBankServer(int port) throws IOException {
 		server = new ServerSocket(port);
 	}
 	
@@ -34,7 +43,13 @@ public class NewBankServer extends Thread{
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
+	/**
+	 * The entry point of application.
+	 *
+	 * @param args the input arguments
+	 * @throws IOException the io exception
+	 */
+public static void main(String[] args) throws IOException {
 		// starts a new NewBankServer thread on a specified port number
 		new NewBankServer(14002).start();
 	}

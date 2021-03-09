@@ -1,4 +1,4 @@
-package newbank.server;
+package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * The type New bank client handler.
+ */
 public class NewBankClientHandler extends Thread{
 	
 	private NewBank bank;
@@ -13,7 +16,13 @@ public class NewBankClientHandler extends Thread{
 	private PrintWriter out;
 	
 	
-	public NewBankClientHandler(Socket s) throws IOException {
+	/**
+	 * Instantiates a new New bank client handler.
+	 *
+	 * @param s the s
+	 * @throws IOException the io exception
+	 */
+public NewBankClientHandler(Socket s) throws IOException {
 		bank = NewBank.getBank();
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		out = new PrintWriter(s.getOutputStream(), true);
