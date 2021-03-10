@@ -44,8 +44,8 @@ public class NewBank {
      * @param userName the user name
      * @param password the password
      * @return the customer id
-     * todo: use password in checkLogInDetails
-     * /
+     */
+    //todo: include password check
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
             return new CustomerID(userName);
