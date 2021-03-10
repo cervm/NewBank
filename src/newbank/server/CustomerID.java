@@ -1,4 +1,4 @@
-package server;
+package newbank.server;
 
 /** The type Customer id. */
 public class CustomerID {

@@ -1,4 +1,4 @@
-package server;
+package newbank.server;
 
 import java.util.ArrayList;
 
