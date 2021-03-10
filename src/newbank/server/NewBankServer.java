@@ -7,50 +7,49 @@ import java.net.Socket;
 /**
  * The type New bank server.
  */
-public class NewBankServer extends Thread{
-	
-	private ServerSocket server;
-	
-	/**
-	 * Instantiates a new New bank server.
-	 *
-	 * @param port the port
-	 * @throws IOException the io exception
-	 */
-public NewBankServer(int port) throws IOException {
-		server = new ServerSocket(port);
-	}
-	
-	public void run() {
-		// starts up a new client handler thread to receive incoming connections and process requests
-		System.out.println("New Bank Server listening on " + server.getLocalPort());
-		try {
-			while(true) {
-				Socket s = server.accept();
-				NewBankClientHandler clientHandler = new NewBankClientHandler(s);
-				clientHandler.start();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				server.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				Thread.currentThread().interrupt();
-			}
-		}
-	}
-	
-	/**
-	 * The entry point of application.
-	 *
-	 * @param args the input arguments
-	 * @throws IOException the io exception
-	 */
-public static void main(String[] args) throws IOException {
-		// starts a new NewBankServer thread on a specified port number
-		new NewBankServer(14002).start();
-	}
+public class NewBankServer extends Thread {
+
+    private ServerSocket server;
+
+    /**
+     * Instantiates a new New bank server.
+     *
+     * @param port the port
+     * @throws IOException the io exception
+     */
+    public NewBankServer(int port) throws IOException {
+        server = new ServerSocket(port);
+    }
+
+    public void run() {
+        // starts up a new client handler thread to receive incoming connections and process requests
+        System.out.println("New Bank Server listening on " + server.getLocalPort());
+        try {
+            while (true) {
+                Socket s = server.accept();
+                NewBankClientHandler clientHandler = new NewBankClientHandler(s);
+                clientHandler.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                server.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
+    public static void main(String[] args) throws IOException {
+        // starts a new NewBankServer thread on a specified port number
+        new NewBankServer(14002).start();
+    }
 }
