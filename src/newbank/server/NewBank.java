@@ -61,8 +61,11 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
+        //TODO:: Agree with scrum master whether this functionality is required.
+        request = request.toUpperCase();
         if (customers.containsKey(customer.getKey())) {
             switch (request) {
+                //FR1.2
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
                 default:
@@ -72,6 +75,7 @@ public class NewBank {
         return "FAIL";
     }
 
+    //FR1.2
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
     }
