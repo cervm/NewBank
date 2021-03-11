@@ -21,12 +21,13 @@ public class Customer {
      *
      * @return the string
      */
+    //FR1.2
     public String accountsToString() {
-        String s = "";
-        for (Account a : accounts) {
-            s += a.toString();
+        StringBuilder s = new StringBuilder();
+        for (Account account : accounts) {
+            s.append(account.toString());
         }
-        return s;
+        return s.toString();
     }
 
     /**
