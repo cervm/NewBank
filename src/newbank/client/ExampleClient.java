@@ -37,11 +37,13 @@ public class ExampleClient extends Thread {
                 try {
                     while (true) {
                         String responce = bankServerIn.readLine();
+                        if(responce == null){
+                            break;
+                        }
                         System.out.println(responce);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return;
                 }
             }
         };
