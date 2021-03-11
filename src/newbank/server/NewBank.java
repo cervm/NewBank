@@ -16,15 +16,15 @@ public class NewBank {
     }
 
     private void addTestData() {
-        Customer bhagy = new Customer("bhagy", "bhagy");
+        Customer bhagy = new Customer("Bhagy", "bhagy");
         bhagy.addAccount(new Account("Main", 1000.0));
         customers.put("Bhagy", bhagy);
 
-        Customer christina = new Customer("christina", "christina");
+        Customer christina = new Customer("Christina", "christina");
         christina.addAccount(new Account("Savings", 1500.0));
         customers.put("Christina", christina);
 
-        Customer john = new Customer("john", "john");
+        Customer john = new Customer("John", "john");
         john.addAccount(new Account("Checking", 250.0));
         customers.put("John", john);
     }
@@ -48,9 +48,19 @@ public class NewBank {
     //todo: include password check
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
-            return new CustomerID(userName);
+            Customer c = customers.get(userName);
+            if (password.equals(c.getPassword())){
+                return new CustomerID(userName);
+            }
+            else{
+                System.out.println("Incorrect password");
+                return null;
+            }
         }
-        return null;
+        else{
+            System.out.println("Incorrect username");
+            return null;
+        }
     }
 
     /**
