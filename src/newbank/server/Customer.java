@@ -34,6 +34,19 @@ public class Customer {
         }
         return s;
     }
+    /**
+     * Get the password for the user
+     */
+    public String getPassword(){
+        return this.password;
+    }
+
+    /**
+     *
+     */
+    public String getUserName(){
+        return this.userName;
+    }
 
     /**
      * Add account.
