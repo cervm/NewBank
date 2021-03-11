@@ -43,11 +43,12 @@ public class NewBankClientHandler extends Thread {
             // if the user is authenticated then get requests from the user and process them
             if (customer != null) {
                 out.println("Log In Successful. What do you want to do?");
+                //TODO::Why is the loop continuous... Add some logout functionality here?
                 while (true) {
                     String request = in.readLine();
                     System.out.println("Request from " + customer.getKey());
-                    String responce = bank.processRequest(customer, request);
-                    out.println(responce);
+                    String response = bank.processRequest(customer, request);
+                    out.println(response);
                 }
             } else {
                 out.println("Log In Failed");
