@@ -6,15 +6,20 @@ import java.util.ArrayList;
  * The type Customer.
  */
 public class Customer {
-
+    private String userName;
     private ArrayList<Account> accounts;
     private String password;
+    //private CustomerID id;
+
 
     /**
      * Instantiates a new Customer.
+     * Set userName, password and initialize accounts.
      */
-    public Customer() {
-        accounts = new ArrayList<>();
+    public Customer(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+        this.accounts = new ArrayList<>();
     }
 
     /**
