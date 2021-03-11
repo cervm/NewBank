@@ -25,7 +25,7 @@ public class Customer {
     public String accountsToString() {
         StringBuilder s = new StringBuilder();
         for (Account account : accounts) {
-            s.append(account.toString());
+            s.append(account.toString()).append("\n");
         }
         return s.toString();
     }
