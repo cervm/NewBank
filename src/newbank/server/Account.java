@@ -36,6 +36,15 @@ public class Account {
     }
 
     /**
+     * Returns the balance.
+     *
+     * @return openingBalance
+     */
+    public double getOpeningBalance() {
+        return openingBalance;
+    }
+
+    /**
      * Auto Generates a new account number for a customer.
      *
      * @param customers A collection containing all current customers of the bank.
