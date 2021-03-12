@@ -62,8 +62,6 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
-        //TODO:: Agree with scrum master whether this functionality is required.
-        request = request.toUpperCase();
         if (customers.containsKey(customer.getKey())) {
             switch (request) {
                 //FR1.2
