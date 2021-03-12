@@ -38,4 +38,13 @@ public class Customer {
     public void addAccount(Account account) {
         accounts.add(account);
     }
+
+    /**
+     * Get a customers Accounts
+     *
+     * @return accounts the accounts.
+     */
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
 }
