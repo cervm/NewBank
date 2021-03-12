@@ -73,9 +73,12 @@ public class NewBank {
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
         if (customers.containsKey(customer.getKey())) {
-            switch (request) {
+            String[] splited = request.split("\\s+");
+            switch (splited[0]) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
+                case "RESETPASSWORD":
+                    return resetPassword(customer, splited[1], splited[2]);
                 default:
                     return "FAIL";
             }
@@ -85,6 +88,16 @@ public class NewBank {
 
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
+    }
+
+    private String resetPassword(CustomerID customer, String newPassword1, String newPassword2){
+        if(newPassword1.equals(newPassword2)){
+            customers.get(customer.getKey()).setPassword(newPassword1);
+            return "Password changed";
+        }
+        else{
+            return "New Password not match.";
+        }
     }
 
 }
