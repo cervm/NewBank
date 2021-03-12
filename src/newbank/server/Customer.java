@@ -24,9 +24,12 @@ public class Customer {
     //FR1.2
     public String accountsToString() {
         StringBuilder s = new StringBuilder();
+        double totalBalance = 0;
         for (Account account : accounts) {
+            totalBalance += account.getOpeningBalance();
             s.append(account.toString()).append("\n");
         }
+        s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
         return s.toString();
     }
 

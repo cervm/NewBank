@@ -87,7 +87,7 @@ public class Account {
      * @return A String described above.
      */
     public String toString() {
-        return (accountNumber + "-" + accountName + ": " + openingBalance);
+        return (accountNumber + " - " + accountName + ": " + "£" + openingBalance);
     }
 
 }
