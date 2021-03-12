@@ -8,26 +8,11 @@ import java.util.HashMap;
 public class NewBank {
 
     private static final NewBank bank = new NewBank();
-    private HashMap<String, Customer> customers;
+    private final HashMap<String, Customer> customers;
 
     private NewBank() {
         customers = new HashMap<>();
         addTestData();
-    }
-
-    private void addTestData() {
-        Customer bhagy = new Customer();
-        bhagy.addAccount(new Account("Main", 1000.0));
-        customers.put("Bhagy", bhagy);
-
-        Customer christina = new Customer();
-        christina.addAccount(new Account("Savings", 1500.0));
-        customers.put("Christina", christina);
-
-        Customer john = new Customer();
-        john.addAccount(new Account("Checking", 250.0));
-        john.addAccount(new Account("Savings", 1000.0));
-        customers.put("John", john);
     }
 
     /**
@@ -37,6 +22,20 @@ public class NewBank {
      */
     public static NewBank getBank() {
         return bank;
+    }
+
+    /**
+     * Adds the testing data to the customer HashMap
+     *
+     */
+    private void addTestData() {
+        this.newCustomer("Bhagy", 1000.0);
+
+        this.newCustomer("Christina", 1500.0);
+
+        this.newCustomer("John", 250.0);
+        this.newAccount("John", "Savings", 1000.0);
+
     }
 
     /**
@@ -75,8 +74,43 @@ public class NewBank {
     }
 
     //FR1.2
+
+    /**
+     * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
+     *
+     * @param customer
+     * @return A string of the customers accounts.
+     */
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
     }
+
+    /**
+     * Creates a new Customer with a Checking account.
+     *
+     * @param name
+     * @param startingBalance
+     */
+    private void newCustomer(String name, double startingBalance) {
+        customers.put(name, new Customer());
+        this.newAccount(name, "Checking", startingBalance);
+    }
+
+    /**
+     * Adds a new type of account to a customer.
+     *
+     * @param customer
+     * @param accountType
+     * @param balance
+     */
+    private void newAccount(String customer, String accountType, double balance){
+        if (customers.get(customer) == null) {
+            System.out.println("No Customer Exists");
+            return;
+        }
+        customers.get(customer).addAccount(new Account(accountType, balance, customers));
+    }
+
+
 
 }
