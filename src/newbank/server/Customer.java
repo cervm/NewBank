@@ -42,11 +42,19 @@ public class Customer {
     }
 
     /**
+     * Set the password
+     */
+    public void setPassword(String newPW){
+        this.password = newPW;
+    }
+
+    /**
      *
      */
     public String getUserName(){
         return this.userName;
     }
+
 
     /**
      * Add account.
