@@ -78,7 +78,7 @@ public class NewBank {
         return (customers.get(customer.getKey())).accountsToString();
     }
     private String move(CustomerID customer) {
-        return "Which account would you like to transfer from?" + " " +
+        return "Which account would you like to transfer from?" + "  " +
                 (customers.get(customer.getKey())).accountsToString();
     }
 }
