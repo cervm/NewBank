@@ -65,6 +65,8 @@ public class NewBank {
             switch (request) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
+                case "MOVE":
+                    return move(customer);
                 default:
                     return "FAIL";
             }
@@ -75,5 +77,8 @@ public class NewBank {
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
     }
-
+    private String move(CustomerID customer) {
+        return "Which account would you like to transfer from?" + " " +
+                (customers.get(customer.getKey())).accountsToString();
+    }
 }
