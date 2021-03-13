@@ -55,6 +55,14 @@ public class Customer {
         return this.userName;
     }
 
+    /**
+     * Get a customers Accounts
+     *
+     * @return accounts the accounts.
+     */
+    public ArrayList<Account> getAccounts() {
+        return this.accounts;
+    }
 
     /**
      * Add account.
