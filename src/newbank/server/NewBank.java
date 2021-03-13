@@ -79,6 +79,8 @@ public class NewBank {
                     return showMyAccounts(customer);
                 case "RESETPASSWORD":
                     return resetPassword(customer, splited[1], splited[2]);
+                case "ADDACCOUNT":
+                    return addAccount(customer, splited[1]);
                 default:
                     return "FAIL";
             }
@@ -98,6 +100,17 @@ public class NewBank {
         else{
             return "New Password not match.";
         }
+    }
+
+    private String addAccount(CustomerID customer, String accountName){
+        for(Account acc: customers.get(customer.getKey()).getAccounts()){
+            if(acc.getAccountName().equals(accountName)){
+                return "Account already exists.";
+            }
+        }
+        Account newAccount = new Account(accountName, 0.0);
+        customers.get(customer.getKey()).addAccount(newAccount);
+        return "New Account" + accountName+ " added.";
     }
 
 }
