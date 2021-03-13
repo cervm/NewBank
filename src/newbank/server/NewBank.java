@@ -61,10 +61,22 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
+        String moveRequest = new String();
+        String movingTo = new String();
         if (customers.containsKey(customer.getKey())) {
             switch (request) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
+                case "MOVE":
+                    return move(customer);
+                case "from:Main":
+                case "from:Savings":
+                case "from Checking":
+                    return moveTo(customer);
+                case "to:Main":
+                case "to:Savings":
+                case "to:Checking":
+                    return moveAmount(customer);
                 default:
                     return "FAIL";
             }
@@ -76,4 +88,16 @@ public class NewBank {
         return (customers.get(customer.getKey())).accountsToString();
     }
 
-}
+    private String move(CustomerID customer) {
+        return "Which account would you like to transfer from?" + " " +
+                (customers.get(customer.getKey())).accountsToString();
+    }
+
+    private String moveTo(CustomerID customer) {
+        return "Which account would you like to transfer to?" + " " +
+                (customers.get(customer.getKey())).accountsToString();
+    }
+    private String moveAmount(CustomerID customer) {
+        return "How much would you like to transfer?";
+    }
+    }
