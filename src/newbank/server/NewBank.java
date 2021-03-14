@@ -45,7 +45,6 @@ public class NewBank {
      * @param password the password
      * @return the customer id
      */
-    //todo: include password check
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
             Customer c = customers.get(userName);
