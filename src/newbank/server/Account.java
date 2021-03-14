@@ -52,7 +52,7 @@ public class Account {
      */
     private int generateAccountNumber(Collection<Customer> customers) {
         //find last account number
-        int latestAccountNumber = 1000000; //this is the smallest account number we will accept
+        int latestAccountNumber = 10000000; //this is the smallest account number we will accept
         for (Customer customer : customers){
             for (Account account : customer.getAccounts()){
                 if (account.getAccountNumber() > latestAccountNumber) latestAccountNumber =
