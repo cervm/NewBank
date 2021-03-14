@@ -109,6 +109,12 @@ public class NewBank {
             System.out.println("No Customer Exists");
             return;
         }
+
+        if (nextAvailableAccountNumber > 99999999){
+            System.out.println("No available account numbers");
+            return;
+        }
+
         customers.get(customer).addAccount(new Account(accountType, balance, nextAvailableAccountNumber));
         nextAvailableAccountNumber++;
     }
