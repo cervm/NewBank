@@ -9,6 +9,7 @@ public class NewBank {
 
     private static final NewBank bank = new NewBank();
     private final HashMap<String, Customer> customers;
+    private int nextAvailableAccountNumber = 10000000;
 
     private NewBank() {
         customers = new HashMap<>();
@@ -108,7 +109,8 @@ public class NewBank {
             System.out.println("No Customer Exists");
             return;
         }
-        customers.get(customer).addAccount(new Account(accountType, balance, customers));
+        customers.get(customer).addAccount(new Account(accountType, balance, nextAvailableAccountNumber));
+        nextAvailableAccountNumber++;
     }
 
 

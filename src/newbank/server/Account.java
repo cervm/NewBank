@@ -19,11 +19,10 @@ public class Account {
      * @param accountName    the account name
      * @param openingBalance the opening balance
      */
-    public Account(String accountName, double openingBalance,
-                   HashMap<String, Customer> currentAccounts) {
+    public Account(String accountName, double openingBalance, int accountNumber) {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
-        this.accountNumber = this.generateAccountNumber(currentAccounts.values());
+        this.accountNumber = accountNumber;
     }
 
     /**
@@ -44,47 +43,6 @@ public class Account {
         return openingBalance;
     }
 
-    /**
-     * Auto Generates a new account number for a customer.
-     *
-     * @param customers A collection containing all current customers of the bank.
-     * @return An int no greater than 99999999.
-     */
-    private int generateAccountNumber(Collection<Customer> customers) {
-        //find last account number
-        int latestAccountNumber = 10000000; //this is the smallest account number we will accept
-        for (Customer customer : customers){
-            for (Account account : customer.getAccounts()){
-                if (account.getAccountNumber() > latestAccountNumber) latestAccountNumber =
-                        account.getAccountNumber();
-            }
-        }
-
-        //get next available acount number.
-        int newAccountNumber = latestAccountNumber+1;
-
-
-        //TODO::This method can possibly be used in place of the above to simplify the method.
-        //if adding one will result in the increase to 9 digits.
-        if (newAccountNumber > 99999999){
-            int lastAccountNumber = 10000000;
-            for (Customer customer : customers){
-                for (Account account : customer.getAccounts()){
-                    if (account.getAccountNumber() - lastAccountNumber > 1){
-                        newAccountNumber = lastAccountNumber+1;
-                    }
-                    lastAccountNumber=account.getAccountNumber();
-                }
-            }
-        }
-
-        if (newAccountNumber > 99999999) {
-            System.out.println("No new account numbers available");
-            return -1;
-        }
-
-        return newAccountNumber;
-    }
 
     /**
      * Returns a string containing the account number the account name and the balance.
