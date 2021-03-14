@@ -31,7 +31,6 @@ public class NewBankClientHandler extends Thread {
     public void run() {
         // keep getting requests from the client and processing them
         try {
-            CustomerID customer;
             // ask for user name
             out.println("Enter Username");
             String userName = in.readLine();
@@ -40,7 +39,7 @@ public class NewBankClientHandler extends Thread {
             String password = in.readLine();
             out.println("Checking Details...");
             // authenticate user and get customer ID token from bank for use in subsequent requests
-            customer = bank.checkLogInDetails(userName, password);
+            CustomerID customer = bank.checkLogInDetails(userName, password);
             // if the user is authenticated then get requests from the user and process them
             while(customer == null){
                 out.println("Log In Failed. Please try again:");
