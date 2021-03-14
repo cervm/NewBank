@@ -53,12 +53,10 @@ public class NewBank {
                 return new CustomerID(userName);
             }
             else{
-                System.out.println("Incorrect password");
                 return null;
             }
         }
         else{
-            System.out.println("Incorrect username");
             return null;
         }
     }
