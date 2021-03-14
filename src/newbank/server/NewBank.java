@@ -49,7 +49,7 @@ public class NewBank {
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
             Customer c = customers.get(userName);
-            if (password.equals(c.getPassword())){
+            if (c.authenticateUser(password)){
                 return new CustomerID(userName);
             }
             else{

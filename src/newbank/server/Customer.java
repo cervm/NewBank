@@ -36,8 +36,8 @@ public class Customer {
     /**
      * Get the password for the user
      */
-    public String getPassword(){
-        return this.password;
+    public boolean authenticateUser(String password){
+        return this.password.equals(password);
     }
 
     /**
