@@ -18,15 +18,15 @@ public class NewBank {
     private void addTestData() {
         Customer bhagy = new Customer("Bhagy", "bhagy");
         bhagy.addAccount(new Account("Main", 1000.0));
-        customers.put("Bhagy", bhagy);
+        customers.put(bhagy.getUserName(), bhagy);
 
         Customer christina = new Customer("Christina", "christina");
         christina.addAccount(new Account("Savings", 1500.0));
-        customers.put("Christina", christina);
+        customers.put(christina.getUserName(), christina);
 
         Customer john = new Customer("John", "john");
         john.addAccount(new Account("Checking", 250.0));
-        customers.put("John", john);
+        customers.put(john.getUserName(), john);
     }
 
     /**
