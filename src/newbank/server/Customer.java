@@ -9,7 +9,6 @@ public class Customer {
     private String userName;
     private ArrayList<Account> accounts;
     private String password;
-    //private CustomerID id;
 
 
     /**
