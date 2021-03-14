@@ -27,14 +27,6 @@ public class Account {
         return this.accountName;
     }
 
-    /**
-     *
-     * @return account openingBalance
-     */
-    public double getOpeningBalance(){
-        return this.openingBalance;
-    }
-
     public String toString() {
         return (accountName + ": " + openingBalance);
     }
