@@ -60,7 +60,7 @@ public class Account {
             }
         }
 
-        //add one to the value
+        //get next available acount number.
         int newAccountNumber = latestAccountNumber+1;
 
 
@@ -76,6 +76,11 @@ public class Account {
                     lastAccountNumber=account.getAccountNumber();
                 }
             }
+        }
+
+        if (newAccountNumber > 99999999) {
+            System.out.println("No new account numbers available");
+            return -1;
         }
 
         return newAccountNumber;
