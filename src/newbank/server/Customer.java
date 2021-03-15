@@ -6,14 +6,19 @@ import java.util.ArrayList;
  * The type Customer.
  */
 public class Customer {
-
+    private String userName;
     private ArrayList<Account> accounts;
+    private String password;
+
 
     /**
      * Instantiates a new Customer.
+     * Set userName, password and initialize accounts.
      */
-    public Customer() {
-        accounts = new ArrayList<>();
+    public Customer(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+        this.accounts = new ArrayList<>();
     }
 
     /**
@@ -27,6 +32,35 @@ public class Customer {
             s += a.toString();
         }
         return s;
+    }
+    /**
+     * Get the password for the user
+     */
+    public boolean authenticateUser(String password){
+        return this.password.equals(password);
+    }
+
+    /**
+     * Set the password
+     */
+    public void setPassword(String newPW){
+        this.password = newPW;
+    }
+
+    /**
+     *
+     */
+    public String getUserName(){
+        return this.userName;
+    }
+
+    /**
+     * Get a customers Accounts
+     *
+     * @return accounts the accounts.
+     */
+    public ArrayList<Account> getAccounts() {
+        return this.accounts;
     }
 
     /**

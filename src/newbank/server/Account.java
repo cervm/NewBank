@@ -19,8 +19,16 @@ public class Account {
         this.openingBalance = openingBalance;
     }
 
+    /**
+     *
+     * @return account name
+     */
+    public String getAccountName(){
+        return this.accountName;
+    }
+
     public String toString() {
-        return (accountName + ": " + openingBalance);
+        return (accountName + ": " + openingBalance + "\n");
     }
 
 }
