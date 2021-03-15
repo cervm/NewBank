@@ -70,8 +70,14 @@ public class NewBank {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
                 case "RESETPASSWORD":
+                    if(splited.length<3){
+                        return "Fail";
+                    }
                     return resetPassword(customer, splited[1], splited[2]);
                 case "ADDACCOUNT":
+                    if(splited.length<2){
+                        return "Fail";
+                    }
                     return addAccount(customer, splited[1]);
                 default:
                     return "FAIL";
