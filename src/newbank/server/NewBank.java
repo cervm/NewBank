@@ -51,13 +51,8 @@ public class NewBank {
             if (c.authenticateUser(password)){
                 return new CustomerID(userName);
             }
-            else{
-                return null;
-            }
         }
-        else{
-            return null;
-        }
+        return null;
     }
 
     /**
