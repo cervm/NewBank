@@ -1,7 +1,6 @@
 package newbank.server;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * The type New bank.
@@ -62,24 +61,16 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
-        String moveRequest = new String();
-        String movingTo = new String();
+
+
         if (customers.containsKey(customer.getKey())) {
             switch (request) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
                 case "MOVE":
-                    return move(customer);
-                case "from:Main":
-                case "from:Savings":
-                case "from Checking":
-                    return moveTo(customer);
-                case "to:Main":
-                case "to:Savings":
-                case "to:Checking":
-                    return moveAmount(customer);
-                case "TRANSFER": //test case to test Transfer method below
-                    return transfer(request);
+                    String s = NewBankClientHandler.transfer(request);
+                    return (s);
+
                 default:
                     return "FAIL";
             }
@@ -89,34 +80,5 @@ public class NewBank {
 
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
-    }
-
-    private String move(CustomerID customer) {
-        return "Which account would you like to transfer from?" + " " +
-                (customers.get(customer.getKey())).accountsToString();
-    }
-
-    private String moveTo(CustomerID customer) {
-        return "Which account would you like to transfer to?" + " " +
-                (customers.get(customer.getKey())).accountsToString();
-    }
-    private String moveAmount(CustomerID customer) {
-        return "How much would you like to transfer?";
-    }
-    private String transfer(String request) {
-        String result = "";
-        Scanner scan = new Scanner(System.in); //scanner used to accomodate for doubles
-        System.out.println("Which account would you like to transfer from?");
-        String fromAccount = scan.next();
-        System.out.println("Which account would you like to transfer to?");
-        String toAccount = scan.next();
-        System.out.println("How much would you like to transfer?");
-        Double moveAmount = scan.nextDouble();
-
-        if (moveAmount > 0) {
-            result = "success";
-            return result;
-        }
-        return "FAIL";
     }
 }

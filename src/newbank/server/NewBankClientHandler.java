@@ -12,8 +12,8 @@ import java.net.Socket;
 public class NewBankClientHandler extends Thread {
 
     private NewBank bank;
-    private BufferedReader in;
-    private PrintWriter out;
+    private static BufferedReader in;
+    private static PrintWriter out;
 
 
     /**
@@ -65,4 +65,25 @@ public class NewBankClientHandler extends Thread {
         }
     }
 
-}
+    public static String transfer(String request) {
+        try {
+            out.println("Which account would you like to transfer from?");
+            String fromAccount = in.readLine();
+            out.println("Which account would you like to transfer to?");
+            String toAccount = in.readLine();
+            out.println("How much would you like to transfer?");
+            String moveAmount = in.readLine();
+            double d = Double.parseDouble(moveAmount);
+            out.println(d);
+            Double acc = Account.getOpeningBalance();
+            if (d> 0 && d <= acc) {
+                return "success!";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Fail";
+    }
+
+    }
+

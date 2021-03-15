@@ -6,7 +6,7 @@ package newbank.server;
 public class Account {
 
     private String accountName;
-    private double openingBalance;
+    private static double openingBalance;
 
     /**
      * Instantiates a new Account.
@@ -23,4 +23,7 @@ public class Account {
         return (accountName + ": " + openingBalance);
     }
 
+    public static double getOpeningBalance() {
+        return openingBalance;
+    }
 }
