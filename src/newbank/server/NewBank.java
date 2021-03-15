@@ -102,7 +102,7 @@ public class NewBank {
         }
         Account newAccount = new Account(accountName, 0.0);
         customers.get(customer.getKey()).addAccount(newAccount);
-        return "New Account" + accountName+ " added.";
+        return "New Account " + accountName+ " added.";
     }
 
 }
