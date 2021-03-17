@@ -7,11 +7,20 @@ import java.util.HashMap;
  */
 public class NewBank {
 
-    private static final NewBank bank = new NewBank();
+    private static NewBank bank = null;
+
+    static {
+        try {
+            bank = new NewBank();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private final HashMap<String, Customer> customers;
     private int nextAvailableAccountNumber = 10000000;
 
-    private NewBank() {
+    private NewBank() throws Exception {
         customers = new HashMap<>();
         addTestData();
     }
@@ -29,14 +38,18 @@ public class NewBank {
      * Adds the testing data to the customer HashMap
      *
      */
-    private void addTestData() {
-        this.newCustomer("Bhagy", 1000.0);
+    private void addTestData() throws Exception {
+        Customer bhagy = new Customer();
+        bhagy.addAccount(newAccount("Main", 1000.0));
+        customers.put("Bhagy", bhagy);
 
-        this.newCustomer("Christina", 1500.0);
+        Customer christina = new Customer();
+        christina.addAccount(newAccount("Savings", 1500.0));
+        customers.put("Christina", christina);
 
-        this.newCustomer("John", 250.0);
-        this.newAccount("John", "Savings", 1000.0);
-
+        Customer john = new Customer();
+        john.addAccount(newAccount("Checking", 250.0));
+        customers.put("John", john);
     }
 
     /**
@@ -86,37 +99,19 @@ public class NewBank {
         return (customers.get(customer.getKey())).accountsToString();
     }
 
-    /**
-     * Creates a new Customer with a Checking account.
-     *
-     * @param name
-     * @param startingBalance
-     */
-    private void newCustomer(String name, double startingBalance) {
-        customers.put(name, new Customer());
-        this.newAccount(name, "Checking", startingBalance);
-    }
 
     /**
-     * Adds a new type of account to a customer.
+     * Generates a new account.
      *
-     * @param customer
      * @param accountType
      * @param balance
      */
-    private void newAccount(String customer, String accountType, double balance){
-        if (customers.get(customer) == null) {
-            System.out.println("No Customer Exists");
-            return;
+    private Account newAccount(String accountType, double balance) throws Exception {
+        if (nextAvailableAccountNumber > 99999999) {
+            throw new Exception("No available account numbers");
         }
 
-        if (nextAvailableAccountNumber > 99999999){
-            System.out.println("No available account numbers");
-            return;
-        }
-
-        customers.get(customer).addAccount(new Account(accountType, balance, nextAvailableAccountNumber));
-        nextAvailableAccountNumber++;
+        return new Account(accountType, balance, nextAvailableAccountNumber++);
     }
 
 
