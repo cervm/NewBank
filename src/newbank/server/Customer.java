@@ -76,12 +76,4 @@ public class Customer {
         accounts.add(account);
     }
 
-    /**
-     * Get a customers Accounts
-     *
-     * @return accounts the accounts.
-     */
-    public ArrayList<Account> getAccounts() {
-        return accounts;
-    }
 }

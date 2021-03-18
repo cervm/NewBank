@@ -142,7 +142,12 @@ public class NewBank {
                 return "Account already exists.";
             }
         }
-        Account newAccount = newAccount(accountName, 0.0);
+        Account newAccount = null;
+        try {
+            newAccount = newAccount(accountName, 0.0);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         customers.get(customer.getKey()).addAccount(newAccount);
         return "New Account " + accountName+ " added.";
     }
