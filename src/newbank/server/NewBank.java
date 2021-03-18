@@ -36,7 +36,6 @@ public class NewBank {
 
     /**
      * Adds the testing data to the customer HashMap
-     *
      */
     private void addTestData() throws Exception {
         Customer bhagy = new Customer("Bhagy", "bhagy");
@@ -62,7 +61,7 @@ public class NewBank {
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
             Customer c = customers.get(userName);
-            if (c.authenticateUser(password)){
+            if (c.authenticateUser(password)) {
                 return new CustomerID(userName);
             }
         }
@@ -84,12 +83,12 @@ public class NewBank {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
                 case "RESETPASSWORD":
-                    if(splited.length<3){
+                    if (splited.length < 3) {
                         return "Fail";
                     }
                     return resetPassword(customer, splited[1], splited[2]);
                 case "ADDACCOUNT":
-                    if(splited.length<2){
+                    if (splited.length < 2) {
                         return "Fail";
                     }
                     return addAccount(customer, splited[1]);
@@ -126,19 +125,18 @@ public class NewBank {
         return new Account(accountType, balance, nextAvailableAccountNumber++);
     }
 
-    private String resetPassword(CustomerID customer, String newPassword1, String newPassword2){
-        if(newPassword1.equals(newPassword2)){
+    private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
+        if (newPassword1.equals(newPassword2)) {
             customers.get(customer.getKey()).setPassword(newPassword1);
             return "Password changed";
-        }
-        else{
+        } else {
             return "New Password not match.";
         }
     }
 
-    private String addAccount(CustomerID customer, String accountName){
-        for(Account acc: customers.get(customer.getKey()).getAccounts()){
-            if(acc.getAccountName().equals(accountName)){
+    private String addAccount(CustomerID customer, String accountName) {
+        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
+            if (acc.getAccountName().equals(accountName)) {
                 return "Account already exists.";
             }
         }
@@ -149,7 +147,7 @@ public class NewBank {
             return e.getMessage();
         }
         customers.get(customer.getKey()).addAccount(newAccount);
-        return "New Account " + accountName+ " added.";
+        return "New Account " + accountName + " added.";
     }
 
 }

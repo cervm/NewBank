@@ -44,7 +44,6 @@ public class Account {
     }
 
     /**
-     *
      * @return account name
      */
     public String getAccountName() {
