@@ -1,8 +1,5 @@
 package newbank.server;
 
-import java.util.Collection;
-import java.util.HashMap;
-
 /**
  * The type Account.
  */
