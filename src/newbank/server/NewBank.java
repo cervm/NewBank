@@ -7,26 +7,22 @@ import java.util.HashMap;
  */
 public class NewBank {
 
-    private static final NewBank bank = new NewBank();
-    private HashMap<String, Customer> customers;
+    private static NewBank bank = null;
 
-    private NewBank() {
-        customers = new HashMap<>();
-        addTestData();
+    static {
+        try {
+            bank = new NewBank();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addTestData() {
-        Customer bhagy = new Customer("Bhagy", "bhagy");
-        bhagy.addAccount(new Account("Main", 1000.0));
-        customers.put(bhagy.getUserName(), bhagy);
+    private final HashMap<String, Customer> customers;
+    private int nextAvailableAccountNumber = 10000000;
 
-        Customer christina = new Customer("Christina", "christina");
-        christina.addAccount(new Account("Savings", 1500.0));
-        customers.put(christina.getUserName(), christina);
-
-        Customer john = new Customer("John", "john");
-        john.addAccount(new Account("Checking", 250.0));
-        customers.put(john.getUserName(), john);
+    private NewBank() throws Exception {
+        customers = new HashMap<>();
+        addTestData();
     }
 
     /**
@@ -36,6 +32,24 @@ public class NewBank {
      */
     public static NewBank getBank() {
         return bank;
+    }
+
+    /**
+     * Adds the testing data to the customer HashMap
+     *
+     */
+    private void addTestData() throws Exception {
+        Customer bhagy = new Customer("Bhagy", "bhagy");
+        bhagy.addAccount(newAccount("Main", 1000.0));
+        customers.put(bhagy.getUserName(), bhagy);
+
+        Customer christina = new Customer("Christina", "christina");
+        christina.addAccount(newAccount("Savings", 1500.0));
+        customers.put(christina.getUserName(), christina);
+
+        Customer john = new Customer("John", "john");
+        john.addAccount(newAccount("Checking", 250.0));
+        customers.put(john.getUserName(), john);
     }
 
     /**
@@ -86,8 +100,30 @@ public class NewBank {
         return "FAIL";
     }
 
+    //FR1.2
+
+    /**
+     * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
+     *
+     * @param customer
+     * @return A string of the customers accounts.
+     */
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
+    }
+
+    /**
+     * Generates a new account.
+     *
+     * @param accountType
+     * @param balance
+     */
+    private Account newAccount(String accountType, double balance) throws Exception {
+        if (nextAvailableAccountNumber > 99999999) {
+            throw new Exception("No available account numbers");
+        }
+
+        return new Account(accountType, balance, nextAvailableAccountNumber++);
     }
 
     private String resetPassword(CustomerID customer, String newPassword1, String newPassword2){
@@ -106,7 +142,7 @@ public class NewBank {
                 return "Account already exists.";
             }
         }
-        Account newAccount = new Account(accountName, 0.0);
+        Account newAccount = newAccount(accountName, 0.0);
         customers.get(customer.getKey()).addAccount(newAccount);
         return "New Account " + accountName+ " added.";
     }

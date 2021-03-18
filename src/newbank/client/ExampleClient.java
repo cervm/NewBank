@@ -36,11 +36,11 @@ public class ExampleClient extends Thread {
             public void run() {
                 try {
                     while (true) {
-                        String responce = bankServerIn.readLine();
-                        if(responce == null){
+                        String response = bankServerIn.readLine();
+                        if (response == null) {
                             break;
                         }
-                        System.out.println(responce);
+                        System.out.println(response);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

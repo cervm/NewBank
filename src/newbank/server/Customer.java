@@ -26,12 +26,16 @@ public class Customer {
      *
      * @return the string
      */
+    //FR1.2
     public String accountsToString() {
-        String s = "";
-        for (Account a : accounts) {
-            s += a.toString();
+        StringBuilder s = new StringBuilder();
+        double totalBalance = 0;
+        for (Account account : accounts) {
+            totalBalance += account.getOpeningBalance();
+            s.append(account.toString()).append("\n");
         }
-        return s;
+        s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
+        return s.toString();
     }
     /**
      * Get the password for the user
@@ -70,5 +74,14 @@ public class Customer {
      */
     public void addAccount(Account account) {
         accounts.add(account);
+    }
+
+    /**
+     * Get a customers Accounts
+     *
+     * @return accounts the accounts.
+     */
+    public ArrayList<Account> getAccounts() {
+        return accounts;
     }
 }
