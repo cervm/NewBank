@@ -119,7 +119,7 @@ public class NewBank {
      * @param balance
      */
     private Account newAccount(String accountType, double balance) throws Exception {
-        if (nextAvailableAccountNumber > 99999999) {
+        if (nextAvailableAccountNumber > maximumAccountNumber) {
             throw new Exception("No available account numbers");
         }
 
