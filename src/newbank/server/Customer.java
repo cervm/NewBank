@@ -37,24 +37,25 @@ public class Customer {
         s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
         return s.toString();
     }
+
     /**
      * Get the password for the user
      */
-    public boolean authenticateUser(String password){
+    public boolean authenticateUser(String password) {
         return this.password.equals(password);
     }
 
     /**
      * Set the password
      */
-    public void setPassword(String newPW){
+    public void setPassword(String newPW) {
         this.password = newPW;
     }
 
     /**
      *
      */
-    public String getUserName(){
+    public String getUserName() {
         return this.userName;
     }
 
