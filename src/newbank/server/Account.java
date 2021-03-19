@@ -8,6 +8,7 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
+    //TODO: add recent transactions list
 
 
     /**
@@ -47,6 +48,8 @@ public class Account {
         return this.accountName;
     }
 
+    //TODO: get recent transactions list
+
     /**
      * Returns a string containing the account number the account name and the balance.
      *
@@ -55,5 +58,7 @@ public class Account {
     public String toString() {
         return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
     }
+
+    //TODO: Print recent transactions
 
 }

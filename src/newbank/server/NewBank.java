@@ -92,6 +92,7 @@ public class NewBank {
                         return "Fail";
                     }
                     return addAccount(customer, splited[1]);
+                    //TODO: add SHOWAccount <acount name / account number>
                 default:
                     return "FAIL";
             }
