@@ -19,6 +19,7 @@ public class NewBank {
 
     private final HashMap<String, Customer> customers;
     private int nextAvailableAccountNumber = 10000000;
+    private int maximunAccountNumber = 99999999;
 
     private NewBank() throws Exception {
         customers = new HashMap<>();
