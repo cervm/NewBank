@@ -100,7 +100,7 @@ public class Customer {
         return stringOut;
     }
 
-    public void addTransaction (Account to, Integer amount){
+    public void addTransaction (String to, Integer amount){
         ArrayList<Object> transaction = new ArrayList();
         transaction.add(to);
         transaction.add(amount);

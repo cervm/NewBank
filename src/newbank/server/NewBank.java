@@ -49,7 +49,8 @@ public class NewBank {
 
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
-        john.addTransaction();
+        john.addTransaction("Checking", 100);
+        john.addTransaction("Savings", 1000);
         customers.put(john.getUserName(), john);
     }
 
@@ -157,8 +158,9 @@ public class NewBank {
     }
 
     //ToDo: Add coments for docs
+    //TODO: search and retrun account
     private String showAccount(CustomerID customer){
-        return "(customers.get(customer.getKey())).getAccounts().;";
+        return customers.get(customer.getKey()).getRecentTransactions();
     }
 
 }
