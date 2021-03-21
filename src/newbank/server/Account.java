@@ -60,7 +60,16 @@ public class Account {
         return false;
     }
 
-
+    /**
+     * @return whether withdraw is successful.
+     */
+    public boolean withdraw(double amount){
+        if(amount > this.balance){
+            return false;
+        }
+        this.balance -= amount;
+        return true;
+    }
 
     /**
      * Returns a string containing the account number the account name and the balance.
