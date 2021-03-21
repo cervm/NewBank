@@ -8,6 +8,7 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
+    private double balance;
 
 
     /**
@@ -20,6 +21,7 @@ public class Account {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
+        this.balance = openingBalance;
     }
 
     /**
@@ -56,4 +58,19 @@ public class Account {
         return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
     }
 
+    public boolean withdraw(double amount) {
+        if (amount <= 0 || amount > balance) {
+            return false;
+        }
+        balance -= amount;
+        return true;
+    }
+
+    public boolean deposit(double amount) {
+        if (amount <= 0) {
+            return false;
+        }
+        balance += amount;
+        return true;
+    }
 }
