@@ -41,6 +41,7 @@ public class NewBank {
     private void addTestData() throws Exception {
         Customer bhagy = new Customer("Bhagy", "bhagy");
         bhagy.addAccount(newAccount("Main", 1000.0));
+        bhagy.addAccount(newAccount("Savings", 1000.0));
         customers.put(bhagy.getUserName(), bhagy);
 
         Customer christina = new Customer("Christina", "christina");
@@ -93,6 +94,18 @@ public class NewBank {
                         return "Fail";
                     }
                     return addAccount(customer, splited[1]);
+
+                case "MOVE":
+                    if (splited.length != 4) {
+                        return "Fail";
+                    }
+                    double amount;
+                    try {
+                        amount = Double.parseDouble(splited[1]);
+                    } catch (NumberFormatException e) {
+                        return "Fail";
+                    }
+                    return move(customer, amount, splited[2], splited[3]);
                 default:
                     return "FAIL";
             }
@@ -149,6 +162,28 @@ public class NewBank {
         }
         customers.get(customer.getKey()).addAccount(newAccount);
         return "New Account " + accountName + " added.";
+    }
+
+    private String move(CustomerID customer, double amount, String from, String to) {
+        Account fromAccount = getCustomerAccountByName(customer, from);
+        Account toAccount = getCustomerAccountByName(customer, to);
+        if (toAccount == null || fromAccount == null) {
+            return "Fail";
+        }
+        if (fromAccount.withdraw(amount)) {
+            toAccount.deposit(amount);
+            return "Success";
+        }
+        return "Fail";
+    }
+
+    private Account getCustomerAccountByName(CustomerID customer, String accountName) {
+        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
+            if (acc.getAccountName().equals(accountName)) {
+                return acc;
+            }
+        }
+        return null;
     }
 
 }
