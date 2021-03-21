@@ -9,6 +9,7 @@ public class Customer {
     private String userName;
     private ArrayList<Account> accounts;
     private String password;
+    private ArrayList<ArrayList<Object>> transactions;
 
 
     /**
@@ -19,6 +20,7 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
+        this.transactions = new ArrayList<ArrayList<Object>>();
     }
 
     /**
@@ -75,6 +77,34 @@ public class Customer {
      */
     public void addAccount(Account account) {
         accounts.add(account);
+    }
+
+    //TODO: test function
+
+    /**
+     * Returns a nested Array List of strings containing the recent transactions from the account
+     *
+     * @return transactions
+     */
+    public ArrayList<ArrayList<Object>> getTransactions() { return this.transactions; }
+
+    //TODO: Print recent transactions (should it only return 10?
+    public String getRecentTransactions() {
+        String stringOut = null;
+        for (ArrayList<Object> transaction : this.transactions) {
+            stringOut.concat(transaction.get(0).toString());
+            stringOut.concat(" | ");
+            stringOut.concat(transaction.get(1).toString());
+            stringOut.concat(System.lineSeparator());
+        }
+        return stringOut;
+    }
+
+    public void addTransaction (Account to, Integer amount){
+        ArrayList<Object> transaction = new ArrayList();
+        transaction.add(to);
+        transaction.add(amount);
+        this.transactions.add(transaction);
     }
 
 

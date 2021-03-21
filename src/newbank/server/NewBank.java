@@ -49,6 +49,7 @@ public class NewBank {
 
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
+        john.addTransaction();
         customers.put(john.getUserName(), john);
     }
 
