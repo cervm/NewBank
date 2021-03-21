@@ -8,6 +8,7 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
+    private double balance;
 
 
     /**
@@ -20,6 +21,7 @@ public class Account {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
+        this.balance = openingBalance;
     }
 
     /**
@@ -46,6 +48,19 @@ public class Account {
     public String getAccountName() {
         return this.accountName;
     }
+
+    /**
+     * @return whether deposit is successful.
+     */
+    public boolean deposit(double amount){
+        if(amount > 0){
+            this.balance += amount;
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * Returns a string containing the account number the account name and the balance.
