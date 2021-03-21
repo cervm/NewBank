@@ -2,6 +2,7 @@ package newbank.server;
 
 import java.util.HashMap;
 
+
 /**
  * The type New bank.
  */
@@ -93,6 +94,9 @@ public class NewBank {
                     }
                     return addAccount(customer, splited[1]);
                     //TODO: add SHOWAccount <acount name / account number>
+                case "SHOWACCOUNT":
+                    //DO I NEED TO CHECK MIN INPUT LENGTH?
+                    return showAccount(customer);
                 default:
                     return "FAIL";
             }
@@ -149,6 +153,11 @@ public class NewBank {
         }
         customers.get(customer.getKey()).addAccount(newAccount);
         return "New Account " + accountName + " added.";
+    }
+
+    //ToDo: Add coments for docs
+    private String showAccount(CustomerID customer){
+        return "(customers.get(customer.getKey())).getAccounts().;";
     }
 
 }
