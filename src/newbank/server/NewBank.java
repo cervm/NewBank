@@ -7,26 +7,22 @@ import java.util.HashMap;
  */
 public class NewBank {
 
-    private static final NewBank bank = new NewBank();
-    private HashMap<String, Customer> customers;
+    private static NewBank bank = null;
 
-    private NewBank() {
-        customers = new HashMap<>();
-        addTestData();
+    static {
+        try {
+            bank = new NewBank();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addTestData() {
-        Customer bhagy = new Customer();
-        bhagy.addAccount(new Account("Main", 1000.0));
-        customers.put("Bhagy", bhagy);
+    private final HashMap<String, Customer> customers;
+    private int nextAvailableAccountNumber = 10000000;
 
-        Customer christina = new Customer();
-        christina.addAccount(new Account("Savings", 1500.0));
-        customers.put("Christina", christina);
-
-        Customer john = new Customer();
-        john.addAccount(new Account("Checking", 250.0));
-        customers.put("John", john);
+    private NewBank() throws Exception {
+        customers = new HashMap<>();
+        addTestData();
     }
 
     /**
@@ -39,6 +35,23 @@ public class NewBank {
     }
 
     /**
+     * Adds the testing data to the customer HashMap
+     */
+    private void addTestData() throws Exception {
+        Customer bhagy = new Customer("Bhagy", "bhagy");
+        bhagy.addAccount(newAccount("Main", 1000.0));
+        customers.put(bhagy.getUserName(), bhagy);
+
+        Customer christina = new Customer("Christina", "christina");
+        christina.addAccount(newAccount("Savings", 1500.0));
+        customers.put(christina.getUserName(), christina);
+
+        Customer john = new Customer("John", "john");
+        john.addAccount(newAccount("Checking", 250.0));
+        customers.put(john.getUserName(), john);
+    }
+
+    /**
      * Check log in details customer id.
      *
      * @param userName the user name
@@ -47,7 +60,10 @@ public class NewBank {
      */
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         if (customers.containsKey(userName)) {
-            return new CustomerID(userName);
+            Customer c = customers.get(userName);
+            if (c.authenticateUser(password)) {
+                return new CustomerID(userName);
+            }
         }
         return null;
     }
@@ -61,16 +77,21 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
-
-
         if (customers.containsKey(customer.getKey())) {
-            switch (request) {
+            String[] splited = request.split("\\s+");
+            switch (splited[0]) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
-                case "MOVE":
-                    String s = NewBankClientHandler.transfer(request);
-                    return (s);
-
+                case "RESETPASSWORD":
+                    if (splited.length < 3) {
+                        return "Fail";
+                    }
+                    return resetPassword(customer, splited[1], splited[2]);
+                case "ADDACCOUNT":
+                    if (splited.length < 2) {
+                        return "Fail";
+                    }
+                    return addAccount(customer, splited[1]);
                 default:
                     return "FAIL";
             }
@@ -78,7 +99,55 @@ public class NewBank {
         return "FAIL";
     }
 
+    //FR1.2
+
+    /**
+     * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
+     *
+     * @param customer
+     * @return A string of the customers accounts.
+     */
     private String showMyAccounts(CustomerID customer) {
         return (customers.get(customer.getKey())).accountsToString();
     }
+
+    /**
+     * Generates a new account.
+     *
+     * @param accountType
+     * @param balance
+     */
+    private Account newAccount(String accountType, double balance) throws Exception {
+        if (nextAvailableAccountNumber > 99999999) {
+            throw new Exception("No available account numbers");
+        }
+
+        return new Account(accountType, balance, nextAvailableAccountNumber++);
+    }
+
+    private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
+        if (newPassword1.equals(newPassword2)) {
+            customers.get(customer.getKey()).setPassword(newPassword1);
+            return "Password changed";
+        } else {
+            return "New Password not match.";
+        }
+    }
+
+    private String addAccount(CustomerID customer, String accountName) {
+        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
+            if (acc.getAccountName().equals(accountName)) {
+                return "Account already exists.";
+            }
+        }
+        Account newAccount = null;
+        try {
+            newAccount = newAccount(accountName, 0.0);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        customers.get(customer.getKey()).addAccount(newAccount);
+        return "New Account " + accountName + " added.";
+    }
+
 }

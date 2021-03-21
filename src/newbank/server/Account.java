@@ -5,8 +5,10 @@ package newbank.server;
  */
 public class Account {
 
-    private String accountName;
-    private static double openingBalance;
+    private final String accountName;
+    private final double openingBalance;
+    private final int accountNumber;
+
 
     /**
      * Instantiates a new Account.
@@ -14,16 +16,44 @@ public class Account {
      * @param accountName    the account name
      * @param openingBalance the opening balance
      */
-    public Account(String accountName, double openingBalance) {
+    public Account(String accountName, double openingBalance, int accountNumber) {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
+        this.accountNumber = accountNumber;
     }
 
-    public String toString() {
-        return (accountName + ": " + openingBalance);
+    /**
+     * Returns the accountNumber.
+     *
+     * @return accountNumber
+     */
+    public int getAccountNumber() {
+        return accountNumber;
     }
 
-    public static double getOpeningBalance() {
+    /**
+     * Returns the balance.
+     *
+     * @return openingBalance
+     */
+    public double getOpeningBalance() {
         return openingBalance;
     }
+
+    /**
+     * @return account name
+     */
+    public String getAccountName() {
+        return this.accountName;
+    }
+
+    /**
+     * Returns a string containing the account number the account name and the balance.
+     *
+     * @return A String described above.
+     */
+    public String toString() {
+        return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
+    }
+
 }
