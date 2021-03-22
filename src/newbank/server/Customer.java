@@ -78,4 +78,13 @@ public class Customer {
         accounts.add(account);
     }
 
+    public Account getCustomerAccountByName(String accountName) {
+        for (Account acc : accounts) {
+            if (acc.getAccountName().equals(accountName)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
 }

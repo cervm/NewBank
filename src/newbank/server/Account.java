@@ -88,15 +88,15 @@ public class Account {
 
     //TODO: Print recent transactions (should it only return 10?
     public String getRecentTransactionsAsString() {
-        String stringOut = null;
+        StringBuilder stringOut = new StringBuilder();
         for(Transaction trans : transactions){
-            stringOut.concat(trans.toString());
-            stringOut.concat("/n");
+            stringOut.append(trans.toString());
+            stringOut.append("\n");
         }
-        return stringOut;
+        return stringOut.toString();
     }
 
-    public void addTransaction (String to, String from, Integer amount){
+    public void addTransaction (String to, String from, double amount){
         transactions.add(new Transaction(to, from, amount));
     }
 

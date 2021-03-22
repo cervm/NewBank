@@ -7,7 +7,7 @@ public class Transaction implements Comparable<Transaction>{
     private final Date timestamp;
     private final String accountNameTo;
     private final String accountNameFrom;
-    private final int amountTransferred;
+    private final double amountTransferred;
 
 
     /**
@@ -17,7 +17,7 @@ public class Transaction implements Comparable<Transaction>{
      * @param accountNameFrom the account name sent to
      * @param amountTransferred the Amount Transferred
      */
-    public Transaction(String accountNameTo, String accountNameFrom, int amountTransferred) {
+    public Transaction(String accountNameTo, String accountNameFrom, double amountTransferred) {
         this.timestamp = new Date();
         this.accountNameTo = accountNameTo;
         this.accountNameFrom = accountNameFrom;
@@ -30,7 +30,7 @@ public class Transaction implements Comparable<Transaction>{
 
     public String getAccountNameFrom() { return accountNameFrom; }
 
-    public int getAmountTransferred() { return amountTransferred; }
+    public double getAmountTransferred() { return amountTransferred; }
 
     public String toString(){
         return (timestamp.toString() + " | " + accountNameTo + " | " + accountNameFrom + " | " + amountTransferred);

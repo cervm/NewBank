@@ -50,10 +50,8 @@ public class NewBank {
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
         john.addAccount(newAccount("Savings", 10000));
-        john.getAccountByName("Checking")
-                .addTransaction("Checking","Test", 100);
-        john.getAccountByName("Checking")
-                .addTransaction("Savings", "Test", 1000);
+        john.getCustomerAccountByName("Checking").addTransaction("Checking","Test", 100);
+        john.getCustomerAccountByName("Checking").addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
     }
 
@@ -115,10 +113,7 @@ public class NewBank {
                     }
                     return showAccount(customer, splited[1]);
                 case "SHOWTRANSACTIONS":
-                    if (splited.length < 2) {
-                        return "Fail";
-                    }
-                    return showAccountsSummary(customer);
+                    return showTransactions(customer);
                 default:
                     return "FAIL";
             }
@@ -178,35 +173,30 @@ public class NewBank {
     }
 
     private String move(CustomerID customer, double amount, String from, String to) {
-        Account fromAccount = getCustomerAccountByName(customer, from);
-        Account toAccount = getCustomerAccountByName(customer, to);
+        Account fromAccount = customers.get(customer.getKey()).getCustomerAccountByName(from);
+        Account toAccount = customers.get(customer.getKey()).getCustomerAccountByName(to);
         if (toAccount == null || fromAccount == null) {
             return "Fail";
         }
         if (fromAccount.withdraw(amount)) {
             toAccount.deposit(amount);
+            toAccount.addTransaction(to, from, amount);
+            fromAccount.addTransaction(to, from, amount);
             return "Success";
         }
         return "Fail";
     }
 
-    private Account getCustomerAccountByName(CustomerID customer, String accountName) {
-        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
-            if (acc.getAccountName().equals(accountName)) {
-                return acc;
-            }
-        }
-        return null;
-    }
+
 
     //ToDo: Add comments for docs
     private String showAccount(CustomerID customer, String accountName){
-        return customers.get(customer.getKey()).getAccountByName(accountName).getRecentTransactionsAsString();
+        return customers.get(customer.getKey()).getCustomerAccountByName(accountName).getRecentTransactionsAsString();
     }
 
-    private String showAccountsSummary(CustomerID customer){
+    private String showTransactions(CustomerID customer){
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-        String stringOut = null;
+        StringBuilder stringOut = new StringBuilder();
         for(Account a : customers.get(customer.getKey()).getAccounts()){
             for(Transaction trans : a.getTransactions()){
                 transactions.add(trans);
@@ -214,10 +204,10 @@ public class NewBank {
         }
         Collections.sort(transactions);
         for(Transaction trans : transactions){
-            stringOut.concat(trans.toString());
-            stringOut.concat("/n");
+            stringOut.append(trans.toString());
+            stringOut.append("\n");
         }
-        return stringOut;
+        return stringOut.toString();
     }
 
 
