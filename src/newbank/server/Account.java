@@ -1,6 +1,7 @@
 package newbank.server;
 
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 /**
  * The type Account.
@@ -10,6 +11,8 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
+    private ArrayList<ArrayList<Object>> transactions;
+    //trsactions example (timeStamp, To, From, Amount)
 
 
     /**
@@ -23,6 +26,7 @@ public class Account {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
+        this.transactions = new ArrayList<ArrayList<Object>>();
     }
 
     /**
@@ -61,6 +65,33 @@ public class Account {
         return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
     }
 
+    /**
+     * Returns a nested Array List of strings containing the recent transactions from the account
+     *
+     * @return transactions
+     */
+    public ArrayList<ArrayList<Object>> getTransactions() { return this.transactions; }
 
+    //TODO: Print recent transactions (should it only return 10?
+    public String getRecentTransactions() {
+        String stringOut = null;
+        for (ArrayList<Object> transaction : this.transactions) {
+            stringOut.concat(transaction.get(0).toString());
+            stringOut.concat(" | ");
+            stringOut.concat(transaction.get(1).toString());
+            stringOut.concat(System.lineSeparator());
+        }
+        return stringOut;
+    }
+
+    public void addTransaction (String to, String from, Integer amount){
+        ArrayList<Object> transaction = new ArrayList();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        transaction.add(timestamp);
+        transaction.add(to);
+        transaction.add(from);
+        transaction.add(amount);
+        this.transactions.add(transaction);
+    }
 
 }

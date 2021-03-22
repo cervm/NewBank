@@ -1,6 +1,9 @@
 package newbank.server;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
@@ -49,8 +52,11 @@ public class NewBank {
 
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
-        john.addTransaction("Checking", 100);
-        john.addTransaction("Savings", 1000);
+        john.addAccount(newAccount("Savings", 10000));
+        john.getAccountByName("Checking")
+                .addTransaction("Checking","Test", 100);
+        john.getAccountByName("Checking")
+                .addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
     }
 
@@ -98,7 +104,7 @@ public class NewBank {
                     //TODO: add SHOWAccount <acount name / account number>
                 case "SHOWACCOUNT":
                     //DO I NEED TO CHECK MIN INPUT LENGTH?
-                    return showAccount(customer);
+                    return showAccount(customer, splited[1]);
                 default:
                     return "FAIL";
             }
@@ -158,9 +164,17 @@ public class NewBank {
     }
 
     //ToDo: Add coments for docs
-    //TODO: search and retrun account
-    private String showAccount(CustomerID customer){
-        return customers.get(customer.getKey()).getRecentTransactions();
+    private String showAccount(CustomerID customer, String accountName){
+        return customers.get(customer.getKey()).getAccountByName(accountName).getRecentTransactions();
     }
+
+    private String showAccountsSumary(CustomerID customer, String accountName){
+        ArrayList<ArrayList<Objects>> transactions = new ArrayList<ArrayList<Objects>>();
+        for(Account a : customers.get(customer.getKey()).getAccounts()){
+            transactions.add(a.getTransactions());
+        }
+        Collections.sort(transactions);
+    }
+
 
 }
