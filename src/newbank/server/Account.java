@@ -10,6 +10,7 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
+    private double balance;
     private ArrayList<Transaction> transactions;
 
 
@@ -24,6 +25,7 @@ public class Account {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
+        this.balance = openingBalance;
         this.transactions = new ArrayList<Transaction>();
     }
 
@@ -52,7 +54,6 @@ public class Account {
         return this.accountName;
     }
 
-
     /**
      * Returns a string containing the account number the account name and the balance.
      *
@@ -60,6 +61,22 @@ public class Account {
      */
     public String toString() {
         return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount <= 0 || amount > balance) {
+            return false;
+        }
+        balance -= amount;
+        return true;
+    }
+
+    public boolean deposit(double amount) {
+        if (amount <= 0) {
+            return false;
+        }
+        balance += amount;
+        return true;
     }
 
     /**
