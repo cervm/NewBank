@@ -11,8 +11,7 @@ public class Account {
     private final String accountName;
     private final double openingBalance;
     private final int accountNumber;
-    private ArrayList<ArrayList<Object>> transactions;
-    //trsactions example (timeStamp, To, From, Amount)
+    private ArrayList<Transaction> transactions;
 
 
     /**
@@ -26,7 +25,7 @@ public class Account {
         this.accountName = accountName;
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
-        this.transactions = new ArrayList<ArrayList<Object>>();
+        this.transactions = new ArrayList<Transaction>();
     }
 
     /**
@@ -70,28 +69,20 @@ public class Account {
      *
      * @return transactions
      */
-    public ArrayList<ArrayList<Object>> getTransactions() { return this.transactions; }
+    public ArrayList<Transaction> getTransactions() { return transactions; }
 
     //TODO: Print recent transactions (should it only return 10?
-    public String getRecentTransactions() {
+    public String getRecentTransactionsAsString() {
         String stringOut = null;
-        for (ArrayList<Object> transaction : this.transactions) {
-            stringOut.concat(transaction.get(0).toString());
-            stringOut.concat(" | ");
-            stringOut.concat(transaction.get(1).toString());
-            stringOut.concat(System.lineSeparator());
+        for(Transaction trans : transactions){
+            stringOut.concat(trans.toString());
+            stringOut.concat("/n");
         }
         return stringOut;
     }
 
     public void addTransaction (String to, String from, Integer amount){
-        ArrayList<Object> transaction = new ArrayList();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        transaction.add(timestamp);
-        transaction.add(to);
-        transaction.add(from);
-        transaction.add(amount);
-        this.transactions.add(transaction);
+        transactions.add(new Transaction(to, from, amount));
     }
 
 }

@@ -1,9 +1,7 @@
 package newbank.server;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.*;
 
 
 /**
@@ -165,15 +163,17 @@ public class NewBank {
 
     //ToDo: Add coments for docs
     private String showAccount(CustomerID customer, String accountName){
-        return customers.get(customer.getKey()).getAccountByName(accountName).getRecentTransactions();
+        return customers.get(customer.getKey()).getAccountByName(accountName).getRecentTransactionsAsString();
     }
 
     private String showAccountsSumary(CustomerID customer, String accountName){
-        ArrayList<ArrayList<Objects>> transactions = new ArrayList<ArrayList<Objects>>();
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         for(Account a : customers.get(customer.getKey()).getAccounts()){
-            transactions.add(a.getTransactions());
+            for(Transaction trans : a.getTransactions()){
+                transactions.add(trans);
+            }
         }
-        Collections.sort(transactions);
+        return "fail";
     }
 
 
