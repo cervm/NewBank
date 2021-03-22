@@ -1,7 +1,6 @@
 package newbank.server;
 
 import java.util.ArrayList;
-import java.sql.Timestamp;
 
 /**
  * The type Account.
@@ -52,7 +51,6 @@ public class Account {
     public String getAccountName() {
         return this.accountName;
     }
-
 
 
     /**

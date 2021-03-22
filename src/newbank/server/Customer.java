@@ -70,15 +70,6 @@ public class Customer {
     }
 
     /**
-     * Get a customers Account by Account Name
-     *
-     * @return accounts the account.
-     */
-    public Account getAccountByName(String accountName) {
-        return this.accounts.get(this.accounts.indexOf(accountName));
-    }
-
-    /**
      * Add account.
      *
      * @param account the account

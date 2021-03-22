@@ -1,8 +1,6 @@
 package newbank.server;
 
-import java.sql.Timestamp;
 import java.util.*;
-
 
 /**
  * The type New bank.
@@ -99,10 +97,16 @@ public class NewBank {
                         return "Fail";
                     }
                     return addAccount(customer, splited[1]);
-                    //TODO: add SHOWAccount <acount name / account number>
                 case "SHOWACCOUNT":
-                    //DO I NEED TO CHECK MIN INPUT LENGTH?
+                    if (splited.length < 2) {
+                        return "Fail";
+                    }
                     return showAccount(customer, splited[1]);
+                case "SHOWTRANSACTIONS":
+                    if (splited.length < 2) {
+                        return "Fail";
+                    }
+                    return showAccountsSummary(customer);
                 default:
                     return "FAIL";
             }
@@ -161,19 +165,25 @@ public class NewBank {
         return "New Account " + accountName + " added.";
     }
 
-    //ToDo: Add coments for docs
+    //ToDo: Add comments for docs
     private String showAccount(CustomerID customer, String accountName){
         return customers.get(customer.getKey()).getAccountByName(accountName).getRecentTransactionsAsString();
     }
 
-    private String showAccountsSumary(CustomerID customer, String accountName){
+    private String showAccountsSummary(CustomerID customer){
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        String stringOut = null;
         for(Account a : customers.get(customer.getKey()).getAccounts()){
             for(Transaction trans : a.getTransactions()){
                 transactions.add(trans);
             }
         }
-        return "fail";
+        Collections.sort(transactions);
+        for(Transaction trans : transactions){
+            stringOut.concat(trans.toString());
+            stringOut.concat("/n");
+        }
+        return stringOut;
     }
 
 

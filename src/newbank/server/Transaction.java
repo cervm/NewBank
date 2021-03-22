@@ -1,10 +1,10 @@
 package newbank.server;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction>{
 
-    private final Timestamp timestamp;
+    private final Date timestamp;
     private final String accountNameTo;
     private final String accountNameFrom;
     private final int amountTransferred;
@@ -18,13 +18,13 @@ public class Transaction {
      * @param amountTransferred the Amount Transferred
      */
     public Transaction(String accountNameTo, String accountNameFrom, int amountTransferred) {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = new Date();
         this.accountNameTo = accountNameTo;
         this.accountNameFrom = accountNameFrom;
         this.amountTransferred = amountTransferred;
     }
 
-    public Timestamp getTimeStamp() { return timestamp; }
+    public Date getTimeStamp() { return timestamp; }
 
     public String getAccountNameTo() { return accountNameTo; }
 
@@ -34,5 +34,13 @@ public class Transaction {
 
     public String toString(){
         return (timestamp.toString() + " | " + accountNameTo + " | " + accountNameFrom + " | " + amountTransferred);
+    }
+
+    @Override
+    public int compareTo(Transaction transaction) {
+        if (getTimeStamp() == null || transaction.getTimeStamp() == null) {
+            return 0;
+        }
+        return getTimeStamp().compareTo(transaction.getTimeStamp());
     }
 }
