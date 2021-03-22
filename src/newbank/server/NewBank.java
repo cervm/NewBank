@@ -222,7 +222,13 @@ public class NewBank {
      * @return A list of all transactions
      */
     private String showAccount(CustomerID customer, String accountName){
-        return customers.get(customer.getKey()).getCustomerAccountByName(accountName).getRecentTransactionsAsString();
+        StringBuilder stringOut = new StringBuilder();
+        Account currentAccount = customers.get(customer.getKey()).getCustomerAccountByName(accountName);
+        stringOut.append("Account name | " + currentAccount.getAccountName() + "\n");
+        stringOut.append("Account number | " + currentAccount.getAccountNumber() + "\n");
+        stringOut.append("Account total | " + currentAccount.getOpeningBalance() + "\n");
+        stringOut.append(currentAccount.getRecentTransactionsAsString());
+        return stringOut.toString();
     }
 
     /**
