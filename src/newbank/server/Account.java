@@ -26,7 +26,7 @@ public class Account {
         this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
         this.balance = openingBalance;
-        this.transactions = new ArrayList<Transaction>();
+        this.transactions = new ArrayList<>();
     }
 
     /**
@@ -63,6 +63,11 @@ public class Account {
         return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
     }
 
+    /**
+     * Withdraws an amount from the account
+     *
+     * @return bool success/failure
+     */
     public boolean withdraw(double amount) {
         if (amount <= 0 || amount > balance) {
             return false;
@@ -71,6 +76,11 @@ public class Account {
         return true;
     }
 
+    /**
+     * Deposits an amount into the account
+     *
+     * @return bool success/failure
+     */
     public boolean deposit(double amount) {
         if (amount <= 0) {
             return false;
@@ -86,7 +96,11 @@ public class Account {
      */
     public ArrayList<Transaction> getTransactions() { return transactions; }
 
-    //TODO: Print recent transactions (should it only return 10?
+    /**
+     * Returns a string containing the recent transactions from the account
+     *
+     * @return transactions
+     */
     public String getRecentTransactionsAsString() {
         StringBuilder stringOut = new StringBuilder();
         for(Transaction trans : transactions){
@@ -96,6 +110,13 @@ public class Account {
         return stringOut.toString();
     }
 
+    /**
+     * Returns a string containing the recent transactions from the account
+     *
+     * @param to Account name to
+     * @param from Account name from
+     * @param amount Amount transferred
+     */
     public void addTransaction (String to, String from, double amount){
         transactions.add(new Transaction(to, from, amount));
     }

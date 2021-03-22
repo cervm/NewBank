@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * The type Customer.
  */
 public class Customer {
-    private String userName;
+    private final String userName;
     private ArrayList<Account> accounts;
     private String password;
 
@@ -78,6 +78,12 @@ public class Customer {
         accounts.add(account);
     }
 
+    /**
+     * Returns the account based on the given name
+     *
+     * @param accountName the name of the account
+     * @return Account
+     */
     public Account getCustomerAccountByName(String accountName) {
         for (Account acc : accounts) {
             if (acc.getAccountName().equals(accountName)) {

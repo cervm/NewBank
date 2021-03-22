@@ -24,18 +24,48 @@ public class Transaction implements Comparable<Transaction>{
         this.amountTransferred = amountTransferred;
     }
 
+    /**
+     * Returns the timestamp from a transaction
+     *
+     * @return Date and time of transaction
+     */
     public Date getTimeStamp() { return timestamp; }
 
+    /**
+     * Returns the account transferred to
+     *
+     * @return account name to
+     */
     public String getAccountNameTo() { return accountNameTo; }
 
+    /**
+     * Returns the account transferred from
+     *
+     * @return account name from
+     */
     public String getAccountNameFrom() { return accountNameFrom; }
 
+    /**
+     * Returns the account transferred
+     *
+     * @return amount transferred
+     */
     public double getAmountTransferred() { return amountTransferred; }
 
+    /**
+     * Parses the transactions as a string
+     *
+     * @return Transaction as a string "<Date> | <To> | <From> | <Amount>"
+     */
     public String toString(){
         return (timestamp.toString() + " | " + accountNameTo + " | " + accountNameFrom + " | " + amountTransferred);
     }
 
+    /**
+     * Method to compare transactions
+     *
+     * @return 0 false 1 true
+     */
     @Override
     public int compareTo(Transaction transaction) {
         if (getTimeStamp() == null || transaction.getTimeStamp() == null) {
