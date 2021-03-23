@@ -1,6 +1,6 @@
 package newbank.server;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * The type New bank.
@@ -50,6 +50,9 @@ public class NewBank {
 
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
+        john.addAccount(newAccount("Savings", 10000));
+        john.getCustomerAccountByName("Checking").addTransaction("Checking","Test", 100);
+        john.getCustomerAccountByName("Checking").addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
     }
 
@@ -94,7 +97,6 @@ public class NewBank {
                         return "Fail";
                     }
                     return addAccount(customer, splited[1]);
-
                 case "MOVE":
                     if (splited.length != 4) {
                         return "Fail";
@@ -106,6 +108,13 @@ public class NewBank {
                         return "Fail";
                     }
                     return move(customer, amount, splited[2], splited[3]);
+                case "SHOWACCOUNT":
+                    if (splited.length < 2) {
+                        return "Fail";
+                    }
+                    return showAccount(customer, splited[1]);
+                case "SHOWTRANSACTIONS":
+                    return showTransactions(customer);
                 default:
                     return "FAIL";
             }
@@ -118,7 +127,7 @@ public class NewBank {
     /**
      * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
      *
-     * @param customer
+     * @param customer current customer
      * @return A string of the customers accounts.
      */
     private String showMyAccounts(CustomerID customer) {
@@ -128,8 +137,9 @@ public class NewBank {
     /**
      * Generates a new account.
      *
-     * @param accountType
-     * @param balance
+     * @param accountType Name of the account
+     * @param balance initial balance
+     * @return The new account
      */
     private Account newAccount(String accountType, double balance) throws Exception {
         if (nextAvailableAccountNumber > maximumAccountNumber) {
@@ -139,6 +149,14 @@ public class NewBank {
         return new Account(accountType, balance, nextAvailableAccountNumber++);
     }
 
+    /**
+     * Resets the users password.
+     *
+     * @param customer Name of the account
+     * @param newPassword1 New password
+     * @param newPassword2 New password to check matches first
+     * @return A string to print to the user
+     */
     private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
         if (newPassword1.equals(newPassword2)) {
             customers.get(customer.getKey()).setPassword(newPassword1);
@@ -148,6 +166,13 @@ public class NewBank {
         }
     }
 
+    /**
+     * Adds a new account to the user
+     *
+     * @param customer Name of the account
+     * @param accountName Name of the new account
+     * @return A string to print to the user
+     */
     private String addAccount(CustomerID customer, String accountName) {
         for (Account acc : customers.get(customer.getKey()).getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
@@ -164,26 +189,70 @@ public class NewBank {
         return "New Account " + accountName + " added.";
     }
 
+    /**
+     * Moves money from one account to the other
+     *
+     * @param customer Name of the account
+     * @param amount The Amount to transfer
+     * @param from The account to transfer FROM
+     * @param to The account to transfer TO
+     * @return A string to print to the user
+     */
     private String move(CustomerID customer, double amount, String from, String to) {
-        Account fromAccount = getCustomerAccountByName(customer, from);
-        Account toAccount = getCustomerAccountByName(customer, to);
+        Account fromAccount = customers.get(customer.getKey()).getCustomerAccountByName(from);
+        Account toAccount = customers.get(customer.getKey()).getCustomerAccountByName(to);
         if (toAccount == null || fromAccount == null) {
             return "Fail";
         }
         if (fromAccount.withdraw(amount)) {
             toAccount.deposit(amount);
+            toAccount.addTransaction(to, from, amount);
+            fromAccount.addTransaction(to, from, amount);
             return "Success";
         }
         return "Fail";
     }
 
-    private Account getCustomerAccountByName(CustomerID customer, String accountName) {
-        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
-            if (acc.getAccountName().equals(accountName)) {
-                return acc;
+
+
+    /**
+     * Shows the transactions to and from the input account name
+     *
+     * @param customer Name of the account
+     * @param accountName The name of the account to search
+     * @return A list of all transactions
+     */
+    private String showAccount(CustomerID customer, String accountName){
+        StringBuilder stringOut = new StringBuilder();
+        Account currentAccount = customers.get(customer.getKey()).getCustomerAccountByName(accountName);
+        stringOut.append("Account name | " + currentAccount.getAccountName() + "\n");
+        stringOut.append("Account number | " + currentAccount.getAccountNumber() + "\n");
+        stringOut.append("Account total | " + currentAccount.getOpeningBalance() + "\n");
+        stringOut.append(currentAccount.getRecentTransactionsAsString());
+        return stringOut.toString();
+    }
+
+    /**
+     * Shows the transactions to and from all of the users accounts in time order
+     *
+     * @param customer Name of the account
+     * @return A list of all transactions
+     */
+    private String showTransactions(CustomerID customer){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        StringBuilder stringOut = new StringBuilder();
+        for(Account a : customers.get(customer.getKey()).getAccounts()){
+            for(Transaction trans : a.getTransactions()){
+                transactions.add(trans);
             }
         }
-        return null;
+        Collections.sort(transactions);
+        for(Transaction trans : transactions){
+            stringOut.append(trans.toString());
+            stringOut.append("\n");
+        }
+        return stringOut.toString();
     }
+
 
 }
