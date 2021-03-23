@@ -115,6 +115,8 @@ public class NewBank {
                     return showAccount(customer, splited[1]);
                 case "SHOWTRANSACTIONS":
                     return showTransactions(customer);
+                case "HELP":
+                    return help();
                 default:
                     return "FAIL";
             }
@@ -254,5 +256,17 @@ public class NewBank {
         return stringOut.toString();
     }
 
+
+    private String help(){
+        StringBuilder helpString = new StringBuilder();
+        helpString.append("Type in one of the following commands\n");
+        helpString.append("SHOWMYACCOUNTS = To return a list of your accounts" + "\n");
+        helpString.append("RESETPASSWORD <new password> <new password> = To reset your password. Password must be entered twice to check they match" + "\n");
+        helpString.append("ADDACCOUNT <account name> = To create a new account" + "\n");
+        helpString.append("MOVE <Amount> <From> <To> = To move an amount of money from one account to another" + "\n");
+        helpString.append("SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account" + "\n");
+        helpString.append("SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts" + "\n");
+        return helpString.toString();
+    }
 
 }
