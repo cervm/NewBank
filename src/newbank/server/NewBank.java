@@ -1,6 +1,7 @@
 package newbank.server;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The type New bank.
@@ -105,6 +106,8 @@ public class NewBank {
                         return "Fail";
                     }
                     return move(customer, amount, splited[2], splited[3]);
+                case "Test":
+                    return testJSON();
                 default:
                     return "FAIL";
             }
@@ -183,6 +186,22 @@ public class NewBank {
             }
         }
         return null;
+    }
+
+    private String testJSON(){
+        Database data = new Database("User.json");
+        //HashMap<String, String> inputTest = new HashMap<>();
+
+        Map<String, Object> inputTest = new HashMap<>();
+        inputTest.put("name", "John Deo");
+        inputTest.put("email", "john.doe@example.com");
+        inputTest.put("roles", new String[]{"Member", "Admin"});
+        inputTest.put("admin", true);
+
+        //inputTest.put("User 1", "Jerry");
+        //inputTest.put("User 2", "George");
+        data.writeMapToFile(inputTest);
+        return "Done";
     }
 
 }
