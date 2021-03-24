@@ -58,7 +58,7 @@ public class Database {
     /**
      * Read from JSON
      *
-     * @param input Map object to add to the JSON file
+     * @return data
      */
     public Map readFromFile(){
         try {
