@@ -11,7 +11,7 @@ public class Account {
     private final double openingBalance;
     private final int accountNumber;
     private double balance;
-    private ArrayList<Transaction> transactions;
+    private final ArrayList<Transaction> transactions;
 
 
     /**
