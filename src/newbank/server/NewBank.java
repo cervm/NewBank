@@ -88,38 +88,38 @@ public class NewBank {
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
         if (customers.containsKey(customer.getKey())) {
-            String[] splited = request.split("\\s+");
-            switch (splited[0]) {
+            String[] tokens = request.split("\\s+");
+            switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":
                     return showMyAccounts(customer);
                 case "RESETPASSWORD":
-                    if (splited.length < 3) {
+                    if (tokens.length < 3) {
                         break;
                     }
-                    return resetPassword(customer, splited[1], splited[2]);
+                    return resetPassword(customer, tokens[1], tokens[2]);
                 case "ADDACCOUNT":
-                    if (splited.length < 2) {
+                    if (tokens.length < 2) {
                         break;
                     }
-                    return addAccount(customer, splited[1]);
+                    return addAccount(customer, tokens[1]);
                 case "MOVE":
-                    if (splited.length != 4) {
+                    if (tokens.length != 4) {
                         break;
                     }
                     double amount;
                     try {
-                        amount = Double.parseDouble(splited[1]);
+                        amount = Double.parseDouble(tokens[1]);
                     } catch (NumberFormatException e) {
                         break;
                     }
-                    return move(customer, amount, splited[2], splited[3]);
+                    return move(customer, amount, tokens[2], tokens[3]);
                 case "Test":
                     return testJSON();
                 case "SHOWACCOUNT":
-                    if (splited.length < 2) {
+                    if (tokens.length < 2) {
                         break;
                     }
-                    return showAccount(customer, splited[1]);
+                    return showAccount(customer, tokens[1]);
                 case "SHOWTRANSACTIONS":
                     return showTransactions(customer);
                 case "HELP":
