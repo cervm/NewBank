@@ -189,7 +189,7 @@ public class NewBank {
                 return "Account already exists.";
             }
         }
-        Account newAccount = null;
+        Account newAccount;
         try {
             newAccount = newAccount(accountName, 0.0);
         } catch (Exception e) {
@@ -231,12 +231,12 @@ public class NewBank {
      * @param accountName The name of the account to search
      * @return A list of all transactions
      */
-    private String showAccount(CustomerID customer, String accountName){
+    private String showAccount(CustomerID customer, String accountName) {
         StringBuilder stringOut = new StringBuilder();
         Account currentAccount = customers.get(customer.getKey()).getCustomerAccountByName(accountName);
-        stringOut.append("Account name | " + currentAccount.getAccountName() + "\n");
-        stringOut.append("Account number | " + currentAccount.getAccountNumber() + "\n");
-        stringOut.append("Account total | " + currentAccount.getOpeningBalance() + "\n");
+        stringOut.append("Account name | ").append(currentAccount.getAccountName()).append("\n");
+        stringOut.append("Account number | ").append(currentAccount.getAccountNumber()).append("\n");
+        stringOut.append("Account total | ").append(currentAccount.getOpeningBalance()).append("\n");
         stringOut.append(currentAccount.getRecentTransactionsAsString());
         return stringOut.toString();
     }
@@ -250,10 +250,8 @@ public class NewBank {
     private String showTransactions(CustomerID customer) {
         ArrayList<Transaction> transactions = new ArrayList<>();
         StringBuilder stringOut = new StringBuilder();
-        for(Account a : customers.get(customer.getKey()).getAccounts()){
-            for(Transaction trans : a.getTransactions()){
-                transactions.add(trans);
-            }
+        for (Account a : customers.get(customer.getKey()).getAccounts()) {
+            transactions.addAll(a.getTransactions());
         }
         Collections.sort(transactions);
         for (Transaction trans : transactions) {
