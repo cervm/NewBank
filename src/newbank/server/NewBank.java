@@ -126,6 +126,17 @@ public class NewBank {
                         break;
                     }
                     return transfer(customer, amountToTransfer, splited[2], accountNumber);
+                case "PAY":
+                    if (splited.length != 3) {
+                        break;
+                    }
+                    double amountToPay;
+                    try {
+                        amountToPay = Double.parseDouble(splited[1]);
+                    } catch (NumberFormatException e) {
+                        break;
+                    }
+                    return pay(customer, splited[1], amountToPay);
                 case "Test":
                     return testJSON();
                 case "SHOWACCOUNT":
@@ -277,6 +288,23 @@ public class NewBank {
         toAccount.addTransaction(to, from, amount);
         fromAccount.addTransaction(to, from, amount);
         return true;
+    }
+
+    /**
+     * Sends an amount of money to another person
+     *
+     * @param customer Name of the account
+     * @param userName The beneficiary user name
+     * @param amount   The amount to pay
+     * @return A string to print to the user
+     */
+    private String pay(CustomerID customer, String userName, double amount) {
+        Account fromAccount = getCustomer(customer).getAccount();
+        Account toAccount = getCustomer(userName).getAccount();
+        if (transfer(amount, fromAccount, toAccount)) {
+            return "SUCCESS";
+        }
+        return "FAIL";
     }
 
     /**
