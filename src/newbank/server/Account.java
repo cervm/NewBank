@@ -54,6 +54,7 @@ public class Account {
         return this.accountName;
     }
 
+
     /**
      * Returns a string containing the account number the account name and the balance.
      *
@@ -67,6 +68,8 @@ public class Account {
      * Withdraws an amount from the account
      *
      * @return bool success/failure
+     *
+     * @return whether withdraw is successful.
      */
     public boolean withdraw(double amount) {
         if (amount <= 0 || amount > balance) {
@@ -80,6 +83,8 @@ public class Account {
      * Deposits an amount into the account
      *
      * @return bool success/failure
+     *
+     * @return whether deposit is successful.
      */
     public boolean deposit(double amount) {
         if (amount <= 0) {
