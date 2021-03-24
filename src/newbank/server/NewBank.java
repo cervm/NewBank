@@ -300,7 +300,11 @@ public class NewBank {
      */
     private String pay(CustomerID customer, String userName, double amount) {
         Account fromAccount = getCustomer(customer).getAccount();
-        Account toAccount = getCustomer(userName).getAccount();
+        Customer beneficiary = getCustomer(userName);
+        if (beneficiary == null) {
+            return "FAIL";
+        }
+        Account toAccount = beneficiary.getAccount();
         if (transfer(amount, fromAccount, toAccount)) {
             return "SUCCESS";
         }
