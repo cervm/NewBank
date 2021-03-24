@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Customer {
     private final String userName;
-    private ArrayList<Account> accounts;
+    private final ArrayList<Account> accounts;
     private String password;
 
 

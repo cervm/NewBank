@@ -11,9 +11,9 @@ import java.net.Socket;
  */
 public class NewBankClientHandler extends Thread {
 
-    private NewBank bank;
-    private BufferedReader in;
-    private PrintWriter out;
+    private final NewBank bank;
+    private final BufferedReader in;
+    private final PrintWriter out;
 
 
     /**
