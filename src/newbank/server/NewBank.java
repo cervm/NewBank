@@ -1,6 +1,10 @@
 package newbank.server;
 
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.*;
+
 
 /**
  * The type New bank.
@@ -108,6 +112,8 @@ public class NewBank {
                         return "Fail";
                     }
                     return move(customer, amount, splited[2], splited[3]);
+                case "Test":
+                    return testJSON();
                 case "SHOWACCOUNT":
                     if (splited.length < 2) {
                         return "Fail";
@@ -117,6 +123,7 @@ public class NewBank {
                     return showTransactions(customer);
                 case "HELP":
                     return help();
+
                 default:
                     return "FAIL";
             }
@@ -267,6 +274,20 @@ public class NewBank {
         helpString.append("SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account" + "\n");
         helpString.append("SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts" + "\n");
         return helpString.toString();
+    }
+
+    private String testJSON(){
+        Database data = new Database("User.json");
+
+
+        Map<String, Object> inputTest = new HashMap<>();
+        inputTest.put("name", "John Deo");
+        inputTest.put("email", "john.doe@example.com");
+        inputTest.put("roles", new String[]{"Member", "Admin"});
+        inputTest.put("admin", true);
+
+        data.writeMapToFile(inputTest);
+        return data.readFromFile().toString();
     }
 
 }
