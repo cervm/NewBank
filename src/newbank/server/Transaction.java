@@ -2,7 +2,7 @@ package newbank.server;
 
 import java.util.Date;
 
-public class Transaction implements Comparable<Transaction>{
+public class Transaction implements Comparable<Transaction> {
 
     private final Date timestamp;
     private final String accountNameTo;
@@ -13,8 +13,8 @@ public class Transaction implements Comparable<Transaction>{
     /**
      * Instantiates a Transaction.
      *
-     * @param accountNameTo    the account name sent to
-     * @param accountNameFrom the account name sent to
+     * @param accountNameTo     the account name sent to
+     * @param accountNameFrom   the account name sent to
      * @param amountTransferred the Amount Transferred
      */
     public Transaction(String accountNameTo, String accountNameFrom, double amountTransferred) {
@@ -29,35 +29,43 @@ public class Transaction implements Comparable<Transaction>{
      *
      * @return Date and time of transaction
      */
-    public Date getTimeStamp() { return timestamp; }
+    public Date getTimeStamp() {
+        return timestamp;
+    }
 
     /**
      * Returns the account transferred to
      *
      * @return account name to
      */
-    public String getAccountNameTo() { return accountNameTo; }
+    public String getAccountNameTo() {
+        return accountNameTo;
+    }
 
     /**
      * Returns the account transferred from
      *
      * @return account name from
      */
-    public String getAccountNameFrom() { return accountNameFrom; }
+    public String getAccountNameFrom() {
+        return accountNameFrom;
+    }
 
     /**
      * Returns the account transferred
      *
      * @return amount transferred
      */
-    public double getAmountTransferred() { return amountTransferred; }
+    public double getAmountTransferred() {
+        return amountTransferred;
+    }
 
     /**
      * Parses the transactions as a string
      *
      * @return Transaction as a string "<Date> | <To> | <From> | <Amount>"
      */
-    public String toString(){
+    public String toString() {
         return (timestamp.toString() + " | " + accountNameTo + " | " + accountNameFrom + " | " + amountTransferred);
     }
 

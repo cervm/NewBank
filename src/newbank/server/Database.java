@@ -22,7 +22,7 @@ public class Database {
     /**
      * Instantiates a new Database.
      *
-     * @param fileName    Name of the JSON file to save into the Data folder
+     * @param fileName Name of the JSON file to save into the Data folder
      */
     public Database(String fileName) {
         this.filePath.append("Data/");
@@ -37,9 +37,9 @@ public class Database {
     /**
      * Writes a Map object to JSON
      *
-     * @param input       Map object to add to the JSON file
+     * @param input Map object to add to the JSON file
      */
-    public void writeMapToFile(Map input){
+    public void writeMapToFile(Map input) {
         try {
             writer = new FileWriter(filePath.toString());
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class Database {
      *
      * @return data
      */
-    public Map readFromFile(){
+    public Map readFromFile() {
         try {
             reader = new JsonReader(new FileReader(filePath.toString()));
         } catch (IOException e) {

@@ -55,7 +55,7 @@ public class NewBank {
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
         john.addAccount(newAccount("Savings", 10000));
-        john.getCustomerAccountByName("Checking").addTransaction("Checking","Test", 100);
+        john.getCustomerAccountByName("Checking").addTransaction("Checking", "Test", 100);
         john.getCustomerAccountByName("Checking").addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
     }
@@ -147,7 +147,7 @@ public class NewBank {
      * Generates a new account.
      *
      * @param accountType Name of the account
-     * @param balance initial balance
+     * @param balance     initial balance
      * @return The new account
      */
     private Account newAccount(String accountType, double balance) throws Exception {
@@ -161,7 +161,7 @@ public class NewBank {
     /**
      * Resets the users password.
      *
-     * @param customer Name of the account
+     * @param customer     Name of the account
      * @param newPassword1 New password
      * @param newPassword2 New password to check matches first
      * @return A string to print to the user
@@ -178,7 +178,7 @@ public class NewBank {
     /**
      * Adds a new account to the user
      *
-     * @param customer Name of the account
+     * @param customer    Name of the account
      * @param accountName Name of the new account
      * @return A string to print to the user
      */
@@ -202,9 +202,9 @@ public class NewBank {
      * Moves money from one account to the other
      *
      * @param customer Name of the account
-     * @param amount The Amount to transfer
-     * @param from The account to transfer FROM
-     * @param to The account to transfer TO
+     * @param amount   The Amount to transfer
+     * @param from     The account to transfer FROM
+     * @param to       The account to transfer TO
      * @return A string to print to the user
      */
     private String move(CustomerID customer, double amount, String from, String to) {
@@ -223,11 +223,10 @@ public class NewBank {
     }
 
 
-
     /**
      * Shows the transactions to and from the input account name
      *
-     * @param customer Name of the account
+     * @param customer    Name of the account
      * @param accountName The name of the account to search
      * @return A list of all transactions
      */
@@ -247,7 +246,7 @@ public class NewBank {
      * @param customer Name of the account
      * @return A list of all transactions
      */
-    private String showTransactions(CustomerID customer){
+    private String showTransactions(CustomerID customer) {
         ArrayList<Transaction> transactions = new ArrayList<>();
         StringBuilder stringOut = new StringBuilder();
         for(Account a : customers.get(customer.getKey()).getAccounts()){
@@ -256,7 +255,7 @@ public class NewBank {
             }
         }
         Collections.sort(transactions);
-        for(Transaction trans : transactions){
+        for (Transaction trans : transactions) {
             stringOut.append(trans.toString());
             stringOut.append("\n");
         }
@@ -276,7 +275,7 @@ public class NewBank {
         return helpString.toString();
     }
 
-    private String testJSON(){
+    private String testJSON() {
         Database data = new Database("User.json");
 
 

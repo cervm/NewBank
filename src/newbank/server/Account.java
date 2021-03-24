@@ -19,7 +19,7 @@ public class Account {
      *
      * @param accountName    the account name
      * @param openingBalance the opening balance
-     * @param accountNumber the accountNumber
+     * @param accountNumber  the accountNumber
      */
     public Account(String accountName, double openingBalance, int accountNumber) {
         this.accountName = accountName;
@@ -99,7 +99,9 @@ public class Account {
      *
      * @return transactions
      */
-    public ArrayList<Transaction> getTransactions() { return transactions; }
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
 
     /**
      * Returns a string containing the recent transactions from the account
@@ -108,7 +110,7 @@ public class Account {
      */
     public String getRecentTransactionsAsString() {
         StringBuilder stringOut = new StringBuilder();
-        for(Transaction trans : transactions){
+        for (Transaction trans : transactions) {
             stringOut.append(trans.toString());
             stringOut.append("\n");
         }
@@ -118,11 +120,11 @@ public class Account {
     /**
      * Returns a string containing the recent transactions from the account
      *
-     * @param to Account name to
-     * @param from Account name from
+     * @param to     Account name to
+     * @param from   Account name from
      * @param amount Amount transferred
      */
-    public void addTransaction (String to, String from, double amount){
+    public void addTransaction(String to, String from, double amount) {
         transactions.add(new Transaction(to, from, amount));
     }
 

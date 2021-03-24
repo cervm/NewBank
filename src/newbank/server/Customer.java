@@ -11,7 +11,6 @@ public class Customer {
     private String password;
 
 
-
     /**
      * Instantiates a new Customer.
      * Set userName, password and initialize accounts.
