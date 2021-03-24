@@ -382,15 +382,17 @@ public class NewBank {
 
 
     private String help() {
-        StringBuilder helpString = new StringBuilder();
-        helpString.append("Type in one of the following commands\n");
-        helpString.append("SHOWMYACCOUNTS = To return a list of your accounts" + "\n");
-        helpString.append("RESETPASSWORD <new password> <new password> = To reset your password. Password must be entered twice to check they match" + "\n");
-        helpString.append("ADDACCOUNT <account name> = To create a new account" + "\n");
-        helpString.append("MOVE <Amount> <From> <To> = To move an amount of money from one account to another" + "\n");
-        helpString.append("SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account" + "\n");
-        helpString.append("SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts" + "\n");
-        return helpString.toString();
+        return """
+                Type in one of the following commands
+                SHOWMYACCOUNTS = To return a list of your accounts
+                RESETPASSWORD <new password> <new password> = To reset your password. Password must be entered twice to check they match
+                ADDACCOUNT <account name> = To create a new account
+                MOVE <Amount> <From> <To> = To move an amount of money from one account to another
+                TRANSFER <Amount> <From> <To> = To transfer an amount of money from the selected customer's account to any account in the bank
+                PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
+                SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
+                SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
+                """;
     }
 
     private String testJSON() {
