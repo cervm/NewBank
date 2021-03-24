@@ -67,27 +67,29 @@ public class Account {
     /**
      * Withdraws an amount from the account
      *
-     * @return whether withdraw is successful.
+     * @throws IllegalArgumentException   when the amount is negative
+     * @throws InsufficientFundsException when the account does not have enough money
      */
-    public boolean withdraw(double amount) {
-        if (amount <= 0 || amount > balance) {
-            return false;
+    public void withdraw(double amount) throws Exception {
+        if (amount <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (amount > balance) {
+            throw new InsufficientFundsException();
         }
         balance -= amount;
-        return true;
     }
 
     /**
      * Deposits an amount into the account
      *
-     * @return whether deposit is successful.
+     * @throws IllegalArgumentException when the amount is negative
      */
-    public boolean deposit(double amount) {
+    public void deposit(double amount) throws IllegalArgumentException {
         if (amount <= 0) {
-            return false;
+            throw new IllegalArgumentException();
         }
         balance += amount;
-        return true;
     }
 
     /**
@@ -124,4 +126,8 @@ public class Account {
         transactions.add(new Transaction(to, from, amount));
     }
 
+}
+
+
+class InsufficientFundsException extends Exception {
 }
