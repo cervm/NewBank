@@ -132,7 +132,7 @@ public class NewBank {
                     }
                     double amountToPay;
                     try {
-                        amountToPay = Double.parseDouble(splited[1]);
+                        amountToPay = Double.parseDouble(splited[2]);
                     } catch (NumberFormatException e) {
                         break;
                     }
