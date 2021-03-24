@@ -264,7 +264,7 @@ public class NewBank {
     }
 
 
-    private String help(){
+    private String help() {
         StringBuilder helpString = new StringBuilder();
         helpString.append("Type in one of the following commands\n");
         helpString.append("SHOWMYACCOUNTS = To return a list of your accounts" + "\n");

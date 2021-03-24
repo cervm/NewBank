@@ -67,8 +67,6 @@ public class Account {
     /**
      * Withdraws an amount from the account
      *
-     * @return bool success/failure
-     *
      * @return whether withdraw is successful.
      */
     public boolean withdraw(double amount) {
@@ -81,8 +79,6 @@ public class Account {
 
     /**
      * Deposits an amount into the account
-     *
-     * @return bool success/failure
      *
      * @return whether deposit is successful.
      */
