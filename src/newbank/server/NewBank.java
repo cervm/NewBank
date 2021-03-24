@@ -94,30 +94,30 @@ public class NewBank {
                     return showMyAccounts(customer);
                 case "RESETPASSWORD":
                     if (splited.length < 3) {
-                        return "Fail";
+                        break;
                     }
                     return resetPassword(customer, splited[1], splited[2]);
                 case "ADDACCOUNT":
                     if (splited.length < 2) {
-                        return "Fail";
+                        break;
                     }
                     return addAccount(customer, splited[1]);
                 case "MOVE":
                     if (splited.length != 4) {
-                        return "Fail";
+                        break;
                     }
                     double amount;
                     try {
                         amount = Double.parseDouble(splited[1]);
                     } catch (NumberFormatException e) {
-                        return "Fail";
+                        break;
                     }
                     return move(customer, amount, splited[2], splited[3]);
                 case "Test":
                     return testJSON();
                 case "SHOWACCOUNT":
                     if (splited.length < 2) {
-                        return "Fail";
+                        break;
                     }
                     return showAccount(customer, splited[1]);
                 case "SHOWTRANSACTIONS":
@@ -126,7 +126,7 @@ public class NewBank {
                     return help();
 
                 default:
-                    return "FAIL";
+                    break;
             }
         }
         return "FAIL";
