@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Account {
 
     private final String accountName;
-    private final double openingBalance;
     private final int accountNumber;
     private double balance;
     private final ArrayList<Transaction> transactions;
@@ -23,7 +22,6 @@ public class Account {
      */
     public Account(String accountName, double openingBalance, int accountNumber) {
         this.accountName = accountName;
-        this.openingBalance = openingBalance;
         this.accountNumber = accountNumber;
         this.balance = openingBalance;
         this.transactions = new ArrayList<>();
@@ -38,14 +36,6 @@ public class Account {
         return accountNumber;
     }
 
-    /**
-     * Returns the balance.
-     *
-     * @return openingBalance
-     */
-    public double getOpeningBalance() {
-        return openingBalance;
-    }
 
     /**
      * @return account name
@@ -54,6 +44,12 @@ public class Account {
         return this.accountName;
     }
 
+    /**
+     * @return the current account balance
+     */
+    public double getBalance() {
+        return balance;
+    }
 
     /**
      * Returns a string containing the account number the account name and the balance.
@@ -61,7 +57,7 @@ public class Account {
      * @return A String described above.
      */
     public String toString() {
-        return (accountNumber + " - " + accountName + ": " + "£" + openingBalance + "\n");
+        return (accountNumber + " - " + accountName + ": " + "£" + balance + "\n");
     }
 
     /**

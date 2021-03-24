@@ -359,7 +359,7 @@ public class NewBank {
         Account currentAccount = getCustomer(customer).getAccount(accountName);
         stringOut.append("Account name | ").append(currentAccount.getAccountName()).append("\n");
         stringOut.append("Account number | ").append(currentAccount.getAccountNumber()).append("\n");
-        stringOut.append("Account total | ").append(currentAccount.getOpeningBalance()).append("\n");
+        stringOut.append("Account total | ").append(currentAccount.getBalance()).append("\n");
         stringOut.append(currentAccount.getRecentTransactionsAsString());
         return stringOut.toString();
     }
