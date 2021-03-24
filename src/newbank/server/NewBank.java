@@ -190,7 +190,7 @@ public class NewBank {
 
     private String testJSON(){
         Database data = new Database("User.json");
-        //HashMap<String, String> inputTest = new HashMap<>();
+
 
         Map<String, Object> inputTest = new HashMap<>();
         inputTest.put("name", "John Deo");
@@ -198,10 +198,8 @@ public class NewBank {
         inputTest.put("roles", new String[]{"Member", "Admin"});
         inputTest.put("admin", true);
 
-        //inputTest.put("User 1", "Jerry");
-        //inputTest.put("User 2", "George");
         data.writeMapToFile(inputTest);
-        return "Done";
+        return data.readFromFile().toString();
     }
 
 }

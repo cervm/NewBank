@@ -2,7 +2,9 @@ package newbank.server;
 
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -13,9 +15,9 @@ import java.util.Map;
  */
 public class Database {
 
-    //private String filePath = "./Data/";
     private StringBuilder filePath = new StringBuilder();
     private Writer writer;
+    private JsonReader reader;
 
     /**
      * Instantiates a new Database.
@@ -38,6 +40,42 @@ public class Database {
      * @param input       Map object to add to the JSON file
      */
     public void writeMapToFile(Map input){
-        new Gson().toJson(input, this.writer);
+        try {
+            writer = new FileWriter(filePath.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Gson().toJson(input, writer);
+
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read from JSON
+     *
+     * @param input Map object to add to the JSON file
+     */
+    public Map readFromFile(){
+        try {
+            reader = new JsonReader(new FileReader(filePath.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map data = new Gson().fromJson(reader, Map.class);
+
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+
     }
 }
