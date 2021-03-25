@@ -31,7 +31,7 @@ public class Customer {
         StringBuilder s = new StringBuilder();
         double totalBalance = 0;
         for (Account account : accounts) {
-            totalBalance += account.getOpeningBalance();
+            totalBalance += account.getBalance();
             s.append(account.toString()).append("\n");
         }
         s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
@@ -83,13 +83,41 @@ public class Customer {
      * @param accountName the name of the account
      * @return Account
      */
-    public Account getCustomerAccountByName(String accountName) {
+    public Account getAccount(String accountName) {
         for (Account acc : accounts) {
             if (acc.getAccountName().equals(accountName)) {
                 return acc;
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the account based on the given number
+     *
+     * @param accountNumber the number of the account
+     * @return Account
+     */
+    public Account getAccount(int accountNumber) {
+        for (Account acc : accounts) {
+            if (acc.getAccountNumber() == accountNumber) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the first available account
+     *
+     * @return Account
+     */
+    public Account getAccount() {
+        try {
+            return accounts.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
 }

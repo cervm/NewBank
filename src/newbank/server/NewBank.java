@@ -56,8 +56,8 @@ public class NewBank {
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
         john.addAccount(newAccount("Savings", 10000));
-        john.getCustomerAccountByName("Checking").addTransaction("Checking", "Test", 100);
-        john.getCustomerAccountByName("Checking").addTransaction("Savings", "Test", 1000);
+        john.getAccount("Checking").addTransaction("Checking", "Test", 100);
+        john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
     }
 
@@ -113,6 +113,30 @@ public class NewBank {
                         break;
                     }
                     return move(customer, amount, tokens[2], tokens[3]);
+                case "TRANSFER":
+                    if (tokens.length != 4) {
+                        break;
+                    }
+                    double amountToTransfer;
+                    int accountNumber;
+                    try {
+                        amountToTransfer = Double.parseDouble(tokens[1]);
+                        accountNumber = Integer.parseInt(tokens[3]);
+                    } catch (NumberFormatException e) {
+                        break;
+                    }
+                    return transfer(customer, amountToTransfer, tokens[2], accountNumber);
+                case "PAY":
+                    if (tokens.length != 3) {
+                        break;
+                    }
+                    double amountToPay;
+                    try {
+                        amountToPay = Double.parseDouble(tokens[2]);
+                    } catch (NumberFormatException e) {
+                        break;
+                    }
+                    return pay(customer, tokens[1], amountToPay);
                 case "Test":
                     return testJSON();
                 case "SHOWACCOUNT":
@@ -169,7 +193,7 @@ public class NewBank {
      */
     private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
         if (newPassword1.equals(newPassword2)) {
-            customers.get(customer.getKey()).setPassword(newPassword1);
+            getCustomer(customer).setPassword(newPassword1);
             return "Password changed";
         } else {
             return "New Password not match.";
@@ -184,7 +208,7 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String addAccount(CustomerID customer, String accountName) {
-        for (Account acc : customers.get(customer.getKey()).getAccounts()) {
+        for (Account acc : getCustomer(customer).getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
                 return "Account already exists.";
             }
@@ -195,12 +219,12 @@ public class NewBank {
         } catch (Exception e) {
             return e.getMessage();
         }
-        customers.get(customer.getKey()).addAccount(newAccount);
+        getCustomer(customer).addAccount(newAccount);
         return "New Account " + accountName + " added.";
     }
 
     /**
-     * Moves money from one account to the other
+     * Moves money between the customer's accounts from one account to the other
      *
      * @param customer Name of the account
      * @param amount   The Amount to transfer
@@ -209,20 +233,119 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String move(CustomerID customer, double amount, String from, String to) {
-        Account fromAccount = customers.get(customer.getKey()).getCustomerAccountByName(from);
-        Account toAccount = customers.get(customer.getKey()).getCustomerAccountByName(to);
-        if (toAccount == null || fromAccount == null) {
-            return "Fail";
+        Account fromAccount = getCustomer(customer).getAccount(from);
+        Account toAccount = getCustomer(customer).getAccount(to);
+        if (transfer(amount, fromAccount, toAccount)) {
+            return "SUCCESS";
         }
-        if (fromAccount.withdraw(amount)) {
-            toAccount.deposit(amount);
-            toAccount.addTransaction(to, from, amount);
-            fromAccount.addTransaction(to, from, amount);
-            return "Success";
-        }
-        return "Fail";
+        return "FAIL";
     }
 
+    /**
+     * Transfers an amount of money from the selected customer's account to any account in the bank
+     *
+     * @param customer Name of the account
+     * @param amount   The Amount to transfer
+     * @param from     The account name to transfer FROM
+     * @param to       The account number to transfer TO
+     * @return A string to print to the user
+     */
+    private String transfer(CustomerID customer, double amount, String from, int to) {
+        Account fromAccount = getCustomer(customer).getAccount(from);
+        Account toAccount = getAccountByNumber(to);
+        if (transfer(amount, fromAccount, toAccount)) {
+            return "SUCCESS";
+        }
+        return "FAIL";
+    }
+
+    /**
+     * Transfers an amount of money from one account to the other
+     *
+     * @param amount      The amount to transfer
+     * @param fromAccount The account to transfer FROM
+     * @param toAccount   The account to transfer TO
+     * @return {@code true} if the transfer has been successful, {@code false} otherwise
+     */
+    private boolean transfer(double amount, Account fromAccount, Account toAccount) {
+        if (toAccount == null || fromAccount == null) {
+            return false;
+        }
+        try {
+            fromAccount.withdraw(amount);
+        } catch (Exception e) {
+            return false;
+        }
+        try {
+            toAccount.deposit(amount);
+        } catch (Exception e) {
+            // Revert the withdrawal
+            fromAccount.deposit(amount);
+            return false;
+        }
+        String from = Integer.toString(fromAccount.getAccountNumber());
+        String to = Integer.toString(toAccount.getAccountNumber());
+        toAccount.addTransaction(to, from, amount);
+        fromAccount.addTransaction(to, from, amount);
+        return true;
+    }
+
+    /**
+     * Sends an amount of money to another person
+     *
+     * @param customer Name of the account
+     * @param userName The beneficiary user name
+     * @param amount   The amount to pay
+     * @return A string to print to the user
+     */
+    private String pay(CustomerID customer, String userName, double amount) {
+        Account fromAccount = getCustomer(customer).getAccount();
+        Customer beneficiary = getCustomer(userName);
+        if (beneficiary == null) {
+            return "FAIL";
+        }
+        Account toAccount = beneficiary.getAccount();
+        if (transfer(amount, fromAccount, toAccount)) {
+            return "SUCCESS";
+        }
+        return "FAIL";
+    }
+
+    /**
+     * Returns the customer based on the given ID
+     *
+     * @param customer The ID of the customer
+     * @return The customer matching the ID
+     */
+    private Customer getCustomer(CustomerID customer) {
+        return customers.get(customer.getKey());
+    }
+
+    /**
+     * Returns the customer based on the user name
+     *
+     * @param userName The user name of the customer
+     * @return The customer matching the user name
+     */
+    private Customer getCustomer(String userName) {
+        return customers.get(userName);
+    }
+
+    /**
+     * Returns the account based on the given number
+     *
+     * @param accountNumber The account number
+     * @return The account matching the number
+     */
+    private Account getAccountByNumber(int accountNumber) {
+        for (Customer customer : customers.values()) {
+            Account account = customer.getAccount(accountNumber);
+            if (account != null) {
+                return account;
+            }
+        }
+        return null;
+    }
 
     /**
      * Shows the transactions to and from the input account name
@@ -233,10 +356,10 @@ public class NewBank {
      */
     private String showAccount(CustomerID customer, String accountName) {
         StringBuilder stringOut = new StringBuilder();
-        Account currentAccount = customers.get(customer.getKey()).getCustomerAccountByName(accountName);
+        Account currentAccount = getCustomer(customer).getAccount(accountName);
         stringOut.append("Account name | ").append(currentAccount.getAccountName()).append("\n");
         stringOut.append("Account number | ").append(currentAccount.getAccountNumber()).append("\n");
-        stringOut.append("Account total | ").append(currentAccount.getOpeningBalance()).append("\n");
+        stringOut.append("Account total | ").append(currentAccount.getBalance()).append("\n");
         stringOut.append(currentAccount.getRecentTransactionsAsString());
         return stringOut.toString();
     }
@@ -250,7 +373,7 @@ public class NewBank {
     private String showTransactions(CustomerID customer) {
         ArrayList<Transaction> transactions = new ArrayList<>();
         StringBuilder stringOut = new StringBuilder();
-        for (Account a : customers.get(customer.getKey()).getAccounts()) {
+        for (Account a : getCustomer(customer).getAccounts()) {
             transactions.addAll(a.getTransactions());
         }
         Collections.sort(transactions);
@@ -263,15 +386,17 @@ public class NewBank {
 
 
     private String help() {
-        StringBuilder helpString = new StringBuilder();
-        helpString.append("Type in one of the following commands\n");
-        helpString.append("SHOWMYACCOUNTS = To return a list of your accounts" + "\n");
-        helpString.append("RESETPASSWORD <new password> <new password> = To reset your password. Password must be entered twice to check they match" + "\n");
-        helpString.append("ADDACCOUNT <account name> = To create a new account" + "\n");
-        helpString.append("MOVE <Amount> <From> <To> = To move an amount of money from one account to another" + "\n");
-        helpString.append("SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account" + "\n");
-        helpString.append("SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts" + "\n");
-        return helpString.toString();
+        return """
+                Type in one of the following commands
+                SHOWMYACCOUNTS = To return a list of your accounts
+                RESETPASSWORD <new password> <new password> = To reset your password. Password must be entered twice to check they match
+                ADDACCOUNT <account name> = To create a new account
+                MOVE <Amount> <From> <To> = To move an amount of money from one account to another
+                TRANSFER <Amount> <From> <To> = To transfer an amount of money from the selected customer's account to any account in the bank
+                PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
+                SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
+                SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
+                """;
     }
 
     private String testJSON() {
