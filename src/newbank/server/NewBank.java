@@ -147,6 +147,11 @@ public class NewBank {
                     return showAccount(customer, tokens[1]);
                 case "SHOWTRANSACTIONS":
                     return showTransactions(customer);
+                case "REQUESTLOAN":
+                    if (tokens.length < 4){
+                        break;
+                    }
+                    return requestLoan(customer, tokens[1], tokens[2], tokens[3]);
                 case "HELP":
                     return help();
                 case "SHOWACCOUNTINFO":
@@ -177,6 +182,14 @@ public class NewBank {
             }
         }
         return "FAIL";
+    }
+
+    private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
+        Customer cust = customers.get(customer.getKey());
+
+        LoanMarketplace loanMarketplace = new LoanMarketplace(cust, loanAmount, APR, term);
+
+        return "Loan Submitted to Marketplace";
     }
 
     //FR1.2
