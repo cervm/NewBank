@@ -6,14 +6,19 @@ import java.util.ArrayList;
  * The type Customer.
  */
 public class Customer {
+    private final String userName;
+    private final ArrayList<Account> accounts;
+    private String password;
 
-    private ArrayList<Account> accounts;
 
     /**
      * Instantiates a new Customer.
+     * Set userName, password and initialize accounts.
      */
-    public Customer() {
-        accounts = new ArrayList<>();
+    public Customer(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+        this.accounts = new ArrayList<>();
     }
 
     /**
@@ -21,12 +26,46 @@ public class Customer {
      *
      * @return the string
      */
+    //FR1.2
     public String accountsToString() {
-        String s = "";
-        for (Account a : accounts) {
-            s += a.toString();
+        StringBuilder s = new StringBuilder();
+        double totalBalance = 0;
+        for (Account account : accounts) {
+            totalBalance += account.getBalance();
+            s.append(account.toString()).append("\n");
         }
-        return s;
+        s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
+        return s.toString();
+    }
+
+    /**
+     * Get the password for the user
+     */
+    public boolean authenticateUser(String password) {
+        return this.password.equals(password);
+    }
+
+    /**
+     * Set the password
+     */
+    public void setPassword(String newPW) {
+        this.password = newPW;
+    }
+
+    /**
+     *
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+
+    /**
+     * Get a customers Accounts
+     *
+     * @return accounts the accounts.
+     */
+    public ArrayList<Account> getAccounts() {
+        return this.accounts;
     }
 
     /**
@@ -37,4 +76,48 @@ public class Customer {
     public void addAccount(Account account) {
         accounts.add(account);
     }
+
+    /**
+     * Returns the account based on the given name
+     *
+     * @param accountName the name of the account
+     * @return Account
+     */
+    public Account getAccount(String accountName) {
+        for (Account acc : accounts) {
+            if (acc.getAccountName().equals(accountName)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the account based on the given number
+     *
+     * @param accountNumber the number of the account
+     * @return Account
+     */
+    public Account getAccount(int accountNumber) {
+        for (Account acc : accounts) {
+            if (acc.getAccountNumber() == accountNumber) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the first available account
+     *
+     * @return Account
+     */
+    public Account getAccount() {
+        try {
+            return accounts.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
 }

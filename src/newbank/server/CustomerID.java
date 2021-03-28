@@ -4,7 +4,7 @@ package newbank.server;
  * The type Customer id.
  */
 public class CustomerID {
-    private String key;
+    private final String key;
 
     /**
      * Instantiates a new Customer id.
