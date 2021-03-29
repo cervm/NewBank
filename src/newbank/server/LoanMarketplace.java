@@ -28,24 +28,17 @@ public class LoanMarketplace {
     }
 
     public String checkLoanMeetsCriteria() throws Exception {
-        StringBuilder exception = new StringBuilder();
+        //TODO: Might be best as a switch statement
         if (Integer.parseInt(this.loanAmount) > 5000){
-            String ex = "Loan Amount Exceeds maximum. Please request an amount less than " + "£5000";
-            exception.append(ex);
-            throw new Exception(ex);
+            throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " + "£5000");
         } else if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
-            String ex = "The maximum APR is 30% the minimum is 3%";
-            exception.append(ex);
-            throw new Exception(ex);
+            throw new Exception("The maximum APR is 30% the minimum is 3%");
         } else if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
-            String ex = "The loan term must be between 1 month and 12 months";
-            exception.append(ex);
-            throw new Exception(ex);
+            throw new Exception("The loan term must be between 1 month and 12 months");
         } else {
             this.logLoan();
-            exception.append("Loan Meets Criteria");
+            return "Loan Meets Criteria";
         }
-        return exception.toString();
     }
 
     private String logLoan(){
