@@ -163,10 +163,18 @@ public class NewBank {
 
     private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
         Customer cust = customers.get(customer.getKey());
+        StringBuilder output = new StringBuilder();
+        try{
+            LoanMarketplace loanMarketplace = new LoanMarketplace(cust, loanAmount, APR, term);
+            //TODO: METHOD IS NOW CALLED TWICE LOOK AT REMOVING THE OTHER ONE
+            loanMarketplace.checkLoanMeetsCriteria();
+            output.append("\nLoan Submitted to Marketplace");
+        } catch (Exception e) {
+            output.append(e.getMessage());
+            e.printStackTrace();
+        }
 
-        LoanMarketplace loanMarketplace = new LoanMarketplace(cust, loanAmount, APR, term);
-
-        return "Loan Submitted to Marketplace";
+        return output.toString();
     }
 
     //FR1.2
@@ -397,7 +405,7 @@ public class NewBank {
         return stringOut.toString();
     }
 
-
+    //TODO: Please add posible inputs accepted into here
     private String help() {
         return """
                 Type in one of the following commands
