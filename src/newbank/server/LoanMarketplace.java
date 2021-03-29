@@ -18,6 +18,7 @@ public class LoanMarketplace {
 
         try {
             this.checkLoanMeetsCriteria();
+            //TODO: Does this run or needed?
             System.out.println("new loan");
 
         } catch (Exception e) {
@@ -26,26 +27,25 @@ public class LoanMarketplace {
 
     }
 
-    private String checkLoanMeetsCriteria() throws Exception {
-
+    public String checkLoanMeetsCriteria() throws Exception {
+        StringBuilder exception = new StringBuilder();
         if (Integer.parseInt(this.loanAmount) > 5000){
-            throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " +
-                    "£5000");
-
+            String ex = "Loan Amount Exceeds maximum. Please request an amount less than " + "£5000";
+            exception.append(ex);
+            throw new Exception(ex);
+        } else if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
+            String ex = "The maximum APR is 30% the minimum is 3%";
+            exception.append(ex);
+            throw new Exception(ex);
+        } else if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
+            String ex = "The loan term must be between 1 month and 12 months";
+            exception.append(ex);
+            throw new Exception(ex);
+        } else {
+            this.logLoan();
+            exception.append("Loan Meets Criteria");
         }
-
-        if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
-            throw new Exception("The maximum APR is 30% the minimum is 3%");
-
-        }
-
-        if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
-            throw new Exception("The loan term must be between 1 month and 12 months");
-        }
-
-        this.logLoan();
-        return "Loan Meets Criteria";
-
+        return exception.toString();
     }
 
     private String logLoan(){
