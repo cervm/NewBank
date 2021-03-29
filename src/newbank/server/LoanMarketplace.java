@@ -15,29 +15,29 @@ public class LoanMarketplace {
         this.APR = APR;
         this.term = term;
 
-        if (this.checkLoanMeetsCriteria()) {
-            this.logLoan();
+        try{
+            this.checkLoanMeetsCriteria();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
     }
 
-    private boolean checkLoanMeetsCriteria(){
+    private void checkLoanMeetsCriteria() throws Exception {
         if (!(Integer.parseInt(this.loanAmount) <= 5000)){
-            System.out.println("Loan Amount Exceeds maximum. Please request an amount less than " +
+            throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " +
                     "£5000");
-            return false;
         }
 
         if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
-            System.out.println("The maximum APR is 30% the minimum is 3%");
-            return false;
+            throw new Exception("The maximum APR is 30% the minimum is 3%");
         }
 
         if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
-            System.out.println("The loan term must be between 1 month and 12 months");
-            return false;
+            throw new Exception("The loan term must be between 1 month and 12 months");
+
         }
 
-        return true;
     }
 
     private void logLoan(){
