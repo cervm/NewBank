@@ -16,35 +16,39 @@ public class LoanMarketplace {
         this.APR = APR;
         this.term = term;
 
-        try{
-            if (this.checkLoanMeetsCriteria()){
-                this.logLoan();
-            }
+        try {
+            this.checkLoanMeetsCriteria();
+            System.out.println("new loan");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private boolean checkLoanMeetsCriteria() throws Exception {
-        if (!(Integer.parseInt(this.loanAmount) <= 5000)){
+    private String checkLoanMeetsCriteria() throws Exception {
+
+        if (Integer.parseInt(this.loanAmount) > 5000){
             throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " +
                     "£5000");
+
         }
 
         if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
             throw new Exception("The maximum APR is 30% the minimum is 3%");
+
         }
 
         if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
             throw new Exception("The loan term must be between 1 month and 12 months");
-
         }
 
-        return false;
+        this.logLoan();
+        return "Loan Meets Criteria";
+
     }
 
-    private void logLoan(){
+    private String logLoan(){
 
         Database database = new Database("Marketplace.json");
         Map<String, Object> data = new HashMap<>();
@@ -54,6 +58,8 @@ public class LoanMarketplace {
         data.put("APR", this.APR);
         data.put("Loan Matched", this.loanMatched);
         database.writeMapToFile(data);
+
+        return "Loan has been submitted to the Marketplace";
     }
 
 }
