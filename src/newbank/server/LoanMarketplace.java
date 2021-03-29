@@ -8,6 +8,7 @@ public class LoanMarketplace {
     private String loanAmount;
     private String APR;
     private String term;
+    private boolean loanMatched = false;
 
     public LoanMarketplace(Customer customer, String loanAmount, String APR, String term) {
         this.customer = customer;
@@ -16,14 +17,16 @@ public class LoanMarketplace {
         this.term = term;
 
         try{
-            this.checkLoanMeetsCriteria();
+            if (this.checkLoanMeetsCriteria()){
+                this.logLoan();
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }
 
-    private void checkLoanMeetsCriteria() throws Exception {
+    private boolean checkLoanMeetsCriteria() throws Exception {
         if (!(Integer.parseInt(this.loanAmount) <= 5000)){
             throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " +
                     "£5000");
@@ -38,6 +41,7 @@ public class LoanMarketplace {
 
         }
 
+        return false;
     }
 
     private void logLoan(){
@@ -48,6 +52,7 @@ public class LoanMarketplace {
         data.put("Loan Amount", this.loanAmount);
         data.put("Term", this.term);
         data.put("APR", this.APR);
+        data.put("Loan Matched", this.loanMatched);
         database.writeMapToFile(data);
     }
 
