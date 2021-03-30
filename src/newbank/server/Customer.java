@@ -9,6 +9,7 @@ public class Customer {
     private final String userName;
     private final ArrayList<Account> accounts;
     private String password;
+    private ArrayList<CustomerInfo> accountDetails;
 
 
     /**
@@ -19,6 +20,7 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
+        this.accountDetails = new ArrayList<>();
     }
 
     /**
@@ -120,4 +122,15 @@ public class Customer {
         }
     }
 
+    /**
+     * Adds a string containing the customers personal details
+     *
+     * @param address     Customer address
+     * @param phoneNumber   Customer phone number
+     * @param fullName Customers full name
+     * @param securityQuestion Customers security question
+     */
+    public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
+        accountDetails.add(new CustomerInfo(address, phoneNumber, fullName, securityQuestion));
+    }
 }
