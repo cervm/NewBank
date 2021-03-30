@@ -47,6 +47,7 @@ public class NewBank {
         Customer bhagy = new Customer("Bhagy", "bhagy");
         bhagy.addAccount(newAccount("Main", 1000.0));
         bhagy.addAccount(newAccount("Savings", 1000.0));
+        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
         customers.put(bhagy.getUserName(), bhagy);
 
         Customer christina = new Customer("Christina", "christina");
