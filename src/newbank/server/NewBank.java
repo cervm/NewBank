@@ -151,6 +151,11 @@ public class NewBank {
                     return help();
                 case "SHOWACCOUNTINFO":
                     return accountInfo(customer);
+                case "EDITADDRESS":
+                    if (tokens.length < 3) {
+                        break;
+                    }
+                    return editAddress(customer, tokens[1], tokens[2]);
 
                 default:
                     break;
@@ -427,5 +432,20 @@ public class NewBank {
         stringOut.append(getCustomer(customer).getAccountInfo());
         return stringOut.toString();
     }
-
+    /**
+     * Edits the users address.
+     *
+     * @param customer     Name of the account
+     * @param password Customers password
+     * @param newAddress New address entry
+     * @return A string to print to the user
+     */
+    private String editAddress(CustomerID customer, String password, String newAddress) {
+        if (password.equals(getCustomer(customer).getPassword())) {
+            getCustomer(customer).setAddress(newAddress);
+            return "Address changed";
+        } else {
+            return "Password does not match.";
+        }
+    }
 }
