@@ -133,4 +133,13 @@ public class Customer {
     public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
         accountDetails.add(new CustomerInfo(address, phoneNumber, fullName, securityQuestion));
     }
+
+    /**
+     * Returns a string containing the customers personal details
+     * @return Account details
+     */
+    public String getAccountInfo() {
+        return accountDetails.toString();
+    }
+    
 }
