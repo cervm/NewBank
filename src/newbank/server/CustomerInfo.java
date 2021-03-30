@@ -24,9 +24,9 @@ public class CustomerInfo {
      * @return account details as a string "<Address> | <Phone Number> | <Full Name> | <Security Question>"
      */
     public String toString() {
-        return "Address" + " | " + address + " | " +
-                "Phone Number" + " | " + phoneNumber + " | " +
-                "Full Name" + " | " + fullName + " | " +
-                "Security Question" + " | " + securityQuestion;
+        return "Address" + " | " + address + " | " + "\n" +
+                "Phone Number" + " | " + phoneNumber + " | " + "\n"+
+                "Full Name" + " | " + fullName + " | " + "\n" +
+                "Security Question" + " | " + securityQuestion + "|";
     }
 }
