@@ -151,4 +151,12 @@ public class Customer {
         this.address = newAddress;
     }
 
+    /**
+     * Get the password
+     * @return password
+     */
+    public String getPassword() {
+        return password;
+    }
+
 }
