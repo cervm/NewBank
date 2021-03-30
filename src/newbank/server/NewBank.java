@@ -148,6 +148,8 @@ public class NewBank {
                     return showTransactions(customer);
                 case "HELP":
                     return help();
+                case "SHOWACCOUNTINFO":
+                    return accountInfo(customer);
 
                 default:
                     break;
@@ -411,6 +413,18 @@ public class NewBank {
 
         data.writeMapToFile(inputTest);
         return data.readFromFile().toString();
+    }
+
+    /**
+     * Shows the users personal details
+     *
+     * @param customer    Name of the account
+     * @return Customers personal details
+     */
+    private String accountInfo(CustomerID customer) {
+        StringBuilder stringOut = new StringBuilder();
+        stringOut.append(getCustomer(customer).getAccountInfo());
+        return stringOut.toString();
     }
 
 }
