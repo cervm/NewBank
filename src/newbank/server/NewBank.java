@@ -404,6 +404,8 @@ public class NewBank {
                 PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
                 SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
                 SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
+                SHOWACCOUNTINFO = To return a list of your personal details 
+                EDITADDRESS <password> <new address> = To update your address
                 """;
     }
 
