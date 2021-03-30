@@ -9,7 +9,7 @@ public class Customer {
     private final String userName;
     private final ArrayList<Account> accounts;
     private String password;
-    private ArrayList<CustomerInfo> accountDetails;
+    private CustomerInfo accountDetails;
     private String address;
 
 
@@ -21,7 +21,7 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
-        this.accountDetails = new ArrayList<>();
+        this.accountDetails = new CustomerInfo("","","","");
     }
 
     /**
@@ -132,15 +132,16 @@ public class Customer {
      * @param securityQuestion Customers security question
      */
     public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
-        accountDetails.add(new CustomerInfo(address, phoneNumber, fullName, securityQuestion));
+        this.accountDetails = new CustomerInfo(address, phoneNumber, fullName, securityQuestion);
     }
 
     /**
      * Returns a string containing the customers personal details
      * @return Account details
      */
-    public String getAccountInfo() {
-        return accountDetails.toString();
+    public CustomerInfo getAccountInfo() {
+
+        return accountDetails;
     }
 
     /**
