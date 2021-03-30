@@ -10,6 +10,7 @@ public class Customer {
     private final ArrayList<Account> accounts;
     private String password;
     private ArrayList<CustomerInfo> accountDetails;
+    private String address;
 
 
     /**
@@ -141,5 +142,13 @@ public class Customer {
     public String getAccountInfo() {
         return accountDetails.toString();
     }
-    
+
+    /**
+     * Sets the address for the user
+     * @param newAddress The customers new address
+     */
+    public void setAddress(String newAddress) {
+        this.address = newAddress;
+    }
+
 }
