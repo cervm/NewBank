@@ -417,6 +417,7 @@ public class NewBank {
                 PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
                 SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
                 SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
+                REQUESTLOAN <VALUE> <APR> <TERM> = Request a loan and have it submitted to the marketplace pending approval/funding.
                 """;
     }
 
