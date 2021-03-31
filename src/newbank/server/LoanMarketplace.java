@@ -18,9 +18,6 @@ public class LoanMarketplace {
 
         try {
             this.checkLoanMeetsCriteria();
-            //TODO: Does this run or needed?
-            System.out.println("new loan");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,7 +25,6 @@ public class LoanMarketplace {
     }
 
     public String checkLoanMeetsCriteria() throws Exception {
-        //TODO: Might be best as a switch statement
         if (Integer.parseInt(this.loanAmount) > 5000){
             throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " + "£5000");
         } else if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
