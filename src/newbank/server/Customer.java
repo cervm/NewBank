@@ -11,6 +11,9 @@ public class Customer {
     private String password;
     private CustomerInfo accountDetails;
     private String address;
+    private String phoneNumber;
+    private String fullName;
+    private String securityQuestion;
 
 
     /**
@@ -158,6 +161,29 @@ public class Customer {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Sets the phone number for the user
+     * @param newPhoneNumber The customers new phone number
+     */
+    public void setPhoneNumber(String newPhoneNumber) {
+        this.phoneNumber = newPhoneNumber;
+    }
+
+    /**
+     * Sets the Full Name for the user
+     * @param newFullName The customers new Full Name
+     */
+    public void setFullName(String newFullName) {
+        this.fullName = newFullName;
+    }
+    /**
+     * Sets the Security Question for the user
+     * @param newSecurityQuestion The customers new security question
+     */
+    public void setSecurityQuestion(String newSecurityQuestion) {
+        this.securityQuestion = newSecurityQuestion;
     }
 
 }
