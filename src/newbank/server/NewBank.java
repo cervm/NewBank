@@ -47,6 +47,7 @@ public class NewBank {
         Customer bhagy = new Customer("Bhagy", "bhagy");
         bhagy.addAccount(newAccount("Main", 1000.0));
         bhagy.addAccount(newAccount("Savings", 1000.0));
+        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
         customers.put(bhagy.getUserName(), bhagy);
 
         Customer christina = new Customer("Christina", "christina");
@@ -148,6 +149,28 @@ public class NewBank {
                     return showTransactions(customer);
                 case "HELP":
                     return help();
+                case "SHOWACCOUNTINFO":
+                    return accountInfo(customer);
+                case "EDITADDRESS":
+                    if (tokens.length < 3) {
+                        break;
+                    }
+                    return editAddress(customer, tokens[1], tokens[2]);
+                case "EDITPHONENUMBER":
+                    if (tokens.length < 3) {
+                        break;
+                    }
+                    return editPhoneNumber(customer, tokens[1], tokens[2]);
+                case "EDITFULLNAME":
+                    if (tokens.length < 3) {
+                        break;
+                    }
+                    return editFullName(customer, tokens[1], tokens[2]);
+                case "EDITSECURITYQUESTION":
+                    if (tokens.length < 3) {
+                        break;
+                    }
+                    return editSecurityQuestion(customer, tokens[1], tokens[2]);
 
                 default:
                     break;
@@ -396,6 +419,11 @@ public class NewBank {
                 PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
                 SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
                 SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
+                SHOWACCOUNTINFO = To return a list of your personal details 
+                EDITADDRESS <password> <new address> = To update your address
+                EDITPHONENUMBER <password> <new phone number> = To update your phone number
+                EDITFULLNAME <password> <new full name> = To update your Full Name
+                EDITSECURITYQUESTION <password> <new security question> = To update your security question      
                 """;
     }
 
@@ -413,4 +441,55 @@ public class NewBank {
         return data.readFromFile().toString();
     }
 
+    /**
+     * Shows the users personal details
+     *
+     * @param customer    Name of the account
+     * @return Customers personal details
+     */
+    private String accountInfo(CustomerID customer) {
+        StringBuilder stringOut = new StringBuilder();
+        stringOut.append(getCustomer(customer).getAccountInfo());
+        return stringOut.toString();
+    }
+    /**
+     * Edits the users address.
+     *
+     * @param customer     Name of the account
+     * @param password Customers password
+     * @param newAddress New address entry
+     * @return A string to print to the user
+     */
+    private String editAddress(CustomerID customer, String password, String newAddress) {
+        if (password.equals(getCustomer(customer).getPassword())) {
+            getCustomer(customer).setAddress(newAddress);
+            return "Address updated";
+        } else {
+            return "Password does not match.";
+        }
+    }
+    private String editPhoneNumber(CustomerID customer, String password, String newPhoneNumber) {
+        if (password.equals(getCustomer(customer).getPassword())) {
+            getCustomer(customer).setPhoneNumber(newPhoneNumber);
+            return "Phone Number updated";
+        } else {
+            return "Password does not match.";
+        }
+    }
+    private String editFullName(CustomerID customer, String password, String newFullName) {
+        if (password.equals(getCustomer(customer).getPassword())) {
+            getCustomer(customer).setPhoneNumber(newFullName);
+            return "Full Name updated";
+        } else {
+            return "Password does not match.";
+        }
+    }
+    private String editSecurityQuestion(CustomerID customer, String password, String newSecurityQuestion) {
+        if (password.equals(getCustomer(customer).getPassword())) {
+            getCustomer(customer).setPhoneNumber(newSecurityQuestion);
+            return "Full Name updated";
+        } else {
+            return "Password does not match.";
+        }
+    }
 }
