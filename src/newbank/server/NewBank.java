@@ -165,33 +165,33 @@ public class NewBank {
                     if (tokens.length < 2) {
                         break;
                     }
-                    return showAccount(customer, tokens[1]);
+                    return showAccount(tokens[1]);
                 case "SHOWTRANSACTIONS":
-                    return showTransactions(customer);
+                    return showTransactions();
                 case "HELP":
                     return help();
                 case "SHOWACCOUNTINFO":
-                    return accountInfo(customer);
+                    return accountInfo();
                 case "EDITADDRESS":
                     if (tokens.length < 3) {
                         break;
                     }
-                    return editAddress(customer, tokens[1], tokens[2]);
+                    return editAddress(tokens[1], tokens[2]);
                 case "EDITPHONENUMBER":
                     if (tokens.length < 3) {
                         break;
                     }
-                    return editPhoneNumber(customer, tokens[1], tokens[2]);
+                    return editPhoneNumber(tokens[1], tokens[2]);
                 case "EDITFULLNAME":
                     if (tokens.length < 3) {
                         break;
                     }
-                    return editFullName(customer, tokens[1], tokens[2]);
+                    return editFullName(tokens[1], tokens[2]);
                 case "EDITSECURITYQUESTION":
                     if (tokens.length < 3) {
                         break;
                     }
-                    return editSecurityQuestion(customer, tokens[1], tokens[2]);
+                    return editSecurityQuestion(tokens[1], tokens[2]);
 
                 default:
                     break;
@@ -364,15 +364,23 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String pay(CustomerID customer, String userName, double amount) {
-        Account fromAccount = getCustomer(customer).getAccount();
-        Customer beneficiary = getCustomer(userName);
-        if (beneficiary == null) {
-            return "FAIL";
+        try {
+            Account fromAccount = currentUser.getAccount();
+            Customer beneficiary = users.readUser(userName);
+
+            if (beneficiary == null) {
+                return "FAIL";
+            }
+            Account toAccount = beneficiary.getAccount();
+            if (transfer(amount, fromAccount, toAccount)) {
+                users.overwriteCustomer(currentUser);
+                users.overwriteCustomer(beneficiary);
+                return "SUCCESS";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Account toAccount = beneficiary.getAccount();
-        if (transfer(amount, fromAccount, toAccount)) {
-            return "SUCCESS";
-        }
+
         return "FAIL";
     }
 
@@ -387,35 +395,14 @@ public class NewBank {
     }
 
     /**
-     * Returns the customer based on the user name
-     *
-     * @param userName The user name of the customer
-     * @return The customer matching the user name
-     */
-    private Customer getCustomer(String userName) {
-        return customers.get(userName);
-    }
-
-    /**
-     * Returns the account based on the given number
-     *
-     * @param accountNumber The account number
-     * @return The account matching the number
-     */
-    //private Account getAccountByNumber(int accountNumber) {
-        //return currentUser.getAccount(accountNumber);
-    //}
-
-    /**
      * Shows the transactions to and from the input account name
      *
-     * @param customer    Name of the account
      * @param accountName The name of the account to search
      * @return A list of all transactions
      */
-    private String showAccount(CustomerID customer, String accountName) {
+    private String showAccount(String accountName) {
         StringBuilder stringOut = new StringBuilder();
-        Account currentAccount = getCustomer(customer).getAccount(accountName);
+        Account currentAccount = currentUser.getAccount(accountName);
         stringOut.append("Account name | ").append(currentAccount.getAccountName()).append("\n");
         stringOut.append("Account number | ").append(currentAccount.getAccountNumber()).append("\n");
         stringOut.append("Account total | ").append(currentAccount.getBalance()).append("\n");
@@ -426,13 +413,12 @@ public class NewBank {
     /**
      * Shows the transactions to and from all of the users accounts in time order
      *
-     * @param customer Name of the account
      * @return A list of all transactions
      */
-    private String showTransactions(CustomerID customer) {
+    private String showTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
         StringBuilder stringOut = new StringBuilder();
-        for (Account a : getCustomer(customer).getAccounts()) {
+        for (Account a : currentUser.getAccounts()) {
             transactions.addAll(a.getTransactions());
         }
         Collections.sort(transactions);
@@ -471,49 +457,92 @@ public class NewBank {
     /**
      * Shows the users personal details
      *
-     * @param customer    Name of the account
      * @return Customers personal details
      */
-    private String accountInfo(CustomerID customer) {
+    private String accountInfo() {
         StringBuilder stringOut = new StringBuilder();
-        stringOut.append(getCustomer(customer).getAccountInfo());
+        stringOut.append(currentUser.getAccountInfo());
         return stringOut.toString();
     }
+
     /**
      * Edits the users address.
      *
-     * @param customer     Name of the account
      * @param password Customers password
      * @param newAddress New address entry
      * @return A string to print to the user
      */
-    private String editAddress(CustomerID customer, String password, String newAddress) {
-        if (password.equals(getCustomer(customer).getPassword())) {
-            getCustomer(customer).setAddress(newAddress);
+    private String editAddress(String password, String newAddress) {
+        if (password.equals(currentUser.getPassword())) {
+            currentUser.setAddress(newAddress);
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Address updated";
         } else {
             return "Password does not match.";
         }
     }
-    private String editPhoneNumber(CustomerID customer, String password, String newPhoneNumber) {
-        if (password.equals(getCustomer(customer).getPassword())) {
-            getCustomer(customer).setPhoneNumber(newPhoneNumber);
+
+    /**
+     * Edits the users phone number.
+     *
+     * @param password Customers password
+     * @param newPhoneNumber New address entry
+     * @return A string to print to the user
+     */
+    private String editPhoneNumber(String password, String newPhoneNumber) {
+        if (password.equals(currentUser.getPassword())) {
+            currentUser.setPhoneNumber(newPhoneNumber);
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Phone Number updated";
         } else {
             return "Password does not match.";
         }
     }
-    private String editFullName(CustomerID customer, String password, String newFullName) {
-        if (password.equals(getCustomer(customer).getPassword())) {
-            getCustomer(customer).setPhoneNumber(newFullName);
+
+    /**
+     * Edits the users full Name.
+     *
+     * @param password Customers password
+     * @param newFullName New address entry
+     * @return A string to print to the user
+     */
+    private String editFullName(String password, String newFullName) {
+        if (password.equals(currentUser.getPassword())) {
+            currentUser.setPhoneNumber(newFullName);
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Full Name updated";
         } else {
             return "Password does not match.";
         }
     }
-    private String editSecurityQuestion(CustomerID customer, String password, String newSecurityQuestion) {
-        if (password.equals(getCustomer(customer).getPassword())) {
-            getCustomer(customer).setPhoneNumber(newSecurityQuestion);
+
+    /**
+     * Edits the users security question.
+     *
+     * @param password Customers password
+     * @param newSecurityQuestion New address entry
+     * @return A string to print to the user
+     */
+    private String editSecurityQuestion(String password, String newSecurityQuestion) {
+        if (password.equals(currentUser.getPassword())) {
+            currentUser.setPhoneNumber(newSecurityQuestion);
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Full Name updated";
         } else {
             return "Password does not match.";
