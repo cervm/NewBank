@@ -105,14 +105,24 @@ public class Database {
 
 
     public Customer readUser(CustomerID customer) throws IOException {
+        Customer currentCustomer;
+        //Customer userName;
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
-        Properties data = gson.fromJson(customer.getKey(), Properties.class);
         fr.close();
-        return new Customer("Test", "Blank");
+
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(customer.getKey()) || user.containsKey(customer.getKey())){
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    return property;
+                }
+            }
+        }
+        return null;
     }
 }
 
