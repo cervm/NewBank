@@ -169,5 +169,25 @@ public class Database {
         writeUser(customer);
 
     }
+
+    public Customer customerByAccNum(int accountNumber) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        for (HashMap<String, Customer> user : users) {
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    for (Account account : property.getAccounts()) {
+                        if (account.getAccountNumber() == accountNumber) {
+                            return property;
+                        }
+                    }
+                }
+        }
+        return null;
+    }
 }
 
