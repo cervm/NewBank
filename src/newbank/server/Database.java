@@ -18,7 +18,7 @@ public class Database {
 
     private StringBuilder filePath = new StringBuilder();
     private Writer writer;
-    private JsonReader reader;
+    private Reader reader;
     private Gson data;
 
     /**
@@ -38,47 +38,19 @@ public class Database {
     }
 
     /**
-     * Writes a Map object to JSON
+     * Instantiates a new Database.
      *
-     * @param input Map object to add to the JSON file
+     * @param fileName Name of the JSON file to save into the Data folder
      */
-    public void writeMapToFile(Map input) {
+    public Database(String fileName, Boolean read) {
+        this.filePath.append("Data/");
+        this.filePath.append(fileName);
+        this.data = new Gson();
         try {
-            writer = new FileWriter(filePath.toString(), true);
+            reader = new FileReader(filePath.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        new Gson().toJson(input, writer);
-
-        try {
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Read from JSON
-     *
-     * @return data
-     */
-    public Map readFromFile() {
-        try {
-            reader = new JsonReader(new FileReader(filePath.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Map data = new Gson().fromJson(reader, Map.class);
-
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return data;
     }
 
     public void writeUser(Customer customer) throws IOException {

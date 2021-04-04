@@ -23,16 +23,13 @@ public class NewBank {
         }
     }
 
-    private final HashMap<String, Customer> customers;
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
-    private Database users = new Database("Users.json");
+    private Database users = new Database("users.json", true);
     private Customer currentUser;
 
     private NewBank() throws Exception {
-        //TODO: remove traces of the customers in here and hava single customer
-        customers = new HashMap<>();
-        addTestData();
+
     }
 
     /**
@@ -42,34 +39,6 @@ public class NewBank {
      */
     public static NewBank getBank() {
         return bank;
-    }
-
-    //TODO: not needed any more
-    /**
-     * Adds the testing data to the customer HashMap
-     */
-    private void addTestData() throws Exception {
-        Customer bhagy = new Customer("Bhagy", "bhagy");
-        bhagy.addAccount(newAccount("Main", 1000.0));
-        bhagy.addAccount(newAccount("Savings", 1000.0));
-        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
-        customers.put(bhagy.getUserName(), bhagy);
-        users.writeUser(bhagy);
-
-
-        Customer christina = new Customer("Christina", "christina");
-        christina.addAccount(newAccount("Savings", 1500.0));
-        customers.put(christina.getUserName(), christina);
-        users.writeUser(christina);
-
-        Customer john = new Customer("John", "john");
-        john.addAccount(newAccount("Checking", 250.0));
-        john.addAccount(newAccount("Savings", 10000));
-        john.getAccount("Checking").addTransaction("Checking", "Test", 100);
-        john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
-        customers.put(john.getUserName(), john);
-        users.writeUser(john);
-        //users.writeMapToFile(customers);
     }
 
     /**
@@ -83,7 +52,6 @@ public class NewBank {
         try {
             Customer cUser = users.readUser(userName);
             if (cUser.getUserName().equals(userName)) {
-                Customer c = customers.get(userName);
                 if (cUser.getPassword().equals(password)) {
                     currentUser = cUser;
                     return cUser.getCustomerID();
@@ -104,7 +72,7 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
-        if (customers.containsKey(customer.getKey())) {
+        if (currentUser.getCustomerID().equals(customer.getKey())) {
             String[] tokens = request.split("\\s+");
             switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":
@@ -113,12 +81,12 @@ public class NewBank {
                     if (tokens.length < 3) {
                         break;
                     }
-                    return resetPassword(customer, tokens[1], tokens[2]);
+                    return resetPassword(tokens[1], tokens[2]);
                 case "ADDACCOUNT":
                     if (tokens.length < 2) {
                         break;
                     }
-                    return addAccount(customer, tokens[1]);
+                    return addAccount(tokens[1]);
                 case "MOVE":
                     if (tokens.length != 4) {
                         break;
@@ -129,7 +97,7 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
-                    return move(customer, amount, tokens[2], tokens[3]);
+                    return move(amount, tokens[2], tokens[3]);
                 case "TRANSFER":
                     if (tokens.length != 4) {
                         break;
@@ -153,7 +121,7 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
-                    return pay(customer, tokens[1], amountToPay);
+                    return pay(tokens[1], amountToPay);
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
                         break;
@@ -221,12 +189,11 @@ public class NewBank {
     /**
      * Resets the users password.
      *
-     * @param customer     Name of the account
      * @param newPassword1 New password
      * @param newPassword2 New password to check matches first
      * @return A string to print to the user
      */
-    private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
+    private String resetPassword(String newPassword1, String newPassword2) {
         if (newPassword1.equals(newPassword2)) {
             currentUser.setPassword(newPassword1);
             try {
@@ -243,11 +210,10 @@ public class NewBank {
     /**
      * Adds a new account to the user
      *
-     * @param customer    Name of the account
      * @param accountName Name of the new account
      * @return A string to print to the user
      */
-    private String addAccount(CustomerID customer, String accountName) {
+    private String addAccount(String accountName) {
         for (Account acc : currentUser.getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
                 return "Account already exists.";
@@ -268,13 +234,12 @@ public class NewBank {
     /**
      * Moves money between the customer's accounts from one account to the other
      *
-     * @param customer Name of the account
      * @param amount   The Amount to transfer
      * @param from     The account to transfer FROM
      * @param to       The account to transfer TO
      * @return A string to print to the user
      */
-    private String move(CustomerID customer, double amount, String from, String to) {
+    private String move(double amount, String from, String to) {
         Account fromAccount = currentUser.getAccount(from);
         Account toAccount = currentUser.getAccount(to);
         if (transfer(amount, fromAccount, toAccount)) {
@@ -351,12 +316,11 @@ public class NewBank {
     /**
      * Sends an amount of money to another person
      *
-     * @param customer Name of the account
      * @param userName The beneficiary user name
      * @param amount   The amount to pay
      * @return A string to print to the user
      */
-    private String pay(CustomerID customer, String userName, double amount) {
+    private String pay(String userName, double amount) {
         try {
             Account fromAccount = currentUser.getAccount();
             Customer beneficiary = users.readUser(userName);
@@ -375,16 +339,6 @@ public class NewBank {
         }
 
         return "FAIL";
-    }
-
-    /**
-     * Returns the customer based on the given ID
-     *
-     * @param customer The ID of the customer
-     * @return The customer matching the ID
-     */
-    private Customer getCustomer(CustomerID customer) {
-        return customers.get(customer.getKey());
     }
 
     /**
