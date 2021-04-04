@@ -29,14 +29,6 @@ public class Customer {
         this.customerID = new CustomerID(userName);
     }
 
-    public Customer(String userName, String password, ArrayList accounts, CustomerInfo customerInfo, CustomerID customerID){
-        this.userName = userName;
-        this.password = password;
-        this.accounts = accounts;
-        this.accountDetails = customerInfo;
-        this.customerID = customerID;
-    }
-
     /**
      * Accounts to string string.
      *

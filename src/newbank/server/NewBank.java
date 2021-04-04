@@ -154,13 +154,6 @@ public class NewBank {
                         break;
                     }
                     return pay(customer, tokens[1], amountToPay);
-                    //TODO: Remove test case
-                case "Test":
-                    try {
-                        return testJSON(customer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
                         break;
@@ -482,11 +475,6 @@ public class NewBank {
                 EDITFULLNAME <password> <new full name> = To update your Full Name
                 EDITSECURITYQUESTION <password> <new security question> = To update your security question      
                 """;
-    }
-
-    private String testJSON(CustomerID customer) throws IOException {
-        users.removeUser(customer);
-        return "Done";
     }
 
     /**
