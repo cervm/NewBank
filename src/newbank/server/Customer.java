@@ -14,6 +14,7 @@ public class Customer {
     private String phoneNumber;
     private String fullName;
     private String securityQuestion;
+    private CustomerID customerID;
 
 
     /**
@@ -25,6 +26,7 @@ public class Customer {
         this.password = password;
         this.accounts = new ArrayList<>();
         this.accountDetails = new CustomerInfo("","","","");
+        this.customerID = new CustomerID(userName);
     }
 
     /**
@@ -184,6 +186,10 @@ public class Customer {
      */
     public void setSecurityQuestion(String newSecurityQuestion) {
         this.securityQuestion = newSecurityQuestion;
+    }
+
+    public CustomerID getCustomerID(){
+        return this.customerID;
     }
 
 }

@@ -2,13 +2,13 @@ package newbank.server;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * The type Database
@@ -18,6 +18,7 @@ public class Database {
     private StringBuilder filePath = new StringBuilder();
     private Writer writer;
     private JsonReader reader;
+    private Gson data;
 
     /**
      * Instantiates a new Database.
@@ -27,6 +28,7 @@ public class Database {
     public Database(String fileName) {
         this.filePath.append("Data/");
         this.filePath.append(fileName);
+        this.data = new Gson();
         try {
             writer = new FileWriter(filePath.toString());
         } catch (IOException e) {
@@ -41,7 +43,7 @@ public class Database {
      */
     public void writeMapToFile(Map input) {
         try {
-            writer = new FileWriter(filePath.toString());
+            writer = new FileWriter(filePath.toString(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,6 +78,41 @@ public class Database {
         }
 
         return data;
+    }
 
+    public void writeUser(Customer customer) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> dtos = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        // If it was an empty one create initial list
+        if(null==dtos) {
+            dtos = new ArrayList<>();
+        }
+
+        // Add new item to the list
+        HashMap<String, Customer> formated = new HashMap<String, Customer>();
+        formated.put(customer.getCustomerID().getKey(), customer);
+        dtos.add(formated);
+
+        // No append replace the whole file
+        FileWriter fw  = new FileWriter(filePath.toString());
+        gson.toJson(dtos, fw);
+        fw.close();
+    }
+
+
+    public Customer readUser(CustomerID customer) throws IOException {
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        Properties data = gson.fromJson(customer.getKey(), Properties.class);
+        fr.close();
+        return new Customer("Test", "Blank");
     }
 }
+

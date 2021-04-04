@@ -25,6 +25,7 @@ public class NewBank {
     private final HashMap<String, Customer> customers;
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
+    private Database users = new Database("Users.json");
 
     private NewBank() throws Exception {
         customers = new HashMap<>();
@@ -49,10 +50,13 @@ public class NewBank {
         bhagy.addAccount(newAccount("Savings", 1000.0));
         bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
         customers.put(bhagy.getUserName(), bhagy);
+        users.writeUser(bhagy);
+
 
         Customer christina = new Customer("Christina", "christina");
         christina.addAccount(newAccount("Savings", 1500.0));
         customers.put(christina.getUserName(), christina);
+        users.writeUser(christina);
 
         Customer john = new Customer("John", "john");
         john.addAccount(newAccount("Checking", 250.0));
@@ -60,6 +64,8 @@ public class NewBank {
         john.getAccount("Checking").addTransaction("Checking", "Test", 100);
         john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
         customers.put(john.getUserName(), john);
+        users.writeUser(john);
+        //users.writeMapToFile(customers);
     }
 
     /**
@@ -139,7 +145,7 @@ public class NewBank {
                     }
                     return pay(customer, tokens[1], amountToPay);
                 case "Test":
-                    return testJSON();
+                    return testJSON(customer);
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
                         break;
@@ -448,18 +454,14 @@ public class NewBank {
                 """;
     }
 
-    private String testJSON() {
-        Database data = new Database("User.json");
+    private String testJSON(CustomerID customer) {
+        Customer test = new Customer("test", "test");
+
+        //users.writeUser(test);
 
 
-        Map<String, Object> inputTest = new HashMap<>();
-        inputTest.put("name", "John Deo");
-        inputTest.put("email", "john.doe@example.com");
-        inputTest.put("roles", new String[]{"Member", "Admin"});
-        inputTest.put("admin", true);
-
-        data.writeMapToFile(inputTest);
-        return data.readFromFile().toString();
+        //return users.readUser(customer).getUserName();
+        return "Fail";
     }
 
     /**
