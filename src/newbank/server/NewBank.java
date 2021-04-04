@@ -48,13 +48,15 @@ public class NewBank {
      */
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
         try {
+            //TODO: handle user not found
             Customer cUser = users.readUser(userName);
             if (cUser.getUserName().equals(userName)) {
                 if (cUser.getPassword().equals(password)) {
                     currentUser = cUser;
-                    return cUser.getCustomerID();
+                    return currentUser.getCustomerID();
                 }
             }
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +72,9 @@ public class NewBank {
      */
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
-        if (currentUser.getCustomerID().equals(customer.getKey())) {
+        String currentUID = currentUser.getCustomerID().getKey();
+        String custoID = customer.getKey();
+        if (currentUID.equals(custoID)) {
             String[] tokens = request.split("\\s+");
             switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":
