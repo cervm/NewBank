@@ -105,9 +105,6 @@ public class Database {
 
 
     public Customer readUser(CustomerID customer) throws IOException {
-        Customer currentCustomer;
-        //Customer userName;
-
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
         FileReader fr = new FileReader(filePath.toString());
@@ -116,6 +113,24 @@ public class Database {
 
         for (HashMap<String, Customer> user : users) {
             if(user.containsValue(customer.getKey()) || user.containsKey(customer.getKey())){
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    return property;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Customer readUser(String userName) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(userName) || user.containsKey(userName)){
                 Collection<Customer> userAsCustomer =  user.values();
                 for (Customer property : userAsCustomer){
                     return property;
