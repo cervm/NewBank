@@ -37,9 +37,10 @@ public class Database {
     }
 
     /**
-     * Instantiates a new Database.
+     * Re-Instantiates a new Database.
      *
      * @param fileName Name of the JSON file to save into the Data folder
+     * @param read add true to read an old datebase
      */
     public Database(String fileName, Boolean read) {
         this.filePath.append("Data/");
@@ -52,6 +53,11 @@ public class Database {
         }
     }
 
+    /**
+     * Writes the customer class to a JSON file
+     *
+     * @param customer customer class to write to JSON
+     */
     public void writeUser(Customer customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
@@ -75,6 +81,12 @@ public class Database {
         fw.close();
     }
 
+    /**
+     * Reads user from a JSON file
+     *
+     * @param customer customer ID to read from JSON
+     * @return Customer
+     */
     public Customer readUser(CustomerID customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
@@ -93,6 +105,12 @@ public class Database {
         return null;
     }
 
+    /**
+     * Reads user from a JSON file
+     *
+     * @param userName user name to read from JSON
+     * @return Customer
+     */
     public Customer readUser(String userName) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
@@ -111,6 +129,11 @@ public class Database {
         return null;
     }
 
+    /**
+     * Removes a user from JSON
+     *
+     * @param customerID customer ID to read from JSON
+     */
     public void removeUser(CustomerID customerID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
@@ -135,12 +158,23 @@ public class Database {
         fw.close();
     }
 
+    /**
+     * Overwrites a customers data in the JSON file
+     *
+     * @param customer customer to replace
+     */
     public void overwriteCustomer(Customer customer) throws IOException {
         removeUser(customer.getCustomerID());
         writeUser(customer);
 
     }
 
+    /**
+     * Finds the customer an account belongs to
+     *
+     * @param accountNumber Account number to search for
+     * @return Customer
+     */
     public Customer customerByAccNum(int accountNumber) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
