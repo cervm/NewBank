@@ -1,6 +1,7 @@
 package newbank.server;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -144,8 +145,13 @@ public class NewBank {
                         break;
                     }
                     return pay(customer, tokens[1], amountToPay);
+                    //TODO: Remove test case
                 case "Test":
-                    return testJSON(customer);
+                    try {
+                        return testJSON(customer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
                         break;
@@ -433,14 +439,8 @@ public class NewBank {
                 """;
     }
 
-    private String testJSON(CustomerID customer) {
-        Customer test = new Customer("test", "test");
-
-        //users.writeUser(test);
-
-
-        //return users.readUser(customer).getUserName();
-        return "Fail";
+    private String testJSON(CustomerID customer) throws IOException {
+        return users.readUser(customer).getUserName();
     }
 
     /**
