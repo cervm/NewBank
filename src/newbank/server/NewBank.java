@@ -27,8 +27,10 @@ public class NewBank {
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private Database users = new Database("Users.json");
+    private Customer currentUser;
 
     private NewBank() throws Exception {
+        //TODO: remove traces of the customers in here and hava single customer
         customers = new HashMap<>();
         addTestData();
     }
@@ -42,6 +44,7 @@ public class NewBank {
         return bank;
     }
 
+    //TODO: not needed any more
     /**
      * Adds the testing data to the customer HashMap
      */
@@ -77,11 +80,17 @@ public class NewBank {
      * @return the customer id
      */
     public synchronized CustomerID checkLogInDetails(String userName, String password) {
-        if (customers.containsKey(userName)) {
-            Customer c = customers.get(userName);
-            if (c.authenticateUser(password)) {
-                return new CustomerID(userName);
+        try {
+            Customer cUser = users.readUser(userName);
+            if (cUser.getUserName().equals(userName)) {
+                Customer c = customers.get(userName);
+                if (cUser.getPassword().equals(password)) {
+                    currentUser = cUser;
+                    return cUser.getCustomerID();
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -461,7 +470,8 @@ public class NewBank {
     }
 
     private String testJSON(CustomerID customer) throws IOException {
-        return users.readUser(customer).getUserName();
+        String userName = "John";
+        return users.readUser(userName).getUserName();
     }
 
     /**
