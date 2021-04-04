@@ -142,7 +142,7 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
-                    return transfer(customer, amountToTransfer, tokens[2], accountNumber);
+                    return transfer(amountToTransfer, tokens[2], accountNumber);
                 case "PAY":
                     if (tokens.length != 3) {
                         break;
@@ -303,9 +303,14 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String move(CustomerID customer, double amount, String from, String to) {
-        Account fromAccount = getCustomer(customer).getAccount(from);
-        Account toAccount = getCustomer(customer).getAccount(to);
+        Account fromAccount = currentUser.getAccount(from);
+        Account toAccount = currentUser.getAccount(to);
         if (transfer(amount, fromAccount, toAccount)) {
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "SUCCESS";
         }
         return "FAIL";
@@ -314,17 +319,28 @@ public class NewBank {
     /**
      * Transfers an amount of money from the selected customer's account to any account in the bank
      *
-     * @param customer Name of the account
      * @param amount   The Amount to transfer
      * @param from     The account name to transfer FROM
      * @param to       The account number to transfer TO
      * @return A string to print to the user
      */
-    private String transfer(CustomerID customer, double amount, String from, int to) {
-        Account fromAccount = getCustomer(customer).getAccount(from);
-        Account toAccount = getAccountByNumber(to);
-        if (transfer(amount, fromAccount, toAccount)) {
-            return "SUCCESS";
+    private String transfer(double amount, String from, int to) {
+        try {
+            Customer customerTo = users.customerByAccNum(to);
+
+            Account fromAccount = currentUser.getAccount(from);
+            Account toAccount = customerTo.getAccount(to);
+            if (transfer(amount, fromAccount, toAccount)) {
+                try {
+                    users.overwriteCustomer(currentUser);
+                    users.overwriteCustomer(customerTo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "SUCCESS";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "FAIL";
     }
@@ -407,15 +423,9 @@ public class NewBank {
      * @param accountNumber The account number
      * @return The account matching the number
      */
-    private Account getAccountByNumber(int accountNumber) {
-        for (Customer customer : customers.values()) {
-            Account account = customer.getAccount(accountNumber);
-            if (account != null) {
-                return account;
-            }
-        }
-        return null;
-    }
+    //private Account getAccountByNumber(int accountNumber) {
+        //return currentUser.getAccount(accountNumber);
+    //}
 
     /**
      * Shows the transactions to and from the input account name
