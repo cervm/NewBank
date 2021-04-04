@@ -256,7 +256,12 @@ public class NewBank {
      */
     private String resetPassword(CustomerID customer, String newPassword1, String newPassword2) {
         if (newPassword1.equals(newPassword2)) {
-            getCustomer(customer).setPassword(newPassword1);
+            currentUser.setPassword(newPassword1);
+            try {
+                users.overwriteCustomer(currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Password changed";
         } else {
             return "New Password not match.";
