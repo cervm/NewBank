@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonReader;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The type Database
@@ -103,7 +104,6 @@ public class Database {
         fw.close();
     }
 
-
     public Customer readUser(CustomerID customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
@@ -138,6 +138,36 @@ public class Database {
             }
         }
         return null;
+    }
+
+    public void removeUser(CustomerID customerID) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        List<HashMap<String, Customer>> newUserList = users.stream()
+                .collect(Collectors.toList());
+        Collections.copy(newUserList, users);
+        int i = 0;
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(customerID.getKey()) || user.containsKey(customerID.getKey())){
+                newUserList.remove(i);
+            }
+            i++;
+        }
+
+
+        FileWriter fw  = new FileWriter(filePath.toString());
+        gson.toJson(newUserList, fw);
+        fw.close();
+    }
+
+    public void overwriteCustomer(Customer customer) throws IOException {
+        removeUser(customer.getCustomerID());
+        writeUser(customer);
+
     }
 }
 

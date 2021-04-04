@@ -108,7 +108,7 @@ public class NewBank {
             String[] tokens = request.split("\\s+");
             switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":
-                    return showMyAccounts(customer);
+                    return showMyAccounts();
                 case "RESETPASSWORD":
                     if (tokens.length < 3) {
                         break;
@@ -226,11 +226,10 @@ public class NewBank {
     /**
      * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
      *
-     * @param customer current customer
      * @return A string of the customers accounts.
      */
-    private String showMyAccounts(CustomerID customer) {
-        return (customers.get(customer.getKey())).accountsToString();
+    private String showMyAccounts() {
+        return currentUser.accountsToString();
     }
 
     /**
@@ -244,7 +243,6 @@ public class NewBank {
         if (nextAvailableAccountNumber > MAXIMUM_ACCOUNT_NUMBER) {
             throw new Exception("No available account numbers");
         }
-
         return new Account(accountType, balance, nextAvailableAccountNumber++);
     }
 
@@ -273,7 +271,7 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String addAccount(CustomerID customer, String accountName) {
-        for (Account acc : getCustomer(customer).getAccounts()) {
+        for (Account acc : currentUser.getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
                 return "Account already exists.";
             }
@@ -281,10 +279,12 @@ public class NewBank {
         Account newAccount;
         try {
             newAccount = newAccount(accountName, 0.0);
+            currentUser.addAccount(newAccount);
+            users.overwriteCustomer(currentUser);
         } catch (Exception e) {
             return e.getMessage();
         }
-        getCustomer(customer).addAccount(newAccount);
+
         return "New Account " + accountName + " added.";
     }
 
@@ -470,8 +470,8 @@ public class NewBank {
     }
 
     private String testJSON(CustomerID customer) throws IOException {
-        String userName = "John";
-        return users.readUser(userName).getUserName();
+        users.removeUser(customer);
+        return "Done";
     }
 
     /**
