@@ -27,7 +27,6 @@ public class NewBank {
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private Database users = new Database("users.json", true);
-    //TODO: Add ture
     private Database loanMarketplace = new Database("loans.json", true);
     private Customer currentUser;
 
@@ -172,12 +171,16 @@ public class NewBank {
         return "FAIL";
     }
 
+    /**
+     * Creates a loanMarket places and writes it to loans.json
+     *
+     * @return success or error message
+     */
     private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
         StringBuilder output = new StringBuilder();
         try{
             LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
-            //TODO: METHOD IS NOW CALLED TWICE LOOK AT REMOVING THE OTHER ONE
-            loanMarketplace.checkLoanMeetsCriteria();
+            output.append(loanMarketplace.checkLoanMeetsCriteria() + "\n");
             output.append("\nLoan Submitted to Marketplace");
         } catch (Exception e) {
             output.append(e.getMessage());
