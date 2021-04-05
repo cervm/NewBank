@@ -1,0 +1,48 @@
+[
+  {
+    "APR": "3",
+    "Customer": {
+      "userName": "John",
+      "accounts": [
+        {
+          "accountName": "Checking",
+          "accountNumber": 10000003,
+          "balance": 250.0,
+          "transactions": [
+            {
+              "timestamp": "Apr 4, 2021, 10:28:48 PM",
+              "accountNameTo": "Checking",
+              "accountNameFrom": "Test",
+              "amountTransferred": 100.0
+            },
+            {
+              "timestamp": "Apr 4, 2021, 10:28:48 PM",
+              "accountNameTo": "Savings",
+              "accountNameFrom": "Test",
+              "amountTransferred": 1000.0
+            }
+          ]
+        },
+        {
+          "accountName": "Savings",
+          "accountNumber": 10000004,
+          "balance": 10000.0,
+          "transactions": []
+        }
+      ],
+      "password": "john",
+      "accountDetails": {
+        "address": "",
+        "phoneNumber": "",
+        "fullName": "",
+        "securityQuestion": ""
+      },
+      "customerID": {
+        "key": "John"
+      }
+    },
+    "Loan Matched": false,
+    "Loan Amount": 1000.0,
+    "Term": "10"
+  }
+]

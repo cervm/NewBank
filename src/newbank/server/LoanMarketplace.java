@@ -1,31 +1,26 @@
 package newbank.server;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoanMarketplace {
     private Customer customer;
-    private String loanAmount;
+    private Double loanAmount;
     private String APR;
     private String term;
     private boolean loanMatched = false;
+    private Database loanMarketplace = new Database("loans.json", true);
 
-    public LoanMarketplace(Customer customer, String loanAmount, String APR, String term) {
+    public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
         this.customer = customer;
         this.loanAmount = loanAmount;
         this.APR = APR;
         this.term = term;
-
-        try {
-            this.checkLoanMeetsCriteria();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     public String checkLoanMeetsCriteria() throws Exception {
-        if (Integer.parseInt(this.loanAmount) > 5000){
+        if (loanAmount > 5000){
             throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " + "£5000");
         } else if (Integer.parseInt(this.APR) > 30 || Integer.parseInt(this.APR) < 3){
             throw new Exception("The maximum APR is 30% the minimum is 3%");
@@ -39,7 +34,6 @@ public class LoanMarketplace {
 
     private String logLoan(){
 
-        Database database = new Database("Marketplace.json");
         Map<String, Object> data = new HashMap<>();
         data.put("Customer", this.customer);
         data.put("Loan Amount", this.loanAmount);
@@ -47,9 +41,14 @@ public class LoanMarketplace {
         data.put("APR", this.APR);
         data.put("Loan Matched", this.loanMatched);
         //TODO: Create new functionto write to database
-        //database.writeMapToFile(data);
+        try {
+            loanMarketplace.writeLoan(data);
+            return "Loan has been submitted to the Marketplace";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        return "Loan has been submitted to the Marketplace";
+        return "Fail";
     }
 
 }
