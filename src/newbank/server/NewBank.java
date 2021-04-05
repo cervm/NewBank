@@ -27,6 +27,8 @@ public class NewBank {
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private Database users = new Database("users.json", true);
+    //TODO: Add ture
+    private Database loanMarketplace = new Database("loans.json", true);
     private Customer currentUser;
 
     private NewBank() throws Exception {
@@ -173,8 +175,7 @@ public class NewBank {
     private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
         StringBuilder output = new StringBuilder();
         try{
-            //TODO:Create loan market place outside of function
-            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, loanAmount, APR, term);
+            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
             //TODO: METHOD IS NOW CALLED TWICE LOOK AT REMOVING THE OTHER ONE
             loanMarketplace.checkLoanMeetsCriteria();
             output.append("\nLoan Submitted to Marketplace");

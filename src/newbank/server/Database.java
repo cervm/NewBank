@@ -194,5 +194,66 @@ public class Database {
         }
         return null;
     }
+
+    /**
+     * Writes the loan to a JSON file
+     *
+     * @param data customer class offering loan
+     */
+    public void writeLoan(Map<String, Object> loanInput) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        FileWriter fw  = new FileWriter(filePath.toString());
+        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        // If it was an empty one create initial list
+        if(null==dtos) {
+            dtos = new ArrayList<>();
+        }
+
+        // Add new item to the list
+        dtos.add(loanInput);
+
+
+        // No append replace the whole file
+        gson.toJson(dtos, fw);
+        fw.close();
+    }
+
+    /**
+     * Writes the loan to a JSON file
+     *
+     * @param customer customer class offering loan
+     */
+    public void writeLoan(Customer customer, Double loanAmount, String term, String apr, Boolean loanMatched) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        // If it was an empty one create initial list
+        if(null==dtos) {
+            dtos = new ArrayList<>();
+        }
+
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("Customer", customer);
+        data.put("Loan Amount", loanAmount);
+        data.put("Term", term);
+        data.put("APR", apr);
+        data.put("Loan Matched", loanMatched);
+        // Add new item to the list
+        dtos.add(data);
+
+
+        // No append replace the whole file
+        FileWriter fw  = new FileWriter(filePath.toString());
+        gson.toJson(dtos, fw);
+        fw.close();
+    }
 }
 

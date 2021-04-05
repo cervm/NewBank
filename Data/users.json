@@ -1,0 +1,96 @@
+[
+  {
+    "Bhagy": {
+      "userName": "Bhagy",
+      "accounts": [
+        {
+          "accountName": "Main",
+          "accountNumber": 10000000,
+          "balance": 1000.0,
+          "transactions": []
+        },
+        {
+          "accountName": "Savings",
+          "accountNumber": 10000001,
+          "balance": 1000.0,
+          "transactions": []
+        }
+      ],
+      "password": "bhagy",
+      "accountDetails": {
+        "address": "100 Test Road, W1 4HJ",
+        "phoneNumber": "+4471234 663300",
+        "fullName": "Bhagyashree Patil",
+        "securityQuestion": "What was your first pet\u0027s name?"
+      },
+      "customerID": {
+        "key": "Bhagy"
+      }
+    }
+  },
+  {
+    "Christina": {
+      "userName": "Christina",
+      "accounts": [
+        {
+          "accountName": "Savings",
+          "accountNumber": 10000002,
+          "balance": 1500.0,
+          "transactions": []
+        }
+      ],
+      "password": "christina",
+      "accountDetails": {
+        "address": "",
+        "phoneNumber": "",
+        "fullName": "",
+        "securityQuestion": ""
+      },
+      "customerID": {
+        "key": "Christina"
+      }
+    }
+  },
+  {
+    "John": {
+      "userName": "John",
+      "accounts": [
+        {
+          "accountName": "Checking",
+          "accountNumber": 10000003,
+          "balance": 250.0,
+          "transactions": [
+            {
+              "timestamp": "Apr 4, 2021, 10:28:48 PM",
+              "accountNameTo": "Checking",
+              "accountNameFrom": "Test",
+              "amountTransferred": 100.0
+            },
+            {
+              "timestamp": "Apr 4, 2021, 10:28:48 PM",
+              "accountNameTo": "Savings",
+              "accountNameFrom": "Test",
+              "amountTransferred": 1000.0
+            }
+          ]
+        },
+        {
+          "accountName": "Savings",
+          "accountNumber": 10000004,
+          "balance": 10000.0,
+          "transactions": []
+        }
+      ],
+      "password": "john",
+      "accountDetails": {
+        "address": "",
+        "phoneNumber": "",
+        "fullName": "",
+        "securityQuestion": ""
+      },
+      "customerID": {
+        "key": "John"
+      }
+    }
+  }
+]
