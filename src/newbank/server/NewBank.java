@@ -171,10 +171,10 @@ public class NewBank {
     }
 
     private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
-        Customer cust = customers.get(customer.getKey());
         StringBuilder output = new StringBuilder();
         try{
-            LoanMarketplace loanMarketplace = new LoanMarketplace(cust, loanAmount, APR, term);
+            //TODO:Create loan market place outside of function
+            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, loanAmount, APR, term);
             //TODO: METHOD IS NOW CALLED TWICE LOOK AT REMOVING THE OTHER ONE
             loanMarketplace.checkLoanMeetsCriteria();
             output.append("\nLoan Submitted to Marketplace");
