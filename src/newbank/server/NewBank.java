@@ -179,8 +179,9 @@ public class NewBank {
     private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
         StringBuilder output = new StringBuilder();
         try{
-            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
-            output.append(loanMarketplace.checkLoanMeetsCriteria() + "\n");
+            LoanMarketplace loan = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
+            output.append(loan.checkLoanMeetsCriteria() + "\n");
+            loanMarketplace.writeLoan(loan);
             output.append("\nLoan Submitted to Marketplace");
         } catch (Exception e) {
             output.append(e.getMessage());
