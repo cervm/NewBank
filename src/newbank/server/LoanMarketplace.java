@@ -31,6 +31,51 @@ public class LoanMarketplace {
     }
 
     /**
+     * Gets the customer of the loan
+     *
+     * @return Customer
+     */
+    public Customer getCustomer(){
+        return this.customer;
+    }
+
+    /**
+     * Gets the loan amount
+     *
+     * @return Double
+     */
+    public String getAPR(){
+        return this.APR;
+    }
+
+    /**
+     * Gets the loan amount
+     *
+     * @return Double
+     */
+    public String getTerm(){
+        return this.term;
+    }
+
+    /**
+     * Gets if the loan amount is matched
+     *
+     * @return Boolean
+     */
+    public Boolean getLoanMatched(){
+        return this.loanMatched;
+    }
+
+    /**
+     * Gets the customer of the loan
+     *
+     * @return Customer
+     */
+    public Double getLoanAmount(){
+        return this.loanAmount;
+    }
+
+    /**
      * Instantiates a new loan.
      *
      * @return String
@@ -43,7 +88,6 @@ public class LoanMarketplace {
         } else if (Integer.parseInt(this.term) > 12 || Integer.parseInt(this.term) < 1){
             throw new Exception("The loan term must be between 1 month and 12 months");
         } else {
-            this.logLoan();
             return "Loan Meets Criteria";
         }
     }
@@ -67,7 +111,6 @@ public class LoanMarketplace {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return "Fail";
     }
 
