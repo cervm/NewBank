@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type LoanMarketplace
+ */
 public class LoanMarketplace {
     private Customer customer;
     private Double loanAmount;
@@ -12,6 +15,14 @@ public class LoanMarketplace {
     private boolean loanMatched = false;
     private Database loanMarketplace = new Database("loans.json", true);
 
+    /**
+     * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
+     *
+     * @param customer the customer offering the loan
+     * @param loanAmount The ammount offered to loan
+     * @param APR APR (interest) offered on the loan
+     * @param term Amount of years offered for the loan
+     */
     public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
         this.customer = customer;
         this.loanAmount = loanAmount;
@@ -19,6 +30,11 @@ public class LoanMarketplace {
         this.term = term;
     }
 
+    /**
+     * Instantiates a new loan.
+     *
+     * @return String
+     */
     public String checkLoanMeetsCriteria() throws Exception {
         if (loanAmount > 5000){
             throw new Exception("Loan Amount Exceeds maximum. Please request an amount less than " + "£5000");
@@ -32,6 +48,11 @@ public class LoanMarketplace {
         }
     }
 
+    /**
+     * Logs the loan to loans.json
+     *
+     * @return String
+     */
     private String logLoan(){
 
         Map<String, Object> data = new HashMap<>();
@@ -40,7 +61,6 @@ public class LoanMarketplace {
         data.put("Term", this.term);
         data.put("APR", this.APR);
         data.put("Loan Matched", this.loanMatched);
-        //TODO: Create new functionto write to database
         try {
             loanMarketplace.writeLoan(data);
             return "Loan has been submitted to the Marketplace";
