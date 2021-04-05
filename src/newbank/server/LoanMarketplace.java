@@ -46,7 +46,8 @@ public class LoanMarketplace {
         data.put("Term", this.term);
         data.put("APR", this.APR);
         data.put("Loan Matched", this.loanMatched);
-        database.writeMapToFile(data);
+        //TODO: Create new functionto write to database
+        //database.writeMapToFile(data);
 
         return "Loan has been submitted to the Marketplace";
     }
