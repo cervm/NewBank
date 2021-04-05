@@ -30,6 +30,22 @@ public class Customer {
     }
 
     /**
+     * Instantiates a new Customer.
+     * @param userName the user name
+     * @param password the password
+     * @param accounts the accounts
+     * @param accountDetails the account details
+     * @param customerID the customer id
+     */
+    public Customer(String userName, String password, ArrayList<Account> accounts, CustomerInfo accountDetails, CustomerID customerID) {
+        this.userName = userName;
+        this.password = password;
+        this.accounts = accounts;
+        this.accountDetails = accountDetails;
+        this.customerID = customerID;
+    }
+
+    /**
      * Accounts to string string.
      *
      * @return the string

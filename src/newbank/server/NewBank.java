@@ -4,8 +4,6 @@ package newbank.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -163,6 +161,8 @@ public class NewBank {
                         break;
                     }
                     return editSecurityQuestion(tokens[1], tokens[2]);
+                case "PRINTLOANS":
+                    return printLoans();
 
                 default:
                     break;
@@ -520,5 +520,22 @@ public class NewBank {
         } else {
             return "Password does not match.";
         }
+    }
+
+    private String printLoans(){
+        StringBuilder output = new StringBuilder();
+        output.append("Lender | Max Amount | APR | Lend Term (Months)\n");
+        ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
+        try {
+            loans.addAll(loanMarketplace.readLoans());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Fail";
+        }
+        for (LoanMarketplace loan : loans) {
+            output.append(loan);
+            output.append("\n");
+        }
+        return output.toString();
     }
 }

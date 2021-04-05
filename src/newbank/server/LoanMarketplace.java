@@ -114,4 +114,17 @@ public class LoanMarketplace {
         return "Fail";
     }
 
+    /**
+     * Loan to string
+     *
+     * @return String
+     */
+    public String toString(){
+        StringBuilder output = new StringBuilder();
+        output.append(this.customer.getUserName()+" | ");
+        output.append(this.loanAmount+" | ");
+        output.append(this.APR+" | ");
+        output.append(this.term+" | ");
+        return output.toString();
+    }
 }

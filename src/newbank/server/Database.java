@@ -257,5 +257,33 @@ public class Database {
         gson.toJson(dtos, fw);
         fw.close();
     }
+
+    /**
+     * Reads loans from a JSON file
+     *
+     * @return LoanMarketplace
+     */
+    public ArrayList<LoanMarketplace> readLoans() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
+        for (Map<String, Object> loan : loans) {
+            if(loan.get("Loan Matched").equals(false)){
+                Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
+                Database users = new Database("users.json", true);
+                Customer customer = users.readUser(customerObj.get("userName").toString());
+                Double loanAmount = (Double) loan.get("Loan Amount");
+                String apr = (String) loan.get("APR");
+                String term = (String) loan.get("Term");
+                //Customer tempCust = new Customer("Test", "tester");
+                loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term));
+            }
+        }
+        return loanOutput;
+    }
 }
 
