@@ -8,6 +8,7 @@ import java.util.Map;
  * The type LoanMarketplace
  */
 public class LoanMarketplace {
+    private int loanID = 0;
     private Customer customer;
     private Double loanAmount;
     private String APR;
@@ -24,10 +25,21 @@ public class LoanMarketplace {
      * @param term Amount of years offered for the loan
      */
     public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
+        //TODO: generate a unique loan ID
+        this.loanID++;
         this.customer = customer;
         this.loanAmount = loanAmount;
         this.APR = APR;
         this.term = term;
+    }
+
+    /**
+     * Gets the customer of the loan
+     *
+     * @return Customer
+     */
+    public int getLoanID(){
+        return this.loanID;
     }
 
     /**
@@ -93,34 +105,13 @@ public class LoanMarketplace {
     }
 
     /**
-     * Logs the loan to loans.json
-     *
-     * @return String
-     */
-    private String logLoan(){
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("Customer", this.customer);
-        data.put("Loan Amount", this.loanAmount);
-        data.put("Term", this.term);
-        data.put("APR", this.APR);
-        data.put("Loan Matched", this.loanMatched);
-        try {
-            loanMarketplace.writeLoan(data);
-            return "Loan has been submitted to the Marketplace";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "Fail";
-    }
-
-    /**
      * Loan to string
      *
      * @return String
      */
     public String toString(){
         StringBuilder output = new StringBuilder();
+        output.append(this.loanID+" | ");
         output.append(this.customer.getUserName()+" | ");
         output.append(this.loanAmount+" | ");
         output.append(this.APR+" | ");

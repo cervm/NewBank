@@ -1,6 +1,6 @@
 [
   {
-    "APR": "10",
+    "APR": "5",
     "Customer": {
       "userName": "John",
       "accounts": [
@@ -41,12 +41,13 @@
         "key": "John"
       }
     },
+    "Loan ID": 1.0,
     "Loan Matched": false,
-    "Loan Amount": 5000.0,
-    "Term": "12"
+    "Loan Amount": 4500.0,
+    "Term": "10"
   },
   {
-    "APR": "3",
+    "APR": "5",
     "Customer": {
       "userName": "John",
       "accounts": [
@@ -87,8 +88,9 @@
         "key": "John"
       }
     },
+    "Loan ID": 1,
     "Loan Matched": false,
-    "Loan Amount": 500.0,
-    "Term": "3"
+    "Loan Amount": 2000.0,
+    "Term": "10"
   }
 ]

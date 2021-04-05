@@ -1,6 +1,6 @@
 package newbank.server;
 
-
+//TODO: Add all comments
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +26,7 @@ public class NewBank {
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private Database users = new Database("users.json", true);
     private Database loanMarketplace = new Database("loans.json", true);
+    private Database confirmedLoans = new Database("confirmedLoans.json", true);
     private Customer currentUser;
 
     private NewBank() throws Exception {
@@ -161,9 +162,13 @@ public class NewBank {
                         break;
                     }
                     return editSecurityQuestion(tokens[1], tokens[2]);
-                case "PRINTLOANS":
+                case "LOANMARKETPLACE":
                     return printLoans();
-
+                case "PICKLOAN":
+                    if (tokens.length < 1) {
+                        break;
+                    }
+                    return pickLoan(tokens[1]);
                 default:
                     break;
             }
@@ -524,7 +529,7 @@ public class NewBank {
 
     private String printLoans(){
         StringBuilder output = new StringBuilder();
-        output.append("Lender | Max Amount | APR | Lend Term (Months)\n");
+        output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
         ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
         try {
             loans.addAll(loanMarketplace.readLoans());
@@ -537,5 +542,16 @@ public class NewBank {
             output.append("\n");
         }
         return output.toString();
+    }
+
+    private String pickLoan(String loanNumber){
+        //TODO: Run debug see why object doesn't work
+        try {
+            loanMarketplace.moveLoanToConfirmed(Integer.parseInt(loanNumber), currentUser.getCustomerID());
+            return "Loan is a success";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "FAIL";
     }
 }
