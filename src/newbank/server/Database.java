@@ -2,13 +2,13 @@ package newbank.server;
 
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The type Database
@@ -17,7 +17,8 @@ public class Database {
 
     private StringBuilder filePath = new StringBuilder();
     private Writer writer;
-    private JsonReader reader;
+    private Reader reader;
+    private Gson data;
 
     /**
      * Instantiates a new Database.
@@ -27,6 +28,7 @@ public class Database {
     public Database(String fileName) {
         this.filePath.append("Data/");
         this.filePath.append(fileName);
+        this.data = new Gson();
         try {
             writer = new FileWriter(filePath.toString());
         } catch (IOException e) {
@@ -35,47 +37,162 @@ public class Database {
     }
 
     /**
-     * Writes a Map object to JSON
+     * Re-Instantiates a new Database.
      *
-     * @param input Map object to add to the JSON file
+     * @param fileName Name of the JSON file to save into the Data folder
+     * @param read add true to read an old datebase
      */
-    public void writeMapToFile(Map input) {
+    public Database(String fileName, Boolean read) {
+        this.filePath.append("Data/");
+        this.filePath.append(fileName);
+        this.data = new Gson();
         try {
-            writer = new FileWriter(filePath.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        new Gson().toJson(input, writer);
-
-        try {
-            writer.close();
+            reader = new FileReader(filePath.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Read from JSON
+     * Writes the customer class to a JSON file
      *
-     * @return data
+     * @param customer customer class to write to JSON
      */
-    public Map readFromFile() {
-        try {
-            reader = new JsonReader(new FileReader(filePath.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void writeUser(Customer customer) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> dtos = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        // If it was an empty one create initial list
+        if(null==dtos) {
+            dtos = new ArrayList<>();
         }
 
-        Map data = new Gson().fromJson(reader, Map.class);
+        // Add new item to the list
+        HashMap<String, Customer> formated = new HashMap<String, Customer>();
+        formated.put(customer.getCustomerID().getKey(), customer);
+        dtos.add(formated);
 
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // No append replace the whole file
+        FileWriter fw  = new FileWriter(filePath.toString());
+        gson.toJson(dtos, fw);
+        fw.close();
+    }
+
+    /**
+     * Reads user from a JSON file
+     *
+     * @param customer customer ID to read from JSON
+     * @return Customer
+     */
+    public Customer readUser(CustomerID customer) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(customer.getKey()) || user.containsKey(customer.getKey())){
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    return property;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Reads user from a JSON file
+     *
+     * @param userName user name to read from JSON
+     * @return Customer
+     */
+    public Customer readUser(String userName) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(userName) || user.containsKey(userName)){
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    return property;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Removes a user from JSON
+     *
+     * @param customerID customer ID to read from JSON
+     */
+    public void removeUser(CustomerID customerID) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        List<HashMap<String, Customer>> newUserList = users.stream()
+                .collect(Collectors.toList());
+        Collections.copy(newUserList, users);
+        int i = 0;
+        for (HashMap<String, Customer> user : users) {
+            if(user.containsValue(customerID.getKey()) || user.containsKey(customerID.getKey())){
+                newUserList.remove(i);
+            }
+            i++;
         }
 
-        return data;
 
+        FileWriter fw  = new FileWriter(filePath.toString());
+        gson.toJson(newUserList, fw);
+        fw.close();
+    }
+
+    /**
+     * Overwrites a customers data in the JSON file
+     *
+     * @param customer customer to replace
+     */
+    public void overwriteCustomer(Customer customer) throws IOException {
+        removeUser(customer.getCustomerID());
+        writeUser(customer);
+
+    }
+
+    /**
+     * Finds the customer an account belongs to
+     *
+     * @param accountNumber Account number to search for
+     * @return Customer
+     */
+    public Customer customerByAccNum(int accountNumber) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        for (HashMap<String, Customer> user : users) {
+                Collection<Customer> userAsCustomer =  user.values();
+                for (Customer property : userAsCustomer){
+                    for (Account account : property.getAccounts()) {
+                        if (account.getAccountNumber() == accountNumber) {
+                            return property;
+                        }
+                    }
+                }
+        }
+        return null;
     }
 }
+

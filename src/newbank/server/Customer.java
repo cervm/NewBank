@@ -9,6 +9,12 @@ public class Customer {
     private final String userName;
     private final ArrayList<Account> accounts;
     private String password;
+    private CustomerInfo accountDetails;
+    private String address;
+    private String phoneNumber;
+    private String fullName;
+    private String securityQuestion;
+    private CustomerID customerID;
 
 
     /**
@@ -19,6 +25,8 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
+        this.accountDetails = new CustomerInfo("","","","");
+        this.customerID = new CustomerID(userName);
     }
 
     /**
@@ -118,6 +126,70 @@ public class Customer {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
+    }
+
+    /**
+     * Adds a string containing the customers personal details
+     *
+     * @param address     Customer address
+     * @param phoneNumber   Customer phone number
+     * @param fullName Customers full name
+     * @param securityQuestion Customers security question
+     */
+    public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
+        this.accountDetails = new CustomerInfo(address, phoneNumber, fullName, securityQuestion);
+    }
+
+    /**
+     * Returns a string containing the customers personal details
+     * @return Account details
+     */
+    public CustomerInfo getAccountInfo() {
+
+        return accountDetails;
+    }
+
+    /**
+     * Sets the address for the user
+     * @param newAddress The customers new address
+     */
+    public void setAddress(String newAddress) {
+        this.address = newAddress;
+    }
+
+    /**
+     * Get the password
+     * @return password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets the phone number for the user
+     * @param newPhoneNumber The customers new phone number
+     */
+    public void setPhoneNumber(String newPhoneNumber) {
+        this.phoneNumber = newPhoneNumber;
+    }
+
+    /**
+     * Sets the Full Name for the user
+     * @param newFullName The customers new Full Name
+     */
+    public void setFullName(String newFullName) {
+        this.fullName = newFullName;
+    }
+    /**
+     * Sets the Security Question for the user
+     * @param newSecurityQuestion The customers new security question
+     */
+    public void setSecurityQuestion(String newSecurityQuestion) {
+        this.securityQuestion = newSecurityQuestion;
+    }
+
+    public CustomerID getCustomerID(){
+        return this.customerID;
     }
 
 }
