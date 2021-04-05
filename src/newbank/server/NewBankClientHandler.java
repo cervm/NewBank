@@ -30,34 +30,50 @@ public class NewBankClientHandler extends Thread {
 
     public void run() {
         // keep getting requests from the client and processing them
-        try {
-            CustomerID customer;
-            while (true) {
-                // ask for user name
-                out.println("Enter Username");
-                String userName = in.readLine();
-                // ask for password
-                out.println("Enter Password");
-                String password = in.readLine();
-                out.println("Checking Details...");
-                // authenticate user and get customer ID token from bank for use in subsequent requests
-                customer = bank.checkLogInDetails(userName, password);
-                if (customer != null) {
-                    break;
+        out.println("1. Existing user. 2. New user");
+        try{
+            String ans = in.readLine();
+
+            if(ans.equals("1")){
+            try {
+                CustomerID customer;
+                while (true) {
+                    // ask for user name
+                    out.println("Enter Username");
+                    String userName = in.readLine();
+                    // ask for password
+                    out.println("Enter Password");
+                    String password = in.readLine();
+                    out.println("Checking Details...");
+                    // authenticate user and get customer ID token from bank for use in subsequent requests
+                    customer = bank.checkLogInDetails(userName, password);
+                    if (customer != null) {
+                        break;
+                    }
+                    out.println("Log In Failed. Please try again:");
                 }
-                out.println("Log In Failed. Please try again:");
+                // if the user is authenticated then get requests from the user and process them
+                out.println("Log In Successful. What do you want to do?");
+                while (true) {
+                    String request = in.readLine();
+                    System.out.println("Request from " + customer.getKey());
+                    String response = bank.processRequest(customer, request);
+                    out.println(response);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+             }
             }
-            // if the user is authenticated then get requests from the user and process them
-            out.println("Log In Successful. What do you want to do?");
-            while (true) {
-                String request = in.readLine();
-                System.out.println("Request from " + customer.getKey());
-                String response = bank.processRequest(customer, request);
-                out.println(response);
+            if(ans.equals("2")){
+                out.println("Not implemented");
+
+                //TODO sign up
+             }
             }
-        } catch (IOException e) {
+           catch(IOException e){
             e.printStackTrace();
-        } finally {
+           }
+            finally {
             try {
                 in.close();
                 out.close();
