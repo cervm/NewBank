@@ -207,10 +207,8 @@ public class Database {
      */
     public void writeLoan(Map<String, Object> loanInput) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
-        }.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
         FileReader fr = new FileReader(filePath.toString());
-        FileWriter fw = new FileWriter(filePath.toString());
         ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
         fr.close();
 
@@ -222,11 +220,42 @@ public class Database {
         // Add new item to the list
         dtos.add(loanInput);
 
-
         // No append replace the whole file
+        FileWriter fw = new FileWriter(filePath.toString());
         gson.toJson(dtos, fw);
         fw.close();
     }
 
+    /**
+     * Writes the loan to a JSON file
+     *
+     * @param loanInput customer class offering loan
+     */
+    public void writeLoan(LoanMarketplace loanInput) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        FileReader fr = new FileReader(filePath.toString());
+        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
+        fr.close();
+
+        // If it was an empty one create initial list
+        if (null == dtos) {
+            dtos = new ArrayList<>();
+        }
+
+        // Add new item to the list
+        Map<String, Object> data = new HashMap<>();
+        data.put("Customer", loanInput.getCustomer());
+        data.put("Loan Amount", loanInput.getLoanAmount());
+        data.put("Term", loanInput.getTerm());
+        data.put("APR", loanInput.getAPR());
+        data.put("Loan Matched", loanInput.getLoanMatched());
+        dtos.add(data);
+
+        // No append replace the whole file
+        FileWriter fw = new FileWriter(filePath.toString());
+        gson.toJson(dtos, fw);
+        fw.close();
+    }
 }
 
