@@ -40,7 +40,7 @@ public class Database {
      * Re-Instantiates a new Database.
      *
      * @param fileName Name of the JSON file to save into the Data folder
-     * @param read add true to read an old datebase
+     * @param read     add true to read an old datebase
      */
     public Database(String fileName, Boolean read) {
         this.filePath.append("Data/");
@@ -60,13 +60,14 @@ public class Database {
      */
     public void writeUser(Customer customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> dtos = gson.fromJson(fr, jsontype);
         fr.close();
 
         // If it was an empty one create initial list
-        if(null==dtos) {
+        if (null == dtos) {
             dtos = new ArrayList<>();
         }
 
@@ -76,7 +77,7 @@ public class Database {
         dtos.add(formated);
 
         // No append replace the whole file
-        FileWriter fw  = new FileWriter(filePath.toString());
+        FileWriter fw = new FileWriter(filePath.toString());
         gson.toJson(dtos, fw);
         fw.close();
     }
@@ -89,15 +90,16 @@ public class Database {
      */
     public Customer readUser(CustomerID customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
-            if(user.containsValue(customer.getKey()) || user.containsKey(customer.getKey())){
-                Collection<Customer> userAsCustomer =  user.values();
-                for (Customer property : userAsCustomer){
+            if (user.containsValue(customer.getKey()) || user.containsKey(customer.getKey())) {
+                Collection<Customer> userAsCustomer = user.values();
+                for (Customer property : userAsCustomer) {
                     return property;
                 }
             }
@@ -113,15 +115,16 @@ public class Database {
      */
     public Customer readUser(String userName) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
-            if(user.containsValue(userName) || user.containsKey(userName)){
-                Collection<Customer> userAsCustomer =  user.values();
-                for (Customer property : userAsCustomer){
+            if (user.containsValue(userName) || user.containsKey(userName)) {
+                Collection<Customer> userAsCustomer = user.values();
+                for (Customer property : userAsCustomer) {
                     return property;
                 }
             }
@@ -136,7 +139,8 @@ public class Database {
      */
     public void removeUser(CustomerID customerID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
         fr.close();
@@ -146,14 +150,14 @@ public class Database {
         Collections.copy(newUserList, users);
         int i = 0;
         for (HashMap<String, Customer> user : users) {
-            if(user.containsValue(customerID.getKey()) || user.containsKey(customerID.getKey())){
+            if (user.containsValue(customerID.getKey()) || user.containsKey(customerID.getKey())) {
                 newUserList.remove(i);
             }
             i++;
         }
 
 
-        FileWriter fw  = new FileWriter(filePath.toString());
+        FileWriter fw = new FileWriter(filePath.toString());
         gson.toJson(newUserList, fw);
         fw.close();
     }
@@ -177,20 +181,21 @@ public class Database {
      */
     public Customer customerByAccNum(int accountNumber) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>(){}.getType();
+        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
-                Collection<Customer> userAsCustomer =  user.values();
-                for (Customer property : userAsCustomer){
-                    for (Account account : property.getAccounts()) {
-                        if (account.getAccountNumber() == accountNumber) {
-                            return property;
-                        }
+            Collection<Customer> userAsCustomer = user.values();
+            for (Customer property : userAsCustomer) {
+                for (Account account : property.getAccounts()) {
+                    if (account.getAccountNumber() == accountNumber) {
+                        return property;
                     }
                 }
+            }
         }
         return null;
     }
@@ -198,18 +203,19 @@ public class Database {
     /**
      * Writes the loan to a JSON file
      *
-     * @param data customer class offering loan
+     * @param loanInput customer class offering loan
      */
     public void writeLoan(Map<String, Object> loanInput) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>(){}.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        FileWriter fw  = new FileWriter(filePath.toString());
+        FileWriter fw = new FileWriter(filePath.toString());
         ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
         fr.close();
 
         // If it was an empty one create initial list
-        if(null==dtos) {
+        if (null == dtos) {
             dtos = new ArrayList<>();
         }
 
@@ -222,38 +228,5 @@ public class Database {
         fw.close();
     }
 
-    /**
-     * Writes the loan to a JSON file
-     *
-     * @param customer customer class offering loan
-     */
-    public void writeLoan(Customer customer, Double loanAmount, String term, String apr, Boolean loanMatched) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>(){}.getType();
-        FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
-        fr.close();
-
-        // If it was an empty one create initial list
-        if(null==dtos) {
-            dtos = new ArrayList<>();
-        }
-
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("Customer", customer);
-        data.put("Loan Amount", loanAmount);
-        data.put("Term", term);
-        data.put("APR", apr);
-        data.put("Loan Matched", loanMatched);
-        // Add new item to the list
-        dtos.add(data);
-
-
-        // No append replace the whole file
-        FileWriter fw  = new FileWriter(filePath.toString());
-        gson.toJson(dtos, fw);
-        fw.close();
-    }
 }
 
