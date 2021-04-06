@@ -8,6 +8,7 @@ import java.util.Map;
  * The type LoanMarketplace
  */
 public class LoanMarketplace {
+    private static int count = 0;
     private int loanID = 0;
     private Customer customer;
     private Double loanAmount;
@@ -26,7 +27,7 @@ public class LoanMarketplace {
      */
     public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
         //TODO: generate a unique loan ID
-        this.loanID++;
+        this.loanID = count++;
         this.customer = customer;
         this.loanAmount = loanAmount;
         this.APR = APR;

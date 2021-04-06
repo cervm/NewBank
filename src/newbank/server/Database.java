@@ -261,7 +261,7 @@ public class Database {
         return loanOutput;
     }
 
-    public void deleteLoan(int loanID) throws IOException {
+    public void deleteLoan(double loanID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
         FileReader fr = new FileReader(filePath.toString());
@@ -273,11 +273,14 @@ public class Database {
             dtos = new ArrayList<>();
         }
 
+        int i = 0;
         // Add new item to the list
         for (Map<String, Object> loan : dtos){
             if(loan.get("Loan ID").equals(loanID)){
-                dtos.remove(loan);
+                dtos.remove(i);
+                break;
             }
+            i++;
         }
 
         // No append replace the whole file
@@ -307,7 +310,7 @@ public class Database {
         fw.close();
     }
 
-    public Loan moveLoanToConfirmed(int loanID, CustomerID fromCustomerID) throws IOException {
+    public Loan moveLoanToConfirmed(double loanID, CustomerID fromCustomerID) throws IOException {
         Loan confirmedLoan = null;
         Database loanMarketplace = new Database("loans.json", true);
         Database confimredLoans = new Database("confirmedLoans.json", true);
@@ -320,7 +323,7 @@ public class Database {
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
         for (Map<String, Object> loan : loans) {
-            if(loan.get("loanID").equals(loanID)) {
+            if(loan.get("Loan ID").equals(loanID)){
                 Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
                 Database users = new Database("users.json", true);
                 Customer customer = users.readUser(customerObj.get("userName").toString());

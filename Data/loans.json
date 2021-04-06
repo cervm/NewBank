@@ -1,96 +1,36 @@
 [
   {
-    "APR": "5",
+    "APR": "3",
     "Customer": {
-      "userName": "John",
+      "userName": "Bhagy",
       "accounts": [
         {
-          "accountName": "Checking",
-          "accountNumber": 1.0000003E7,
-          "balance": 250.0,
-          "transactions": [
-            {
-              "timestamp": "Apr 4, 2021, 10:28:48 PM",
-              "accountNameTo": "Checking",
-              "accountNameFrom": "Test",
-              "amountTransferred": 100.0
-            },
-            {
-              "timestamp": "Apr 4, 2021, 10:28:48 PM",
-              "accountNameTo": "Savings",
-              "accountNameFrom": "Test",
-              "amountTransferred": 1000.0
-            }
-          ]
+          "accountName": "Main",
+          "accountNumber": 1.0E7,
+          "balance": 1000.0,
+          "transactions": []
         },
         {
           "accountName": "Savings",
-          "accountNumber": 1.0000004E7,
-          "balance": 10000.0,
+          "accountNumber": 1.0000001E7,
+          "balance": 1000.0,
           "transactions": []
         }
       ],
-      "password": "john",
+      "password": "bhagy",
       "accountDetails": {
-        "address": "",
-        "phoneNumber": "",
-        "fullName": "",
-        "securityQuestion": ""
+        "address": "100 Test Road, W1 4HJ",
+        "phoneNumber": "+4471234 663300",
+        "fullName": "Bhagyashree Patil",
+        "securityQuestion": "What was your first pet\u0027s name?"
       },
       "customerID": {
-        "key": "John"
+        "key": "Bhagy"
       }
     },
-    "Loan ID": 1.0,
+    "Loan ID": 0.0,
     "Loan Matched": false,
-    "Loan Amount": 4500.0,
-    "Term": "10"
-  },
-  {
-    "APR": "5",
-    "Customer": {
-      "userName": "John",
-      "accounts": [
-        {
-          "accountName": "Checking",
-          "accountNumber": 10000003,
-          "balance": 250.0,
-          "transactions": [
-            {
-              "timestamp": "Apr 4, 2021, 10:28:48 PM",
-              "accountNameTo": "Checking",
-              "accountNameFrom": "Test",
-              "amountTransferred": 100.0
-            },
-            {
-              "timestamp": "Apr 4, 2021, 10:28:48 PM",
-              "accountNameTo": "Savings",
-              "accountNameFrom": "Test",
-              "amountTransferred": 1000.0
-            }
-          ]
-        },
-        {
-          "accountName": "Savings",
-          "accountNumber": 10000004,
-          "balance": 10000.0,
-          "transactions": []
-        }
-      ],
-      "password": "john",
-      "accountDetails": {
-        "address": "",
-        "phoneNumber": "",
-        "fullName": "",
-        "securityQuestion": ""
-      },
-      "customerID": {
-        "key": "John"
-      }
-    },
-    "Loan ID": 1,
-    "Loan Matched": false,
-    "Loan Amount": 2000.0,
-    "Term": "10"
+    "Loan Amount": 1000.0,
+    "Term": "2"
   }
 ]

@@ -1,6 +1,7 @@
 package newbank.server;
 
 public class Loan {
+    private static int count = 0;
     private String loanID;
     private CustomerID loanToCustomerID;
     private CustomerID loanFromCustomerID;
@@ -10,7 +11,8 @@ public class Loan {
     private int i = 0;
 
     public Loan(CustomerID toLoanCustermerID, CustomerID fromLoanCustomerID, double lAmount, String APR, String lTerm){
-        loanID = "CL" + i++;
+        count++;
+        loanID = "CL" + count;
         this.loanToCustomerID = toLoanCustermerID;
         this.loanFromCustomerID = fromLoanCustomerID;
         this.loanAmount = lAmount;
