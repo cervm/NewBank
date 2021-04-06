@@ -435,6 +435,8 @@ public class NewBank {
                 EDITFULLNAME <password> <new full name> = To update your Full Name
                 EDITSECURITYQUESTION <password> <new security question> = To update your security question      
                 REQUESTLOAN <VALUE> <APR> <TERM> = Request a loan and have it submitted to the marketplace pending approval/funding.
+                LOANMARKETPLACE = Prints out all requested loans
+                PICKLOAN <LOAN ID> = Allows you to pick a loan to fulfill the request
                 """;
     }
 
