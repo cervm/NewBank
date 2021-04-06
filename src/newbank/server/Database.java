@@ -247,7 +247,6 @@ public class Database {
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
         for (Map<String, Object> loan : loans) {
-            if(loan.get("Loan Matched").equals(false)){
                 Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
                 Database users = new Database("users.json", true);
                 Customer customer = users.readUser(customerObj.get("userName").toString());
@@ -256,7 +255,6 @@ public class Database {
                 String term = (String) loan.get("Term");
                 Double loanID = (Double) loan.get("Loan ID");
                 loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term, loanID));
-            }
         }
         return loanOutput;
     }
@@ -310,7 +308,7 @@ public class Database {
         fw.close();
     }
 
-    public Loan moveLoanToConfirmed(double loanID, CustomerID fromCustomerID) throws IOException {
+    public Loan moveLoanToConfirmed(Double loanID, CustomerID fromCustomerID) throws IOException {
         Loan confirmedLoan = null;
         Database loanMarketplace = new Database("loans.json", true);
         Database confimredLoans = new Database("confirmedLoans.json", true);

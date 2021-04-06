@@ -21,7 +21,7 @@ public class LoanMarketplace {
      * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
      *
      * @param customer the customer offering the loan
-     * @param loanAmount The ammount offered to loan
+     * @param loanAmount The amount offered to loan
      * @param APR APR (interest) offered on the loan
      * @param term Amount of years offered for the loan
      */
@@ -37,12 +37,12 @@ public class LoanMarketplace {
      * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
      *
      * @param customer the customer offering the loan
-     * @param loanAmount The ammount offered to loan
+     * @param loanAmount The amount offered to loan
      * @param APR APR (interest) offered on the loan
      * @param term Amount of years offered for the loan
      * @param genID the loan ID
      */
-    public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term, Double genID) {
+    public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term, double genID) {
         this.loanID = genID;
         this.customer = customer;
         this.loanAmount = loanAmount;
@@ -52,11 +52,11 @@ public class LoanMarketplace {
 
 
     /**
-     * Gets the customer of the loan
+     * Gets the loan id number
      *
      * @return Customer
      */
-    public Double getLoanID(){
+    public double getLoanID(){
         return this.loanID;
     }
 

@@ -345,6 +345,12 @@ public class NewBank {
         String to = Integer.toString(toAccount.getAccountNumber());
         toAccount.addTransaction(to, from, amount);
         fromAccount.addTransaction(to, from, amount);
+        try {
+            users.overwriteCustomer(currentUser);
+            users.overwriteCustomer(users.customerByAccNum(toAccount.getAccountNumber()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -545,23 +551,24 @@ public class NewBank {
     }
 
     private String pickLoan(String loanNumber){
-        //TODO: Check loan against balance
         //TODO: Transfer money
         Double totalBalance = currentUser.getTotalBalance();
 
         try {
             for(LoanMarketplace loan : loanMarketplace.readLoans()){
                 if(loan.getLoanID() == Double.parseDouble(loanNumber)){
-                   if(loan.getLoanAmount() > totalBalance){
-                       loanMarketplace.moveLoanToConfirmed(Integer.parseInt(loanNumber), currentUser.getCustomerID());
+                   if(loan.getLoanAmount() <= totalBalance){
+                       loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
+                       transfer(loan.getLoanAmount(),
+                               currentUser.getAccount(),
+                               users.readUser(loan.getCustomer().getCustomerID()).getAccount());
                        return "Loan is a success";
                    } else {
                        return "Insufficient funds: Can not loan more than 50% of your total balance";
                    }
-                } else {
-                    return "Loan not found. Please try another number";
                 }
             }
+            return "Loan not found. Please try another number";
 
         } catch (IOException e) {
             e.printStackTrace();

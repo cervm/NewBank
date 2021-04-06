@@ -58,7 +58,7 @@
         {
           "accountName": "Checking",
           "accountNumber": 10000003,
-          "balance": 250.0,
+          "balance": 10000.0,
           "transactions": [
             {
               "timestamp": "Apr 4, 2021, 10:28:48 PM",
