@@ -65,7 +65,17 @@ public class NewBankClientHandler extends Thread {
              }
             }
             if(ans.equals("2")){
-                out.println("Not implemented");
+                out.println("Set up your Username:");
+                String userName = in.readLine();
+                out.println("Set up your password:");
+                String passWord1 = in.readLine();
+                out.println("Confirm your password:");
+                String passWord2 = in.readLine();
+                out.println("Enter your address:");
+                String address = in.readLine();
+                out.println("Enter your email:");
+                String email = in.readLine();
+
 
                 //TODO sign up
              }
