@@ -259,6 +259,11 @@ public class Database {
         return loanOutput;
     }
 
+    /**
+     * Deletes a loan from the loan marketplace
+     *
+     * @param loanID Account number to search for
+     */
     public void deleteLoan(double loanID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
@@ -287,6 +292,11 @@ public class Database {
         fw.close();
     }
 
+    /**
+     * Writes a loan to confirmed loans
+     *
+     * @param confirmedLoan the confirmed loan as type loan
+     */
     public void writeConfirmedLoan(Loan confirmedLoan) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type jsontype = new TypeToken<ArrayList<Loan>>() {}.getType();
@@ -308,6 +318,13 @@ public class Database {
         fw.close();
     }
 
+    /**
+     * Moves a loan from loanmarketplace to confirmed loans
+     *
+     * @param loanID loanID picked by the user
+     * @param fromCustomerID the CustomerID of the person submitting request
+     * @return Loan
+     */
     public Loan moveLoanToConfirmed(Double loanID, CustomerID fromCustomerID) throws IOException {
         Loan confirmedLoan = null;
         Database loanMarketplace = new Database("loans.json", true);

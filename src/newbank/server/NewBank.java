@@ -1,6 +1,5 @@
 package newbank.server;
 
-//TODO: Add all comments
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -535,6 +534,11 @@ public class NewBank {
         }
     }
 
+    /**
+     * Prints the loans from loan marketplace.
+     *
+     * @return A string to print to the user
+     */
     private String printLoans(){
         StringBuilder output = new StringBuilder();
         output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
@@ -552,8 +556,13 @@ public class NewBank {
         return output.toString();
     }
 
+    /**
+     * Picks a loan based on the loan id and moves it to confirmed loans
+     *
+     * @param loanNumber the loan number picked by the user
+     * @return A string to print to the user
+     */
     private String pickLoan(String loanNumber){
-        //TODO: Transfer money
         Double totalBalance = currentUser.getTotalBalance();
 
         try {
