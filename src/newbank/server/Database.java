@@ -254,8 +254,8 @@ public class Database {
                 Double loanAmount = (Double) loan.get("Loan Amount");
                 String apr = (String) loan.get("APR");
                 String term = (String) loan.get("Term");
-                //Customer tempCust = new Customer("Test", "tester");
-                loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term));
+                Double loanID = (Double) loan.get("Loan ID");
+                loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term, loanID));
             }
         }
         return loanOutput;

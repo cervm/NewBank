@@ -8,8 +8,8 @@ import java.util.Map;
  * The type LoanMarketplace
  */
 public class LoanMarketplace {
-    private static int count = 0;
-    private int loanID = 0;
+    private static Double count = 0.0;
+    private Double loanID = 0.0;
     private Customer customer;
     private Double loanAmount;
     private String APR;
@@ -26,7 +26,6 @@ public class LoanMarketplace {
      * @param term Amount of years offered for the loan
      */
     public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
-        //TODO: generate a unique loan ID
         this.loanID = count++;
         this.customer = customer;
         this.loanAmount = loanAmount;
@@ -35,11 +34,29 @@ public class LoanMarketplace {
     }
 
     /**
+     * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
+     *
+     * @param customer the customer offering the loan
+     * @param loanAmount The ammount offered to loan
+     * @param APR APR (interest) offered on the loan
+     * @param term Amount of years offered for the loan
+     * @param genID the loan ID
+     */
+    public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term, Double genID) {
+        this.loanID = genID;
+        this.customer = customer;
+        this.loanAmount = loanAmount;
+        this.APR = APR;
+        this.term = term;
+    }
+
+
+    /**
      * Gets the customer of the loan
      *
      * @return Customer
      */
-    public int getLoanID(){
+    public Double getLoanID(){
         return this.loanID;
     }
 

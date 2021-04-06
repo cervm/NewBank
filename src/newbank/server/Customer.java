@@ -198,6 +198,7 @@ public class Customer {
     public void setFullName(String newFullName) {
         this.fullName = newFullName;
     }
+
     /**
      * Sets the Security Question for the user
      * @param newSecurityQuestion The customers new security question
@@ -206,8 +207,19 @@ public class Customer {
         this.securityQuestion = newSecurityQuestion;
     }
 
+    /**
+     * Gets the customerID
+     * @return CustomerID
+     */
     public CustomerID getCustomerID(){
         return this.customerID;
     }
 
+    public Double getTotalBalance(){
+        Double totalBalance = 0.0;
+        for (Account account : this.getAccounts()) {
+            totalBalance = totalBalance + account.getBalance();
+        }
+        return totalBalance;
+    }
 }

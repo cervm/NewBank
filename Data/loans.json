@@ -1,6 +1,6 @@
 [
   {
-    "APR": "3",
+    "APR": "4",
     "Customer": {
       "userName": "Bhagy",
       "accounts": [
@@ -30,7 +30,75 @@
     },
     "Loan ID": 0.0,
     "Loan Matched": false,
+    "Loan Amount": 2000.0,
+    "Term": "5"
+  },
+  {
+    "APR": "6",
+    "Customer": {
+      "userName": "Bhagy",
+      "accounts": [
+        {
+          "accountName": "Main",
+          "accountNumber": 1.0E7,
+          "balance": 1000.0,
+          "transactions": []
+        },
+        {
+          "accountName": "Savings",
+          "accountNumber": 1.0000001E7,
+          "balance": 1000.0,
+          "transactions": []
+        }
+      ],
+      "password": "bhagy",
+      "accountDetails": {
+        "address": "100 Test Road, W1 4HJ",
+        "phoneNumber": "+4471234 663300",
+        "fullName": "Bhagyashree Patil",
+        "securityQuestion": "What was your first pet\u0027s name?"
+      },
+      "customerID": {
+        "key": "Bhagy"
+      }
+    },
+    "Loan ID": 1.0,
+    "Loan Matched": false,
+    "Loan Amount": 4000.0,
+    "Term": "12"
+  },
+  {
+    "APR": "3",
+    "Customer": {
+      "userName": "Bhagy",
+      "accounts": [
+        {
+          "accountName": "Main",
+          "accountNumber": 10000000,
+          "balance": 1000.0,
+          "transactions": []
+        },
+        {
+          "accountName": "Savings",
+          "accountNumber": 10000001,
+          "balance": 1000.0,
+          "transactions": []
+        }
+      ],
+      "password": "bhagy",
+      "accountDetails": {
+        "address": "100 Test Road, W1 4HJ",
+        "phoneNumber": "+4471234 663300",
+        "fullName": "Bhagyashree Patil",
+        "securityQuestion": "What was your first pet\u0027s name?"
+      },
+      "customerID": {
+        "key": "Bhagy"
+      }
+    },
+    "Loan ID": 2.0,
+    "Loan Matched": false,
     "Loan Amount": 1000.0,
-    "Term": "2"
+    "Term": "1"
   }
 ]

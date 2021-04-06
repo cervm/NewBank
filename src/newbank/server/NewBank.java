@@ -545,10 +545,24 @@ public class NewBank {
     }
 
     private String pickLoan(String loanNumber){
-        //TODO: Run debug see why object doesn't work
+        //TODO: Check loan against balance
+        //TODO: Transfer money
+        Double totalBalance = currentUser.getTotalBalance();
+
         try {
-            loanMarketplace.moveLoanToConfirmed(Integer.parseInt(loanNumber), currentUser.getCustomerID());
-            return "Loan is a success";
+            for(LoanMarketplace loan : loanMarketplace.readLoans()){
+                if(loan.getLoanID() == Double.parseDouble(loanNumber)){
+                   if(loan.getLoanAmount() > totalBalance){
+                       loanMarketplace.moveLoanToConfirmed(Integer.parseInt(loanNumber), currentUser.getCustomerID());
+                       return "Loan is a success";
+                   } else {
+                       return "Insufficient funds: Can not loan more than 50% of your total balance";
+                   }
+                } else {
+                    return "Loan not found. Please try another number";
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
