@@ -201,7 +201,8 @@ public class NewBank {
         StringBuilder output = new StringBuilder();
         try{
             //TODO:Create loan market place outside of function
-            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, loanAmount, APR, term);
+            double loanAmt = Double.parseDouble(loanAmount);
+            LoanMarketplace loanMarketplace = new LoanMarketplace(currentUser, loanAmt, APR, term);
             //TODO: METHOD IS NOW CALLED TWICE LOOK AT REMOVING THE OTHER ONE
             loanMarketplace.checkLoanMeetsCriteria();
             output.append("\nLoan Submitted to Marketplace");
