@@ -86,6 +86,8 @@ public class NewBankClientHandler extends Thread {
                 out.println("Enter your email:");
                 String email = in.readLine();
                 bank.newCustomerSignup(userName, passWord,address, email);
+                out.println("Sign up successful. Please continue");
+                run();
              }
             }
            catch(Exception e){
