@@ -75,9 +75,6 @@ public class NewBankClientHandler extends Thread {
                 String address = in.readLine();
                 out.println("Enter your email:");
                 String email = in.readLine();
-
-
-                //TODO sign up
              }
             }
            catch(IOException e){
