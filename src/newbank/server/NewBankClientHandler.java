@@ -67,17 +67,28 @@ public class NewBankClientHandler extends Thread {
             if(ans.equals("2")){
                 out.println("Set up your Username:");
                 String userName = in.readLine();
-                out.println("Set up your password:");
-                String passWord1 = in.readLine();
-                out.println("Confirm your password:");
-                String passWord2 = in.readLine();
+                String passWord;
+                while(true){
+                  out.println("Set up your password:");
+                  String passWord1 = in.readLine();
+                  out.println("Confirm your password:");
+                  String passWord2 = in.readLine();
+                  if(passWord1.equals(passWord2)){
+                      passWord = passWord1;
+                      break;
+                  }
+                  else{
+                      out.println("Password not match, please try again");
+                  }
+                }
                 out.println("Enter your address:");
                 String address = in.readLine();
                 out.println("Enter your email:");
                 String email = in.readLine();
+                bank.newCustomerSignup(userName, passWord,address, email);
              }
             }
-           catch(IOException e){
+           catch(Exception e){
             e.printStackTrace();
            }
             finally {
