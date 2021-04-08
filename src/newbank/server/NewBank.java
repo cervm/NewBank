@@ -88,7 +88,14 @@ public class NewBank {
     private boolean passWordComplexity(String password){
         return true;
     }
-
+    /**
+     * To hash the user password for database storage.
+     * @param password
+     * @return
+     */
+    private String hashPassword(String password){
+        return password;
+    }
 
     /**
      * Check log in details customer id.
