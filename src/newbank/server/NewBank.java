@@ -79,6 +79,17 @@ public class NewBank {
         customers.put(newCustomer.getUserName(), newCustomer);
         users.writeUser(newCustomer);
     }
+
+    /**
+     *
+     * @param password
+     * @return if the password of the new user satisfies the complexity requirement
+     */
+    private boolean passWordComplexity(String password){
+        return true;
+    }
+
+
     /**
      * Check log in details customer id.
      *
