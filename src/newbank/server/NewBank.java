@@ -70,7 +70,15 @@ public class NewBank {
         users.writeUser(john);
         //users.writeMapToFile(customers);
     }
-
+    /**
+     * New user sign up
+     */
+    public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+        Customer newCustomer = new Customer(userName, password);
+        newCustomer.addAccount(newAccount("Current Account", 0.0));
+        customers.put(newCustomer.getUserName(), newCustomer);
+        users.writeUser(newCustomer);
+    }
     /**
      * Check log in details customer id.
      *
