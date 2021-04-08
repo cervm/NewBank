@@ -85,8 +85,8 @@ public class NewBank {
      * @param password
      * @return if the password of the new user satisfies the complexity requirement
      */
-    private boolean passWordComplexity(String password){
-        return true;
+    public boolean passWordComplexity(String password){
+        return (password.length()>=8);
     }
     /**
      * To hash the user password for database storage.
