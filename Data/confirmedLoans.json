@@ -1,0 +1,41 @@
+[
+  {
+    "loanID": "CL0",
+    "loanToCustomerID": {
+      "key": "John"
+    },
+    "loanFromCustomerID": {
+      "key": "John"
+    },
+    "loanAmount": 4500.0,
+    "apr": "5",
+    "loanTerm": "10",
+    "i": 1
+  },
+  {
+    "loanID": "CL1",
+    "loanToCustomerID": {
+      "key": "Bhagy"
+    },
+    "loanFromCustomerID": {
+      "key": "John"
+    },
+    "loanAmount": 4500.0,
+    "apr": "6",
+    "loanTerm": "12",
+    "i": 0
+  },
+  {
+    "loanID": "CL1",
+    "loanToCustomerID": {
+      "key": "Bhagy"
+    },
+    "loanFromCustomerID": {
+      "key": "John"
+    },
+    "loanAmount": 1000.0,
+    "apr": "3",
+    "loanTerm": "1",
+    "i": 0
+  }
+]

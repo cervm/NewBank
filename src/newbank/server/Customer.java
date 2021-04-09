@@ -15,6 +15,8 @@ public class Customer {
     private String fullName;
     private String securityQuestion;
     private CustomerID customerID;
+    private ArrayList<Loan> loansTo;
+    private ArrayList<Loan> loansFrom;
 
 
     /**
@@ -27,6 +29,22 @@ public class Customer {
         this.accounts = new ArrayList<>();
         this.accountDetails = new CustomerInfo("","","","");
         this.customerID = new CustomerID(userName);
+    }
+
+    /**
+     * Instantiates a new Customer.
+     * @param userName the user name
+     * @param password the password
+     * @param accounts the accounts
+     * @param accountDetails the account details
+     * @param customerID the customer id
+     */
+    public Customer(String userName, String password, ArrayList<Account> accounts, CustomerInfo accountDetails, CustomerID customerID) {
+        this.userName = userName;
+        this.password = password;
+        this.accounts = accounts;
+        this.accountDetails = accountDetails;
+        this.customerID = customerID;
     }
 
     /**
@@ -180,6 +198,7 @@ public class Customer {
     public void setFullName(String newFullName) {
         this.fullName = newFullName;
     }
+
     /**
      * Sets the Security Question for the user
      * @param newSecurityQuestion The customers new security question
@@ -188,8 +207,19 @@ public class Customer {
         this.securityQuestion = newSecurityQuestion;
     }
 
+    /**
+     * Gets the customerID
+     * @return CustomerID
+     */
     public CustomerID getCustomerID(){
         return this.customerID;
     }
 
+    public Double getTotalBalance(){
+        Double totalBalance = 0.0;
+        for (Account account : this.getAccounts()) {
+            totalBalance = totalBalance + account.getBalance();
+        }
+        return totalBalance;
+    }
 }
