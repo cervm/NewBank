@@ -1,6 +1,7 @@
 package newbank.server;
 
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,15 +45,20 @@ public class NewBank {
     /**
      * New user sign up
      */
-    public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+    public String newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+        StringBuilder output = new StringBuilder();
+
         if(passwordComplexity(password).equals("Success")){
             Customer newCustomer = new Customer(userName, password);
             newCustomer.addAccount(newAccount("Current Account", 0.0));
             users.writeUser(newCustomer);
+            output.append("Welcome to New Bank" + newCustomer.getUserName());
         } else {
-            //TODO: find a way to print this
-            printPasswordComplexityRules();
+           output.append(printPasswordComplexityRules());
         }
+
+        return output.toString();
+
     }
 
     /**
