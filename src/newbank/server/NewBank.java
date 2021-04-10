@@ -42,7 +42,6 @@ public class NewBank {
         return bank;
     }
 
-    //TODO: not needed any more
     /**
      * Adds the testing data to the customer HashMap
      */
@@ -51,13 +50,11 @@ public class NewBank {
         bhagy.addAccount(newAccount("Main", 1000.0));
         bhagy.addAccount(newAccount("Savings", 1000.0));
         bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
-        customers.put(bhagy.getUserName(), bhagy);
         users.writeUser(bhagy);
 
 
         Customer christina = new Customer("Christina", "christina");
         christina.addAccount(newAccount("Savings", 1500.0));
-        customers.put(christina.getUserName(), christina);
         users.writeUser(christina);
 
         Customer john = new Customer("John", "john");
@@ -65,7 +62,6 @@ public class NewBank {
         john.addAccount(newAccount("Savings", 10000));
         john.getAccount("Checking").addTransaction("Checking", "Test", 100);
         john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
-        customers.put(john.getUserName(), john);
         users.writeUser(john);
         //users.writeMapToFile(customers);
     }
@@ -75,7 +71,6 @@ public class NewBank {
     public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
         Customer newCustomer = new Customer(userName, password);
         newCustomer.addAccount(newAccount("Current Account", 0.0));
-        customers.put(newCustomer.getUserName(), newCustomer);
         users.writeUser(newCustomer);
     }
 
