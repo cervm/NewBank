@@ -78,8 +78,36 @@ public class NewBank {
      * @param password
      * @return if the password of the new user satisfies the complexity requirement
      */
-    public boolean passWordComplexity(String password){
-        return (password.length()>=8);
+    public String passWordComplexity(String password){
+        StringBuilder output = new StringBuilder();
+        boolean hasNumber = false;
+        boolean hasLetter = false;
+        boolean isGreater = false;
+
+        for(char character : password.toCharArray()){
+            if(Character.isAlphabetic(character)){
+                hasLetter = true;
+            }
+            if(Character.isDigit(character)){
+                hasNumber = true;
+            }
+        }
+
+        if(password.length() > 8){
+            isGreater = true;
+        }
+
+        if (!hasNumber){
+            output.append("Fail: Please enter a password with at least 1 number\n");
+        } else if(!hasLetter){
+            output.append("Fail: Please enter a password with at least 1 letter\n");
+        } else if(!isGreater){
+            output.append("Fail: Please enter a password longer than 8 characters\n");
+        } else {
+            output.append("Success");
+        }
+
+        return output.toString();
     }
     /**
      * To hash the user password for database storage.
