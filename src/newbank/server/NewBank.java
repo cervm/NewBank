@@ -68,9 +68,13 @@ public class NewBank {
      * New user sign up
      */
     public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
-        Customer newCustomer = new Customer(userName, password);
-        newCustomer.addAccount(newAccount("Current Account", 0.0));
-        users.writeUser(newCustomer);
+        if(passwordComplexity(password).equals("Success")){
+            Customer newCustomer = new Customer(userName, password);
+            newCustomer.addAccount(newAccount("Current Account", 0.0));
+            users.writeUser(newCustomer);
+        } else {
+            //TODO: Print password rules
+        }
     }
 
     /**
@@ -78,7 +82,7 @@ public class NewBank {
      * @param password
      * @return if the password of the new user satisfies the complexity requirement
      */
-    public String passWordComplexity(String password){
+    public String passwordComplexity(String password){
         StringBuilder output = new StringBuilder();
         boolean hasNumber = false;
         boolean hasLetter = false;
