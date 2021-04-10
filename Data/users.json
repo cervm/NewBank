@@ -92,5 +92,28 @@
         "key": "John"
       }
     }
+  },
+  {
+    "George": {
+      "userName": "George",
+      "accounts": [
+        {
+          "accountName": "Current Account",
+          "accountNumber": 10000000,
+          "balance": 0.0,
+          "transactions": []
+        }
+      ],
+      "password": "george123",
+      "accountDetails": {
+        "address": "",
+        "phoneNumber": "",
+        "fullName": "",
+        "securityQuestion": ""
+      },
+      "customerID": {
+        "key": "George"
+      }
+    }
   }
 ]
