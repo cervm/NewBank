@@ -5,6 +5,8 @@ import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -25,9 +27,9 @@ public class NewBank {
 
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
-
     private Database users = new Database("users.json", true);
     private Database loanMarketplace = new Database("loans.json", true);
+    private Database confirmedLoans = new Database("confirmedLoans.json", true);
     private Customer currentUser;
 
     private NewBank() throws Exception {
@@ -191,7 +193,6 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
-
                     return pay(tokens[1], amountToPay);
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
@@ -199,7 +200,6 @@ public class NewBank {
                     }
                     return showAccount(tokens[1]);
                 case "SHOWTRANSACTIONS":
-
                     return showTransactions();
                 case "REQUESTLOAN":
                     if (tokens.length < 4){
@@ -230,14 +230,19 @@ public class NewBank {
                         break;
                     }
                     return editSecurityQuestion(tokens[1], tokens[2]);
-
+                case "LOANMARKETPLACE":
+                    return printLoans();
+                case "PICKLOAN":
+                    if (tokens.length < 1) {
+                        break;
+                    }
+                    return pickLoan(tokens[1]);
                 default:
                     break;
             }
         }
         return "FAIL";
     }
-
 
     /**
      * Creates a loanMarket places and writes it to loans.json
@@ -325,7 +330,6 @@ public class NewBank {
      * @param accountName Name of the new account
      * @return A string to print to the user
      */
-
     private String addAccount(String accountName) {
         for (Account acc : currentUser.getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
@@ -352,7 +356,6 @@ public class NewBank {
      * @param to       The account to transfer TO
      * @return A string to print to the user
      */
-
     private String move(double amount, String from, String to) {
         Account fromAccount = currentUser.getAccount(from);
         Account toAccount = currentUser.getAccount(to);
@@ -424,6 +427,12 @@ public class NewBank {
         String to = Integer.toString(toAccount.getAccountNumber());
         toAccount.addTransaction(to, from, amount);
         fromAccount.addTransaction(to, from, amount);
+        try {
+            users.overwriteCustomer(currentUser);
+            users.overwriteCustomer(users.customerByAccNum(toAccount.getAccountNumber()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -508,6 +517,8 @@ public class NewBank {
                 EDITFULLNAME <password> <new full name> = To update your Full Name
                 EDITSECURITYQUESTION <password> <new security question> = To update your security question      
                 REQUESTLOAN <VALUE> <APR> <TERM> = Request a loan and have it submitted to the marketplace pending approval/funding.
+                LOANMARKETPLACE = Prints out all requested loans
+                PICKLOAN <LOAN ID> = Allows you to pick a loan to fulfill the request
                 """;
     }
 
@@ -604,5 +615,58 @@ public class NewBank {
         } else {
             return "Password does not match.";
         }
+    }
+
+    /**
+     * Prints the loans from loan marketplace.
+     *
+     * @return A string to print to the user
+     */
+    private String printLoans(){
+        StringBuilder output = new StringBuilder();
+        output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
+        ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
+        try {
+            loans.addAll(loanMarketplace.readLoans());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Fail";
+        }
+        for (LoanMarketplace loan : loans) {
+            output.append(loan);
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
+    /**
+     * Picks a loan based on the loan id and moves it to confirmed loans
+     *
+     * @param loanNumber the loan number picked by the user
+     * @return A string to print to the user
+     */
+    private String pickLoan(String loanNumber){
+        Double totalBalance = currentUser.getTotalBalance();
+
+        try {
+            for(LoanMarketplace loan : loanMarketplace.readLoans()){
+                if(loan.getLoanID() == Double.parseDouble(loanNumber)){
+                   if(loan.getLoanAmount() <= totalBalance){
+                       loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
+                       transfer(loan.getLoanAmount(),
+                               currentUser.getAccount(),
+                               users.readUser(loan.getCustomer().getCustomerID()).getAccount());
+                       return "Loan is a success";
+                   } else {
+                       return "Insufficient funds: Can not loan more than 50% of your total balance";
+                   }
+                }
+            }
+            return "Loan not found. Please try another number";
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "FAIL";
     }
 }

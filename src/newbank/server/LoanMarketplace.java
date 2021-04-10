@@ -8,6 +8,8 @@ import java.util.Map;
  * The type LoanMarketplace
  */
 public class LoanMarketplace {
+    private static Double count = 0.0;
+    private Double loanID = 0.0;
     private Customer customer;
     private Double loanAmount;
     private String APR;
@@ -19,15 +21,43 @@ public class LoanMarketplace {
      * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
      *
      * @param customer the customer offering the loan
-     * @param loanAmount The ammount offered to loan
+     * @param loanAmount The amount offered to loan
      * @param APR APR (interest) offered on the loan
      * @param term Amount of years offered for the loan
      */
     public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term) {
+        this.loanID = count++;
         this.customer = customer;
         this.loanAmount = loanAmount;
         this.APR = APR;
         this.term = term;
+    }
+
+    /**
+     * Instantiates a new loan. checkLoanMeetsCriteria() must be called when creating a loan
+     *
+     * @param customer the customer offering the loan
+     * @param loanAmount The amount offered to loan
+     * @param APR APR (interest) offered on the loan
+     * @param term Amount of years offered for the loan
+     * @param genID the loan ID
+     */
+    public LoanMarketplace(Customer customer, Double loanAmount, String APR, String term, double genID) {
+        this.loanID = genID;
+        this.customer = customer;
+        this.loanAmount = loanAmount;
+        this.APR = APR;
+        this.term = term;
+    }
+
+
+    /**
+     * Gets the loan id number
+     *
+     * @return Customer
+     */
+    public double getLoanID(){
+        return this.loanID;
     }
 
     /**
@@ -93,25 +123,17 @@ public class LoanMarketplace {
     }
 
     /**
-     * Logs the loan to loans.json
+     * Loan to string
      *
      * @return String
      */
-    private String logLoan(){
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("Customer", this.customer);
-        data.put("Loan Amount", this.loanAmount);
-        data.put("Term", this.term);
-        data.put("APR", this.APR);
-        data.put("Loan Matched", this.loanMatched);
-        try {
-            loanMarketplace.writeLoan(data);
-            return "Loan has been submitted to the Marketplace";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "Fail";
+    public String toString(){
+        StringBuilder output = new StringBuilder();
+        output.append(this.loanID+" | ");
+        output.append(this.customer.getUserName()+" | ");
+        output.append(this.loanAmount+" | ");
+        output.append(this.APR+" | ");
+        output.append(this.term+" | ");
+        return output.toString();
     }
-
 }
