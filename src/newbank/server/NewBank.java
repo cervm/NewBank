@@ -1,13 +1,8 @@
 package newbank.server;
 
-
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * The type New bank.
@@ -64,9 +59,9 @@ public class NewBank {
     }
 
     /**
-     *
+     * Checks the password complexity meets the required standard
      * @param password
-     * @return if the password of the new user satisfies the complexity requirement
+     * @return String - Success if meets requirements or the rule it fails on
      */
     public String passwordComplexity(String password){
         StringBuilder output = new StringBuilder();
@@ -99,6 +94,7 @@ public class NewBank {
 
         return output.toString();
     }
+
     /**
      * To hash the user password for database storage.
      * @param password
@@ -109,7 +105,6 @@ public class NewBank {
     }
 
     /**
-
      * Check log in details customer id.
      *
      * @param userName the user name
@@ -314,6 +309,11 @@ public class NewBank {
         }
     }
 
+    /**
+     * Prints the password complexity rules
+     *
+     * @return A string to print to the user
+     */
     private String printPasswordComplexityRules() {
         StringBuilder output = new StringBuilder();
 
