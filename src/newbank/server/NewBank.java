@@ -42,29 +42,6 @@ public class NewBank {
     }
 
     /**
-     * Adds the testing data to the customer HashMap
-     */
-    private void addTestData() throws Exception {
-        Customer bhagy = new Customer("Bhagy", "bhagy");
-        bhagy.addAccount(newAccount("Main", 1000.0));
-        bhagy.addAccount(newAccount("Savings", 1000.0));
-        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
-        users.writeUser(bhagy);
-
-
-        Customer christina = new Customer("Christina", "christina");
-        christina.addAccount(newAccount("Savings", 1500.0));
-        users.writeUser(christina);
-
-        Customer john = new Customer("John", "john");
-        john.addAccount(newAccount("Checking", 250.0));
-        john.addAccount(newAccount("Savings", 10000));
-        john.getAccount("Checking").addTransaction("Checking", "Test", 100);
-        john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
-        users.writeUser(john);
-        //users.writeMapToFile(customers);
-    }
-    /**
      * New user sign up
      */
     public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
@@ -73,7 +50,8 @@ public class NewBank {
             newCustomer.addAccount(newAccount("Current Account", 0.0));
             users.writeUser(newCustomer);
         } else {
-            //TODO: Print password rules
+            //TODO: find a way to print this
+            printPasswordComplexityRules();
         }
     }
 
@@ -308,17 +286,31 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String resetPassword(String newPassword1, String newPassword2) {
-        if (newPassword1.equals(newPassword2)) {
-            currentUser.setPassword(newPassword1);
-            try {
-                users.overwriteCustomer(currentUser);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(passwordComplexity(newPassword1).equals("Success")) {
+            if (newPassword1.equals(newPassword2)) {
+                currentUser.setPassword(newPassword1);
+                try {
+                    users.overwriteCustomer(currentUser);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "Password changed";
+            } else {
+                return "New Password not match.";
             }
-            return "Password changed";
         } else {
-            return "New Password not match.";
+            return printPasswordComplexityRules();
         }
+    }
+
+    private String printPasswordComplexityRules() {
+        StringBuilder output = new StringBuilder();
+
+        output.append("A password length must be greater then 8 characters\n");
+        output.append("A password must contain at least 1 character\n");
+        output.append("A password must contain at least 1 number\n");
+
+        return output.toString();
     }
 
     /**
