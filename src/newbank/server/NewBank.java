@@ -23,6 +23,7 @@ public class NewBank {
 
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
+
     private Database users = new Database("users.json", true);
     private Database loanMarketplace = new Database("loans.json", true);
     private Database confirmedLoans = new Database("confirmedLoans.json", true);
@@ -41,6 +42,56 @@ public class NewBank {
     }
 
     /**
+     * Adds the testing data to the customer HashMap
+     */
+    private void addTestData() throws Exception {
+        Customer bhagy = new Customer("Bhagy", "bhagy");
+        bhagy.addAccount(newAccount("Main", 1000.0));
+        bhagy.addAccount(newAccount("Savings", 1000.0));
+        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
+        users.writeUser(bhagy);
+
+
+        Customer christina = new Customer("Christina", "christina");
+        christina.addAccount(newAccount("Savings", 1500.0));
+        users.writeUser(christina);
+
+        Customer john = new Customer("John", "john");
+        john.addAccount(newAccount("Checking", 250.0));
+        john.addAccount(newAccount("Savings", 10000));
+        john.getAccount("Checking").addTransaction("Checking", "Test", 100);
+        john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
+        users.writeUser(john);
+        //users.writeMapToFile(customers);
+    }
+    /**
+     * New user sign up
+     */
+    public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+        Customer newCustomer = new Customer(userName, password);
+        newCustomer.addAccount(newAccount("Current Account", 0.0));
+        users.writeUser(newCustomer);
+    }
+
+    /**
+     *
+     * @param password
+     * @return if the password of the new user satisfies the complexity requirement
+     */
+    public boolean passWordComplexity(String password){
+        return (password.length()>=8);
+    }
+    /**
+     * To hash the user password for database storage.
+     * @param password
+     * @return
+     */
+    private String hashPassword(String password){
+        return password;
+    }
+
+    /**
+
      * Check log in details customer id.
      *
      * @param userName the user name
@@ -124,6 +175,7 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
+
                     return pay(tokens[1], amountToPay);
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
@@ -131,6 +183,7 @@ public class NewBank {
                     }
                     return showAccount(tokens[1]);
                 case "SHOWTRANSACTIONS":
+
                     return showTransactions();
                 case "REQUESTLOAN":
                     if (tokens.length < 4){
@@ -174,6 +227,7 @@ public class NewBank {
         }
         return "FAIL";
     }
+
 
     /**
      * Creates a loanMarket places and writes it to loans.json
@@ -247,6 +301,7 @@ public class NewBank {
      * @param accountName Name of the new account
      * @return A string to print to the user
      */
+
     private String addAccount(String accountName) {
         for (Account acc : currentUser.getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
@@ -273,6 +328,7 @@ public class NewBank {
      * @param to       The account to transfer TO
      * @return A string to print to the user
      */
+
     private String move(double amount, String from, String to) {
         Account fromAccount = currentUser.getAccount(from);
         Account toAccount = currentUser.getAccount(to);
