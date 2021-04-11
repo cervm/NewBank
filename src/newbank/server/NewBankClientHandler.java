@@ -49,8 +49,14 @@ public class NewBankClientHandler extends Thread {
                     out.println("Enter Username");
                     String userName = in.readLine();
                     // ask for password
-                    out.println("Enter Password");
-                    String password = in.readLine();
+                    String password;
+                    try{
+                        char [] pass = console.readPassword("Enter Password");
+                        password = Arrays.toString(pass);
+                    } catch(Exception e){
+                        out.println("Enter Password");
+                        password = in.readLine();
+                    }
                     out.println("Checking Details...");
                     // authenticate user and get customer ID token from bank for use in subsequent requests
                     customer = bank.checkLogInDetails(userName, password);
