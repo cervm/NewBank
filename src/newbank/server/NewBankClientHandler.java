@@ -66,7 +66,8 @@ public class NewBankClientHandler extends Thread {
                     out.println("Log In Failed. Please try again:");
                 }
                 // if the user is authenticated then get requests from the user and process them
-                out.println("Log In Successful. What do you want to do?");
+                out.println("Log In Successful. What do you want to do?\nType \"HELP\" to " +
+                        "discover what you can do");
                 while (true) {
                     String request = in.readLine();
                     System.out.println("Request from " + customer.getKey());
