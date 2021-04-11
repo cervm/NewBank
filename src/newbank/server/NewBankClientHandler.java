@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.io.Console;
+import java.util.Arrays;
 
 /**
  * The type New bank client handler.
@@ -14,6 +16,7 @@ public class NewBankClientHandler extends Thread {
     private final NewBank bank;
     private final BufferedReader in;
     private final PrintWriter out;
+    private final Console console;
 
 
     /**
@@ -26,6 +29,10 @@ public class NewBankClientHandler extends Thread {
         bank = NewBank.getBank();
         in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         out = new PrintWriter(s.getOutputStream(), true);
+        console = System.console();
+        if (console == null){
+            out.println("Try using your computers built in terminal for increased security");
+        }
     }
 
     public void run() {
@@ -69,10 +76,24 @@ public class NewBankClientHandler extends Thread {
                 String userName = in.readLine();
                 String passWord;
                 while(true){
-                  out.println("Set up your password:");
-                  String passWord1 = in.readLine();
-                  out.println("Confirm your password:");
-                  String passWord2 = in.readLine();
+                    String passWord1;
+                    String passWord2;
+                    try{
+                        char[] pass = console.readPassword("Set up your password");
+                        passWord1 = Arrays.toString(pass);
+                    } catch(Exception e) {
+                        out.println("Set up your password:");
+                        passWord1 = in.readLine();
+                    }
+
+                    try{
+                        char[] pass = console.readPassword("Confirm Password");
+                        passWord2 = Arrays.toString(pass);
+                    } catch(Exception e){
+                        out.println("Confirm your password:");
+                        passWord2 = in.readLine();
+                    }
+
                   if(passWord1.equals(passWord2)){
                       passWord = passWord1;
                       break;
