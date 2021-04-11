@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 /**
  * The type New bank.
  */
@@ -23,7 +22,6 @@ public class NewBank {
 
     private int nextAvailableAccountNumber = 10000000;
     private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
-
     private Database users = new Database("users.json", true);
     private Database loanMarketplace = new Database("loans.json", true);
     private Database confirmedLoans = new Database("confirmedLoans.json", true);
@@ -42,45 +40,61 @@ public class NewBank {
     }
 
     /**
-     * Adds the testing data to the customer HashMap
-     */
-    private void addTestData() throws Exception {
-        Customer bhagy = new Customer("Bhagy", "bhagy");
-        bhagy.addAccount(newAccount("Main", 1000.0));
-        bhagy.addAccount(newAccount("Savings", 1000.0));
-        bhagy.addAccountInfo("100 Test Road, W1 4HJ", "+4471234 663300", "Bhagyashree Patil", "What was your first pet's name?");
-        users.writeUser(bhagy);
-
-
-        Customer christina = new Customer("Christina", "christina");
-        christina.addAccount(newAccount("Savings", 1500.0));
-        users.writeUser(christina);
-
-        Customer john = new Customer("John", "john");
-        john.addAccount(newAccount("Checking", 250.0));
-        john.addAccount(newAccount("Savings", 10000));
-        john.getAccount("Checking").addTransaction("Checking", "Test", 100);
-        john.getAccount("Checking").addTransaction("Savings", "Test", 1000);
-        users.writeUser(john);
-        //users.writeMapToFile(customers);
-    }
-    /**
      * New user sign up
      */
-    public void newCustomerSignup (String userName, String password, String address, String email) throws Exception{
-        Customer newCustomer = new Customer(userName, password);
-        newCustomer.addAccount(newAccount("Current Account", 0.0));
-        users.writeUser(newCustomer);
+    public String newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+        StringBuilder output = new StringBuilder();
+
+        if(passwordComplexity(password).equals("Success")){
+            Customer newCustomer = new Customer(userName, password);
+            newCustomer.addAccount(newAccount("Current Account", 0.0));
+            users.writeUser(newCustomer);
+            output.append("Welcome to New Bank" + newCustomer.getUserName());
+        } else {
+           output.append(printPasswordComplexityRules());
+        }
+
+        return output.toString();
+
     }
 
     /**
-     *
+     * Checks the password complexity meets the required standard
      * @param password
-     * @return if the password of the new user satisfies the complexity requirement
+     * @return String - Success if meets requirements or the rule it fails on
      */
-    public boolean passWordComplexity(String password){
-        return (password.length()>=8);
+    public String passwordComplexity(String password){
+        StringBuilder output = new StringBuilder();
+        boolean hasNumber = false;
+        boolean hasLetter = false;
+        boolean isGreater = false;
+
+        for(char character : password.toCharArray()){
+            if(Character.isAlphabetic(character)){
+                hasLetter = true;
+            }
+            if(Character.isDigit(character)){
+                hasNumber = true;
+            }
+        }
+
+        if(password.length() > 8){
+            isGreater = true;
+        }
+
+        if (!hasNumber){
+            output.append("Fail: Please enter a password with at least 1 number\n");
+        } else if(!hasLetter){
+            output.append("Fail: Please enter a password with at least 1 letter\n");
+        } else if(!isGreater){
+            output.append("Fail: Please enter a password longer than 8 characters\n");
+        } else {
+            output.append("Success");
+        }
+
+        return output.toString();
     }
+
     /**
      * To hash the user password for database storage.
      * @param password
@@ -91,7 +105,6 @@ public class NewBank {
     }
 
     /**
-
      * Check log in details customer id.
      *
      * @param userName the user name
@@ -175,7 +188,6 @@ public class NewBank {
                     } catch (NumberFormatException e) {
                         break;
                     }
-
                     return pay(tokens[1], amountToPay);
                 case "SHOWACCOUNT":
                     if (tokens.length < 2) {
@@ -183,7 +195,6 @@ public class NewBank {
                     }
                     return showAccount(tokens[1]);
                 case "SHOWTRANSACTIONS":
-
                     return showTransactions();
                 case "REQUESTLOAN":
                     if (tokens.length < 4){
@@ -227,7 +238,6 @@ public class NewBank {
         }
         return "FAIL";
     }
-
 
     /**
      * Creates a loanMarket places and writes it to loans.json
@@ -282,17 +292,36 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String resetPassword(String newPassword1, String newPassword2) {
-        if (newPassword1.equals(newPassword2)) {
-            currentUser.setPassword(newPassword1);
-            try {
-                users.overwriteCustomer(currentUser);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(passwordComplexity(newPassword1).equals("Success")) {
+            if (newPassword1.equals(newPassword2)) {
+                currentUser.setPassword(newPassword1);
+                try {
+                    users.overwriteCustomer(currentUser);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "Password changed";
+            } else {
+                return "New Password not match.";
             }
-            return "Password changed";
         } else {
-            return "New Password not match.";
+            return printPasswordComplexityRules();
         }
+    }
+
+    /**
+     * Prints the password complexity rules
+     *
+     * @return A string to print to the user
+     */
+    private String printPasswordComplexityRules() {
+        StringBuilder output = new StringBuilder();
+
+        output.append("A password length must be greater then 8 characters\n");
+        output.append("A password must contain at least 1 character\n");
+        output.append("A password must contain at least 1 number\n");
+
+        return output.toString();
     }
 
     /**
@@ -301,7 +330,6 @@ public class NewBank {
      * @param accountName Name of the new account
      * @return A string to print to the user
      */
-
     private String addAccount(String accountName) {
         for (Account acc : currentUser.getAccounts()) {
             if (acc.getAccountName().equals(accountName)) {
@@ -328,7 +356,6 @@ public class NewBank {
      * @param to       The account to transfer TO
      * @return A string to print to the user
      */
-
     private String move(double amount, String from, String to) {
         Account fromAccount = currentUser.getAccount(from);
         Account toAccount = currentUser.getAccount(to);

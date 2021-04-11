@@ -83,14 +83,22 @@ public class NewBankClientHandler extends Thread {
                 String userName = in.readLine();
                 String passWord;
                 while(true){
-                    String passWord1;
-                    String passWord2;
-                    try{
-                        char[] pass = console.readPassword("Set up your password");
-                        passWord1 = Arrays.toString(pass);
-                    } catch(Exception e) {
-                        out.println("Set up your password:");
-                        passWord1 = in.readLine();
+                    String passWord1 = "";
+                    String passWord2 = "";
+                    while(!bank.passwordComplexity(passWord1).equals("Success")) {
+                        try {
+                            char[] pass = console.readPassword("Set up your password");
+                            passWord1 = Arrays.toString(pass);
+                        } catch (Exception e) {
+                            out.println("Set up your password:");
+                            passWord1 = in.readLine();
+                        }
+                        if(!bank.passwordComplexity(passWord1).equals("Success")){
+                            out.println(bank.passwordComplexity(passWord1));
+                        }
+                        else{
+                            break;
+                        }
                     }
 
                     try{
@@ -100,7 +108,6 @@ public class NewBankClientHandler extends Thread {
                         out.println("Confirm your password:");
                         passWord2 = in.readLine();
                     }
-
                   if(passWord1.equals(passWord2)){
                       passWord = passWord1;
                       break;
@@ -132,4 +139,3 @@ public class NewBankClientHandler extends Thread {
         }
     }
 }
-
