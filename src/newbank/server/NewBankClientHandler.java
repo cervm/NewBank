@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.io.Console;
+import java.util.Arrays;
 
 /**
  * The type New bank client handler.
@@ -14,6 +16,7 @@ public class NewBankClientHandler extends Thread {
     private final NewBank bank;
     private final BufferedReader in;
     private final PrintWriter out;
+    private final Console console;
 
 
     /**
@@ -26,6 +29,10 @@ public class NewBankClientHandler extends Thread {
         bank = NewBank.getBank();
         in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         out = new PrintWriter(s.getOutputStream(), true);
+        console = System.console();
+        if (console == null){
+            out.println("Try using your computers built in terminal for increased security");
+        }
     }
 
     public void run() {
@@ -42,8 +49,14 @@ public class NewBankClientHandler extends Thread {
                     out.println("Enter Username");
                     String userName = in.readLine();
                     // ask for password
-                    out.println("Enter Password");
-                    String password = in.readLine();
+                    String password;
+                    try{
+                        char [] pass = console.readPassword("Enter Password");
+                        password = Arrays.toString(pass);
+                    } catch(Exception e){
+                        out.println("Enter Password");
+                        password = in.readLine();
+                    }
                     out.println("Checking Details...");
                     // authenticate user and get customer ID token from bank for use in subsequent requests
                     customer = bank.checkLogInDetails(userName, password);
@@ -53,7 +66,8 @@ public class NewBankClientHandler extends Thread {
                     out.println("Log In Failed. Please try again:");
                 }
                 // if the user is authenticated then get requests from the user and process them
-                out.println("Log In Successful. What do you want to do?");
+                out.println("Log In Successful. What do you want to do?\nType \"HELP\" to " +
+                        "discover what you can do");
                 while (true) {
                     String request = in.readLine();
                     System.out.println("Request from " + customer.getKey());
@@ -69,16 +83,31 @@ public class NewBankClientHandler extends Thread {
                 String userName = in.readLine();
                 String passWord;
                 while(true){
-                  out.println("Set up your password:");
-                  String passWord1 = in.readLine();
-                  String passWord2 = "";
-                  while (!bank.passwordComplexity(passWord1).equals("Success")){
-                      out.println(bank.passwordComplexity(passWord1));
-                      out.println("Set up your password:");
-                      passWord1 = in.readLine();
-                  }
-                    out.println("Confirm your password:");
-                    passWord2 = in.readLine();
+                    String passWord1 = "";
+                    String passWord2 = "";
+                    while(!bank.passwordComplexity(passWord1).equals("Success")) {
+                        try {
+                            char[] pass = console.readPassword("Set up your password");
+                            passWord1 = Arrays.toString(pass);
+                        } catch (Exception e) {
+                            out.println("Set up your password:");
+                            passWord1 = in.readLine();
+                        }
+                        if(!bank.passwordComplexity(passWord1).equals("Success")){
+                            out.println(bank.passwordComplexity(passWord1));
+                        }
+                        else{
+                            break;
+                        }
+                    }
+
+                    try{
+                        char[] pass = console.readPassword("Confirm Password");
+                        passWord2 = Arrays.toString(pass);
+                    } catch(Exception e){
+                        out.println("Confirm your password:");
+                        passWord2 = in.readLine();
+                    }
                   if(passWord1.equals(passWord2)){
                       passWord = passWord1;
                       break;
