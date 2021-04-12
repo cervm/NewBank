@@ -613,7 +613,7 @@ public class NewBank {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "Full Name updated";
+            return "Security Question updated";
         } else {
             return "Password does not match.";
         }
