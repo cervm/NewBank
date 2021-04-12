@@ -447,11 +447,13 @@ public class NewBank {
         try {
             Account fromAccount = currentUser.getAccount();
             Customer beneficiary = users.readUser(userName);
+            Account toAccount = beneficiary.getAccount();
 
-            if (beneficiary == null) {
+            if (beneficiary == null || toAccount.getAccountName().equals(fromAccount.getAccountName()) ||
+                    (!beneficiary.getUserName().equals(userName))) {
                 return "FAIL";
             }
-            Account toAccount = beneficiary.getAccount();
+
             if (transfer(amount, fromAccount, toAccount)) {
                 users.overwriteCustomer(currentUser);
                 users.overwriteCustomer(beneficiary);
