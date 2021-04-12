@@ -408,7 +408,7 @@ public class NewBank {
      * @return {@code true} if the transfer has been successful, {@code false} otherwise
      */
     private boolean transfer(double amount, Account fromAccount, Account toAccount) {
-        if (toAccount == null || fromAccount == null) {
+        if (toAccount == null || fromAccount == null || toAccount.getAccountName().equals(fromAccount.getAccountName())) {
             return false;
         }
         try {
@@ -447,11 +447,13 @@ public class NewBank {
         try {
             Account fromAccount = currentUser.getAccount();
             Customer beneficiary = users.readUser(userName);
+            Account toAccount = beneficiary.getAccount();
 
-            if (beneficiary == null) {
+            if (beneficiary == null || toAccount.getAccountName().equals(fromAccount.getAccountName()) ||
+                    (!beneficiary.getUserName().equals(userName))) {
                 return "FAIL";
             }
-            Account toAccount = beneficiary.getAccount();
+
             if (transfer(amount, fromAccount, toAccount)) {
                 users.overwriteCustomer(currentUser);
                 users.overwriteCustomer(beneficiary);
@@ -611,7 +613,7 @@ public class NewBank {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "Full Name updated";
+            return "Security Question updated";
         } else {
             return "Password does not match.";
         }
