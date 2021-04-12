@@ -408,7 +408,7 @@ public class NewBank {
      * @return {@code true} if the transfer has been successful, {@code false} otherwise
      */
     private boolean transfer(double amount, Account fromAccount, Account toAccount) {
-        if (toAccount == null || fromAccount == null) {
+        if (toAccount == null || fromAccount == null || toAccount.getAccountName().equals(fromAccount.getAccountName())) {
             return false;
         }
         try {
