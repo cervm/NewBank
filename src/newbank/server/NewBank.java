@@ -140,8 +140,8 @@ public class NewBank {
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
         String currentUID = currentUser.getCustomerID().getKey();
-        String custoID = customer.getKey();
-        if (currentUID.equals(custoID)) {
+        String customerID = customer.getKey();
+        if (currentUID.equals(customerID)) {
             String[] tokens = request.split("\\s+");
             switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":

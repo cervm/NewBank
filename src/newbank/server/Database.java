@@ -40,7 +40,7 @@ public class Database {
      * Re-Instantiates a new Database.
      *
      * @param fileName Name of the JSON file to save into the Data folder
-     * @param read     add true to read an old datebase
+     * @param read     add true to read an old database
      */
     public Database(String fileName, Boolean read) {
         this.filePath.append("Data/");
@@ -60,10 +60,10 @@ public class Database {
      */
     public void writeUser(Customer customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        Type jsonType = new TypeToken<List<HashMap<String, Customer>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        List<HashMap<String, Customer>> dtos = gson.fromJson(fr, jsontype);
+        List<HashMap<String, Customer>> dtos = gson.fromJson(fr, jsonType);
         fr.close();
 
         // If it was an empty one create initial list
@@ -72,9 +72,9 @@ public class Database {
         }
 
         // Add new item to the list
-        HashMap<String, Customer> formated = new HashMap<String, Customer>();
-        formated.put(customer.getCustomerID().getKey(), customer);
-        dtos.add(formated);
+        HashMap<String, Customer> formatted = new HashMap<String, Customer>();
+        formatted.put(customer.getCustomerID().getKey(), customer);
+        dtos.add(formatted);
 
         // No append replace the whole file
         FileWriter fw = new FileWriter(filePath.toString());
@@ -90,10 +90,10 @@ public class Database {
      */
     public Customer readUser(CustomerID customer) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        Type jsonType = new TypeToken<List<HashMap<String, Customer>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsonType);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
@@ -115,10 +115,10 @@ public class Database {
      */
     public Customer readUser(String userName) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        Type jsonType = new TypeToken<List<HashMap<String, Customer>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsonType);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
@@ -139,10 +139,10 @@ public class Database {
      */
     public void removeUser(CustomerID customerID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        Type jsonType = new TypeToken<List<HashMap<String, Customer>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsonType);
         fr.close();
 
         List<HashMap<String, Customer>> newUserList = users.stream()
@@ -181,10 +181,10 @@ public class Database {
      */
     public Customer customerByAccNum(int accountNumber) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<List<HashMap<String, Customer>>>() {
+        Type jsonType = new TypeToken<List<HashMap<String, Customer>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsontype);
+        List<HashMap<String, Customer>> users = gson.fromJson(fr, jsonType);
         fr.close();
 
         for (HashMap<String, Customer> user : users) {
@@ -207,10 +207,10 @@ public class Database {
      */
     public void writeLoan(LoanMarketplace loanInput) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        Type jsonType = new TypeToken<ArrayList<Map<String, Object>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
+        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsonType);
         fr.close();
 
         // If it was an empty one create initial list
@@ -241,10 +241,10 @@ public class Database {
      */
     public ArrayList<LoanMarketplace> readLoans() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        Type jsonType = new TypeToken<ArrayList<Map<String, Object>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsontype);
+        ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsonType);
         fr.close();
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
@@ -268,10 +268,10 @@ public class Database {
      */
     public void deleteLoan(double loanID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        Type jsonType = new TypeToken<ArrayList<Map<String, Object>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
+        ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsonType);
         fr.close();
 
         // If it was an empty one create initial list
@@ -302,10 +302,10 @@ public class Database {
      */
     public void writeConfirmedLoan(Loan confirmedLoan) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Loan>>() {
+        Type jsonType = new TypeToken<ArrayList<Loan>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Loan> dtos = gson.fromJson(fr, jsontype);
+        ArrayList<Loan> dtos = gson.fromJson(fr, jsonType);
         fr.close();
 
         // If it was an empty one create initial list
@@ -323,7 +323,7 @@ public class Database {
     }
 
     /**
-     * Moves a loan from loanmarketplace to confirmed loans
+     * Moves a loan from loan marketplace to confirmed loans
      *
      * @param loanID         loanID picked by the user
      * @param fromCustomerID the CustomerID of the person submitting request
@@ -332,13 +332,13 @@ public class Database {
     public Loan moveLoanToConfirmed(Double loanID, CustomerID fromCustomerID) throws IOException {
         Loan confirmedLoan = null;
         Database loanMarketplace = new Database("loans.json", true);
-        Database confimredLoans = new Database("confirmedLoans.json", true);
+        Database confirmedLoans = new Database("confirmedLoans.json", true);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        Type jsonType = new TypeToken<ArrayList<Map<String, Object>>>() {
         }.getType();
         FileReader fr = new FileReader(filePath.toString());
-        ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsontype);
+        ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsonType);
         fr.close();
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
@@ -354,7 +354,7 @@ public class Database {
 
                 loanMarketplace.deleteLoan(loanID);
                 confirmedLoan = new Loan(customerID, fromCustomerID, loanAmount, apr, term);
-                confimredLoans.writeConfirmedLoan(confirmedLoan);
+                confirmedLoans.writeConfirmedLoan(confirmedLoan);
             }
         }
         return confirmedLoan;
