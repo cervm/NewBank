@@ -53,7 +53,6 @@ public class Customer {
      *
      * @return the string
      */
-    //FR1.2
     public String accountsToString() {
         StringBuilder s = new StringBuilder();
         double totalBalance = 0;

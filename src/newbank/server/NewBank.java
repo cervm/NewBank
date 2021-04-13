@@ -260,8 +260,6 @@ public class NewBank {
         return output.toString();
     }
 
-    //FR1.2
-
     /**
      * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
      *
