@@ -510,11 +510,11 @@ public class NewBank {
                 PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
                 SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
                 SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
-                SHOWACCOUNTINFO = To return a list of your personal details 
+                SHOWACCOUNTINFO = To return a list of your personal details
                 EDITADDRESS <password> <new address> = To update your address
                 EDITPHONENUMBER <password> <new phone number> = To update your phone number
                 EDITFULLNAME <password> <new full name> = To update your Full Name
-                EDITSECURITYQUESTION <password> <new security question> = To update your security question      
+                EDITSECURITYQUESTION <password> <new security question> = To update your security question
                 REQUESTLOAN <VALUE> <APR> <TERM> = Request a loan and have it submitted to the marketplace pending approval/funding.
                 LOANMARKETPLACE = Prints out all requested loans
                 PICKLOAN <LOAN ID> = Allows you to pick a loan to fulfill the request
