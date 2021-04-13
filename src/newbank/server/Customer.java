@@ -75,8 +75,8 @@ public class Customer {
     /**
      * Set the password
      */
-    public void setPassword(String newPW) {
-        this.password = newPW;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -172,10 +172,10 @@ public class Customer {
     /**
      * Sets the address for the user
      *
-     * @param newAddress The customers new address
+     * @param address The customers new address
      */
-    public void setAddress(String newAddress) {
-        this.address = newAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
@@ -190,28 +190,28 @@ public class Customer {
     /**
      * Sets the phone number for the user
      *
-     * @param newPhoneNumber The customers new phone number
+     * @param phoneNumber The customers new phone number
      */
-    public void setPhoneNumber(String newPhoneNumber) {
-        this.phoneNumber = newPhoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     /**
      * Sets the Full Name for the user
      *
-     * @param newFullName The customers new Full Name
+     * @param fullName The customers new Full Name
      */
-    public void setFullName(String newFullName) {
-        this.fullName = newFullName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
      * Sets the Security Question for the user
      *
-     * @param newSecurityQuestion The customers new security question
+     * @param securityQuestion The customers new security question
      */
-    public void setSecurityQuestion(String newSecurityQuestion) {
-        this.securityQuestion = newSecurityQuestion;
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
     }
 
     /**

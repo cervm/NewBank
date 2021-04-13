@@ -10,14 +10,14 @@ public class Loan {
     private final String loanTerm;
     private int i = 0;
 
-    public Loan(CustomerID loanToCustomerID, CustomerID loanFromCustomerID, double lAmount, String APR, String lTerm) {
+    public Loan(CustomerID loanToCustomerID, CustomerID loanFromCustomerID, double loanAmount, String APR, String loanTerm) {
         count++;
         loanID = "CL" + count;
         this.loanToCustomerID = loanToCustomerID;
         this.loanFromCustomerID = loanFromCustomerID;
-        this.loanAmount = lAmount;
+        this.loanAmount = loanAmount;
         this.apr = APR;
-        this.loanTerm = lTerm;
+        this.loanTerm = loanTerm;
     }
 
     public String getLoanID() {
