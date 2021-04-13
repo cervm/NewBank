@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Customer {
     private final String userName;
     private final ArrayList<Account> accounts;
+    private final CustomerID customerID;
     private String password;
     private CustomerInfo accountDetails;
     private String address;
     private String phoneNumber;
     private String fullName;
     private String securityQuestion;
-    private final CustomerID customerID;
     private ArrayList<Loan> loansTo;
     private ArrayList<Loan> loansFrom;
 
@@ -70,13 +70,6 @@ public class Customer {
      */
     public boolean authenticateUser(String password) {
         return this.password.equals(password);
-    }
-
-    /**
-     * Set the password
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     /**
@@ -185,6 +178,13 @@ public class Customer {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Set the password
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**

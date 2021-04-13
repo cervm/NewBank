@@ -9,6 +9,7 @@ import java.util.Collections;
  */
 public class NewBank {
 
+    private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private static NewBank bank = null;
 
     static {
@@ -19,12 +20,10 @@ public class NewBank {
         }
     }
 
-
-    private int nextAvailableAccountNumber = 10000000;
-    private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private final Database users = new Database("users.json", true);
     private final Database loanMarketplace = new Database("loans.json", true);
     private final Database confirmedLoans = new Database("confirmedLoans.json", true);
+    private int nextAvailableAccountNumber = 10000000;
     private Customer currentUser;
 
     private NewBank() throws Exception {

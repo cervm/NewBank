@@ -5,11 +5,11 @@ package newbank.server;
  */
 public class LoanMarketplace {
     private static Double count = 0.0;
-    private Double loanID = 0.0;
     private final Customer customer;
     private final Double loanAmount;
     private final String APR;
     private final String term;
+    private Double loanID = 0.0;
     private boolean loanMatched = false;
     private Database loanMarketplace = new Database("loans.json", true);
 
