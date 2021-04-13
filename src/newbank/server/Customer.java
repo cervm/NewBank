@@ -223,7 +223,7 @@ public class Customer {
     }
 
     public Double getTotalBalance() {
-        Double totalBalance = 0.0;
+        double totalBalance = 0.0;
         for (Account account : this.getAccounts()) {
             totalBalance = totalBalance + account.getBalance();
         }
