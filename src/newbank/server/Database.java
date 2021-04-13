@@ -21,22 +21,6 @@ public class Database {
     private Gson data;
 
     /**
-     * Instantiates a new Database.
-     *
-     * @param fileName Name of the JSON file to save into the Data folder
-     */
-    public Database(String fileName) {
-        this.filePath.append("Data/");
-        this.filePath.append(fileName);
-        this.data = new Gson();
-        try {
-            writer = new FileWriter(filePath.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Re-Instantiates a new Database.
      *
      * @param fileName Name of the JSON file to save into the Data folder
