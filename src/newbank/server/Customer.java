@@ -14,7 +14,7 @@ public class Customer {
     private String phoneNumber;
     private String fullName;
     private String securityQuestion;
-    private CustomerID customerID;
+    private final CustomerID customerID;
     private ArrayList<Loan> loansTo;
     private ArrayList<Loan> loansFrom;
 

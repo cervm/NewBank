@@ -2,12 +2,12 @@ package newbank.server;
 
 public class Loan {
     private static int count = 0;
-    private String loanID;
-    private CustomerID loanToCustomerID;
-    private CustomerID loanFromCustomerID;
-    private double loanAmount;
-    private String apr;
-    private String loanTerm;
+    private final String loanID;
+    private final CustomerID loanToCustomerID;
+    private final CustomerID loanFromCustomerID;
+    private final double loanAmount;
+    private final String apr;
+    private final String loanTerm;
     private int i = 0;
 
     public Loan(CustomerID toLoanCustermerID, CustomerID fromLoanCustomerID, double lAmount, String APR, String lTerm) {

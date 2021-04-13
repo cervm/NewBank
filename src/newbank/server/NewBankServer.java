@@ -9,7 +9,7 @@ import java.net.Socket;
  */
 public class NewBankServer extends Thread {
 
-    private ServerSocket server;
+    private final ServerSocket server;
 
     /**
      * Instantiates a new New bank server.

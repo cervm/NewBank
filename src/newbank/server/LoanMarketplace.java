@@ -6,10 +6,10 @@ package newbank.server;
 public class LoanMarketplace {
     private static Double count = 0.0;
     private Double loanID = 0.0;
-    private Customer customer;
-    private Double loanAmount;
-    private String APR;
-    private String term;
+    private final Customer customer;
+    private final Double loanAmount;
+    private final String APR;
+    private final String term;
     private boolean loanMatched = false;
     private Database loanMarketplace = new Database("loans.json", true);
 

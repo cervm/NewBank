@@ -2,10 +2,10 @@ package newbank.server;
 
 public class CustomerInfo {
 
-    private String address;
-    private String phoneNumber;
-    private String fullName;
-    private String securityQuestion;
+    private final String address;
+    private final String phoneNumber;
+    private final String fullName;
+    private final String securityQuestion;
 
     /**
      * Instantiates Customer Details.

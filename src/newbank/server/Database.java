@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class Database {
 
-    private StringBuilder filePath = new StringBuilder();
+    private final StringBuilder filePath = new StringBuilder();
     private Writer writer;
     private Reader reader;
     private Gson data;
