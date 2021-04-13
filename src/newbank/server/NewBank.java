@@ -498,7 +498,6 @@ public class NewBank {
         return stringOut.toString();
     }
 
-    //TODO: Please add posible inputs accepted into here
     private String help() {
         return """
                 Type in one of the following commands
