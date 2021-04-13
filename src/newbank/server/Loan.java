@@ -8,7 +8,6 @@ public class Loan {
     private final double loanAmount;
     private final String apr;
     private final String loanTerm;
-    private int i = 0;
 
     public Loan(CustomerID loanToCustomerID, CustomerID loanFromCustomerID, double loanAmount, String APR, String loanTerm) {
         count++;
