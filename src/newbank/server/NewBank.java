@@ -621,9 +621,9 @@ public class NewBank {
     private String printLoans() {
         StringBuilder output = new StringBuilder();
         output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
-        ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
+        ArrayList<LoanMarketplace> loans;
         try {
-            loans.addAll(loanMarketplace.readLoans());
+            loans = new ArrayList<>(loanMarketplace.readLoans());
         } catch (IOException e) {
             e.printStackTrace();
             return "Fail";
