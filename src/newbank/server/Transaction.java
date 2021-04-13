@@ -63,7 +63,7 @@ public class Transaction implements Comparable<Transaction> {
     /**
      * Parses the transactions as a string
      *
-     * @return Transaction as a string "<Date> | <To> | <From> | <Amount>"
+     * @return Transaction as a string {@literal "<Date> | <To> | <From> | <Amount>"}
      */
     public String toString() {
         return (timestamp + " | " + accountNameTo + " | " + accountNameFrom + " | " + amountTransferred);

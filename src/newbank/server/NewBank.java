@@ -60,7 +60,7 @@ public class NewBank {
     /**
      * Checks the password complexity meets the required standard
      *
-     * @param password
+     * @param password the password
      * @return String - Success if meets requirements or the rule it fails on
      */
     public String passwordComplexity(String password) {
@@ -98,8 +98,8 @@ public class NewBank {
     /**
      * To hash the user password for database storage.
      *
-     * @param password
-     * @return
+     * @param password the password to hash
+     * @return the hash
      */
     private String hashPassword(String password) {
         return password;

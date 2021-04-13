@@ -22,7 +22,7 @@ public class CustomerInfo {
     /**
      * Parses account details as a string
      *
-     * @return account details as a string "<Address> | <Phone Number> | <Full Name> | <Security Question>"
+     * @return account details as a string {@literal "<Address> | <Phone Number> | <Full Name> | <Security Question>"}
      */
     public String toString() {
         return "Address" + " | " + address + " | " + "\n" +
