@@ -124,12 +124,10 @@ public class LoanMarketplace {
      * @return String
      */
     public String toString() {
-        StringBuilder output = new StringBuilder();
-        output.append(this.loanID + " | ");
-        output.append(this.customer.getUserName() + " | ");
-        output.append(this.loanAmount + " | ");
-        output.append(this.APR + " | ");
-        output.append(this.term + " | ");
-        return output.toString();
+        return this.loanID + " | " +
+                this.customer.getUserName() + " | " +
+                this.loanAmount + " | " +
+                this.APR + " | " +
+                this.term + " | ";
     }
 }

@@ -48,7 +48,7 @@ public class NewBank {
             Customer newCustomer = new Customer(userName, password);
             newCustomer.addAccount(newAccount("Current Account", 0.0));
             users.writeUser(newCustomer);
-            output.append("Welcome to New Bank" + newCustomer.getUserName());
+            output.append("Welcome to New Bank").append(newCustomer.getUserName());
         } else {
             output.append(printPasswordComplexityRules());
         }
@@ -249,7 +249,7 @@ public class NewBank {
         StringBuilder output = new StringBuilder();
         try {
             LoanMarketplace loan = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
-            output.append(loan.checkLoanMeetsCriteria() + "\n");
+            output.append(loan.checkLoanMeetsCriteria()).append("\n");
             loanMarketplace.writeLoan(loan);
             output.append("\nLoan Submitted to Marketplace");
         } catch (Exception e) {
@@ -314,13 +314,11 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String printPasswordComplexityRules() {
-        StringBuilder output = new StringBuilder();
-
-        output.append("A password length must be greater then 8 characters\n");
-        output.append("A password must contain at least 1 character\n");
-        output.append("A password must contain at least 1 number\n");
-
-        return output.toString();
+        return """
+                A password length must be greater then 8 characters
+                A password must contain at least 1 character
+                A password must contain at least 1 number
+                """;
     }
 
     /**
@@ -529,9 +527,7 @@ public class NewBank {
      * @return Customers personal details
      */
     private String accountInfo() {
-        StringBuilder stringOut = new StringBuilder();
-        stringOut.append(currentUser.getAccountInfo());
-        return stringOut.toString();
+        return String.valueOf(currentUser.getAccountInfo());
     }
 
     /**
