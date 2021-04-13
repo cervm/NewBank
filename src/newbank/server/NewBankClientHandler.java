@@ -80,7 +80,7 @@ public class NewBankClientHandler extends Thread {
                 String passWord;
                 while (true) {
                     String passWord1 = "";
-                    String passWord2 = "";
+                    String passWord2;
                     while (!bank.passwordComplexity(passWord1).equals("Success")) {
                         try {
                             char[] pass = console.readPassword("Set up your password");
