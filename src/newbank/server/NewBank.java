@@ -42,16 +42,16 @@ public class NewBank {
     /**
      * New user sign up
      */
-    public String newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+    public String newCustomerSignup(String userName, String password, String address, String email) throws Exception {
         StringBuilder output = new StringBuilder();
 
-        if(passwordComplexity(password).equals("Success")){
+        if (passwordComplexity(password).equals("Success")) {
             Customer newCustomer = new Customer(userName, password);
             newCustomer.addAccount(newAccount("Current Account", 0.0));
             users.writeUser(newCustomer);
             output.append("Welcome to New Bank" + newCustomer.getUserName());
         } else {
-           output.append(printPasswordComplexityRules());
+            output.append(printPasswordComplexityRules());
         }
 
         return output.toString();
@@ -60,33 +60,34 @@ public class NewBank {
 
     /**
      * Checks the password complexity meets the required standard
+     *
      * @param password
      * @return String - Success if meets requirements or the rule it fails on
      */
-    public String passwordComplexity(String password){
+    public String passwordComplexity(String password) {
         StringBuilder output = new StringBuilder();
         boolean hasNumber = false;
         boolean hasLetter = false;
         boolean isGreater = false;
 
-        for(char character : password.toCharArray()){
-            if(Character.isAlphabetic(character)){
+        for (char character : password.toCharArray()) {
+            if (Character.isAlphabetic(character)) {
                 hasLetter = true;
             }
-            if(Character.isDigit(character)){
+            if (Character.isDigit(character)) {
                 hasNumber = true;
             }
         }
 
-        if(password.length() > 8){
+        if (password.length() > 8) {
             isGreater = true;
         }
 
-        if (!hasNumber){
+        if (!hasNumber) {
             output.append("Fail: Please enter a password with at least 1 number\n");
-        } else if(!hasLetter){
+        } else if (!hasLetter) {
             output.append("Fail: Please enter a password with at least 1 letter\n");
-        } else if(!isGreater){
+        } else if (!isGreater) {
             output.append("Fail: Please enter a password longer than 8 characters\n");
         } else {
             output.append("Success");
@@ -97,10 +98,11 @@ public class NewBank {
 
     /**
      * To hash the user password for database storage.
+     *
      * @param password
      * @return
      */
-    private String hashPassword(String password){
+    private String hashPassword(String password) {
         return password;
     }
 
@@ -197,7 +199,7 @@ public class NewBank {
                 case "SHOWTRANSACTIONS":
                     return showTransactions();
                 case "REQUESTLOAN":
-                    if (tokens.length < 4){
+                    if (tokens.length < 4) {
                         break;
                     }
                     return requestLoan(customer, tokens[1], tokens[2], tokens[3]);
@@ -244,9 +246,9 @@ public class NewBank {
      *
      * @return success or error message
      */
-    private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
+    private String requestLoan(CustomerID customer, String loanAmount, String APR, String term) {
         StringBuilder output = new StringBuilder();
-        try{
+        try {
             LoanMarketplace loan = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
             output.append(loan.checkLoanMeetsCriteria() + "\n");
             loanMarketplace.writeLoan(loan);
@@ -292,7 +294,7 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String resetPassword(String newPassword1, String newPassword2) {
-        if(passwordComplexity(newPassword1).equals("Success")) {
+        if (passwordComplexity(newPassword1).equals("Success")) {
             if (newPassword1.equals(newPassword2)) {
                 currentUser.setPassword(newPassword1);
                 try {
@@ -351,9 +353,9 @@ public class NewBank {
     /**
      * Moves money between the customer's accounts from one account to the other
      *
-     * @param amount   The Amount to transfer
-     * @param from     The account to transfer FROM
-     * @param to       The account to transfer TO
+     * @param amount The Amount to transfer
+     * @param from   The account to transfer FROM
+     * @param to     The account to transfer TO
      * @return A string to print to the user
      */
     private String move(double amount, String from, String to) {
@@ -373,9 +375,9 @@ public class NewBank {
     /**
      * Transfers an amount of money from the selected customer's account to any account in the bank
      *
-     * @param amount   The Amount to transfer
-     * @param from     The account name to transfer FROM
-     * @param to       The account number to transfer TO
+     * @param amount The Amount to transfer
+     * @param from   The account name to transfer FROM
+     * @param to     The account number to transfer TO
      * @return A string to print to the user
      */
     private String transfer(double amount, String from, int to) {
@@ -538,7 +540,7 @@ public class NewBank {
     /**
      * Edits the users address.
      *
-     * @param password Customers password
+     * @param password   Customers password
      * @param newAddress New address entry
      * @return A string to print to the user
      */
@@ -559,7 +561,7 @@ public class NewBank {
     /**
      * Edits the users phone number.
      *
-     * @param password Customers password
+     * @param password       Customers password
      * @param newPhoneNumber New address entry
      * @return A string to print to the user
      */
@@ -580,7 +582,7 @@ public class NewBank {
     /**
      * Edits the users full Name.
      *
-     * @param password Customers password
+     * @param password    Customers password
      * @param newFullName New address entry
      * @return A string to print to the user
      */
@@ -601,7 +603,7 @@ public class NewBank {
     /**
      * Edits the users security question.
      *
-     * @param password Customers password
+     * @param password            Customers password
      * @param newSecurityQuestion New address entry
      * @return A string to print to the user
      */
@@ -624,7 +626,7 @@ public class NewBank {
      *
      * @return A string to print to the user
      */
-    private String printLoans(){
+    private String printLoans() {
         StringBuilder output = new StringBuilder();
         output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
         ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
@@ -647,21 +649,21 @@ public class NewBank {
      * @param loanNumber the loan number picked by the user
      * @return A string to print to the user
      */
-    private String pickLoan(String loanNumber){
+    private String pickLoan(String loanNumber) {
         Double totalBalance = currentUser.getTotalBalance();
 
         try {
-            for(LoanMarketplace loan : loanMarketplace.readLoans()){
-                if(loan.getLoanID() == Double.parseDouble(loanNumber)){
-                   if(loan.getLoanAmount() <= totalBalance){
-                       loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
-                       transfer(loan.getLoanAmount(),
-                               currentUser.getAccount(),
-                               users.readUser(loan.getCustomer().getCustomerID()).getAccount());
-                       return "Loan is a success";
-                   } else {
-                       return "Insufficient funds: Can not loan more than 50% of your total balance";
-                   }
+            for (LoanMarketplace loan : loanMarketplace.readLoans()) {
+                if (loan.getLoanID() == Double.parseDouble(loanNumber)) {
+                    if (loan.getLoanAmount() <= totalBalance) {
+                        loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
+                        transfer(loan.getLoanAmount(),
+                                currentUser.getAccount(),
+                                users.readUser(loan.getCustomer().getCustomerID()).getAccount());
+                        return "Loan is a success";
+                    } else {
+                        return "Insufficient funds: Can not loan more than 50% of your total balance";
+                    }
                 }
             }
             return "Loan not found. Please try another number";

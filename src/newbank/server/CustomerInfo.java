@@ -18,6 +18,7 @@ public class CustomerInfo {
         this.fullName = fullName;
         this.securityQuestion = securityQuestion;
     }
+
     /**
      * Parses account details as a string
      *
@@ -25,7 +26,7 @@ public class CustomerInfo {
      */
     public String toString() {
         return "Address" + " | " + address + " | " + "\n" +
-                "Phone Number" + " | " + phoneNumber + " | " + "\n"+
+                "Phone Number" + " | " + phoneNumber + " | " + "\n" +
                 "Full Name" + " | " + fullName + " | " + "\n" +
                 "Security Question" + " | " + securityQuestion + "|";
     }

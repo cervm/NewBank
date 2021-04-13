@@ -27,17 +27,18 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
-        this.accountDetails = new CustomerInfo("","","","");
+        this.accountDetails = new CustomerInfo("", "", "", "");
         this.customerID = new CustomerID(userName);
     }
 
     /**
      * Instantiates a new Customer.
-     * @param userName the user name
-     * @param password the password
-     * @param accounts the accounts
+     *
+     * @param userName       the user name
+     * @param password       the password
+     * @param accounts       the accounts
      * @param accountDetails the account details
-     * @param customerID the customer id
+     * @param customerID     the customer id
      */
     public Customer(String userName, String password, ArrayList<Account> accounts, CustomerInfo accountDetails, CustomerID customerID) {
         this.userName = userName;
@@ -149,9 +150,9 @@ public class Customer {
     /**
      * Adds a string containing the customers personal details
      *
-     * @param address     Customer address
-     * @param phoneNumber   Customer phone number
-     * @param fullName Customers full name
+     * @param address          Customer address
+     * @param phoneNumber      Customer phone number
+     * @param fullName         Customers full name
      * @param securityQuestion Customers security question
      */
     public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
@@ -160,6 +161,7 @@ public class Customer {
 
     /**
      * Returns a string containing the customers personal details
+     *
      * @return Account details
      */
     public CustomerInfo getAccountInfo() {
@@ -169,6 +171,7 @@ public class Customer {
 
     /**
      * Sets the address for the user
+     *
      * @param newAddress The customers new address
      */
     public void setAddress(String newAddress) {
@@ -177,6 +180,7 @@ public class Customer {
 
     /**
      * Get the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -185,6 +189,7 @@ public class Customer {
 
     /**
      * Sets the phone number for the user
+     *
      * @param newPhoneNumber The customers new phone number
      */
     public void setPhoneNumber(String newPhoneNumber) {
@@ -193,6 +198,7 @@ public class Customer {
 
     /**
      * Sets the Full Name for the user
+     *
      * @param newFullName The customers new Full Name
      */
     public void setFullName(String newFullName) {
@@ -201,6 +207,7 @@ public class Customer {
 
     /**
      * Sets the Security Question for the user
+     *
      * @param newSecurityQuestion The customers new security question
      */
     public void setSecurityQuestion(String newSecurityQuestion) {
@@ -209,13 +216,14 @@ public class Customer {
 
     /**
      * Gets the customerID
+     *
      * @return CustomerID
      */
-    public CustomerID getCustomerID(){
+    public CustomerID getCustomerID() {
         return this.customerID;
     }
 
-    public Double getTotalBalance(){
+    public Double getTotalBalance() {
         Double totalBalance = 0.0;
         for (Account account : this.getAccounts()) {
             totalBalance = totalBalance + account.getBalance();

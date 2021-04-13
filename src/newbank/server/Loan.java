@@ -10,7 +10,7 @@ public class Loan {
     private String loanTerm;
     private int i = 0;
 
-    public Loan(CustomerID toLoanCustermerID, CustomerID fromLoanCustomerID, double lAmount, String APR, String lTerm){
+    public Loan(CustomerID toLoanCustermerID, CustomerID fromLoanCustomerID, double lAmount, String APR, String lTerm) {
         count++;
         loanID = "CL" + count;
         this.loanToCustomerID = toLoanCustermerID;

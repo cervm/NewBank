@@ -207,7 +207,8 @@ public class Database {
      */
     public void writeLoan(LoanMarketplace loanInput) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
         fr.close();
@@ -240,21 +241,22 @@ public class Database {
      */
     public ArrayList<LoanMarketplace> readLoans() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsontype);
         fr.close();
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
         for (Map<String, Object> loan : loans) {
-                Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
-                Database users = new Database("users.json", true);
-                Customer customer = users.readUser(customerObj.get("userName").toString());
-                Double loanAmount = (Double) loan.get("Loan Amount");
-                String apr = (String) loan.get("APR");
-                String term = (String) loan.get("Term");
-                Double loanID = (Double) loan.get("Loan ID");
-                loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term, loanID));
+            Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
+            Database users = new Database("users.json", true);
+            Customer customer = users.readUser(customerObj.get("userName").toString());
+            Double loanAmount = (Double) loan.get("Loan Amount");
+            String apr = (String) loan.get("APR");
+            String term = (String) loan.get("Term");
+            Double loanID = (Double) loan.get("Loan ID");
+            loanOutput.add(new LoanMarketplace(customer, loanAmount, apr, term, loanID));
         }
         return loanOutput;
     }
@@ -266,7 +268,8 @@ public class Database {
      */
     public void deleteLoan(double loanID) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         ArrayList<Map<String, Object>> dtos = gson.fromJson(fr, jsontype);
         fr.close();
@@ -278,8 +281,8 @@ public class Database {
 
         int i = 0;
         // Add new item to the list
-        for (Map<String, Object> loan : dtos){
-            if(loan.get("Loan ID").equals(loanID)){
+        for (Map<String, Object> loan : dtos) {
+            if (loan.get("Loan ID").equals(loanID)) {
                 dtos.remove(i);
                 break;
             }
@@ -299,7 +302,8 @@ public class Database {
      */
     public void writeConfirmedLoan(Loan confirmedLoan) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Loan>>() {}.getType();
+        Type jsontype = new TypeToken<ArrayList<Loan>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         ArrayList<Loan> dtos = gson.fromJson(fr, jsontype);
         fr.close();
@@ -321,7 +325,7 @@ public class Database {
     /**
      * Moves a loan from loanmarketplace to confirmed loans
      *
-     * @param loanID loanID picked by the user
+     * @param loanID         loanID picked by the user
      * @param fromCustomerID the CustomerID of the person submitting request
      * @return Loan
      */
@@ -331,14 +335,15 @@ public class Database {
         Database confimredLoans = new Database("confirmedLoans.json", true);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {}.getType();
+        Type jsontype = new TypeToken<ArrayList<Map<String, Object>>>() {
+        }.getType();
         FileReader fr = new FileReader(filePath.toString());
         ArrayList<Map<String, Object>> loans = gson.fromJson(fr, jsontype);
         fr.close();
 
         ArrayList<LoanMarketplace> loanOutput = new ArrayList<LoanMarketplace>();
         for (Map<String, Object> loan : loans) {
-            if(loan.get("Loan ID").equals(loanID)){
+            if (loan.get("Loan ID").equals(loanID)) {
                 Map<String, Object> customerObj = (Map<String, Object>) loan.get("Customer");
                 Database users = new Database("users.json", true);
                 Customer customer = users.readUser(customerObj.get("userName").toString());
