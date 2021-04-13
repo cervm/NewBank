@@ -2,22 +2,21 @@ package newbank.server;
 
 public class Loan {
     private static int count = 0;
-    private String loanID;
-    private CustomerID loanToCustomerID;
-    private CustomerID loanFromCustomerID;
-    private double loanAmount;
-    private String apr;
-    private String loanTerm;
-    private int i = 0;
+    private final String loanID;
+    private final CustomerID loanToCustomerID;
+    private final CustomerID loanFromCustomerID;
+    private final double loanAmount;
+    private final String apr;
+    private final String loanTerm;
 
-    public Loan(CustomerID toLoanCustermerID, CustomerID fromLoanCustomerID, double lAmount, String APR, String lTerm){
+    public Loan(CustomerID loanToCustomerID, CustomerID loanFromCustomerID, double loanAmount, String APR, String loanTerm) {
         count++;
         loanID = "CL" + count;
-        this.loanToCustomerID = toLoanCustermerID;
-        this.loanFromCustomerID = fromLoanCustomerID;
-        this.loanAmount = lAmount;
+        this.loanToCustomerID = loanToCustomerID;
+        this.loanFromCustomerID = loanFromCustomerID;
+        this.loanAmount = loanAmount;
         this.apr = APR;
-        this.loanTerm = lTerm;
+        this.loanTerm = loanTerm;
     }
 
     public String getLoanID() {

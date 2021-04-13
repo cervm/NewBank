@@ -9,8 +9,8 @@ public class Account {
 
     private final String accountName;
     private final int accountNumber;
-    private double balance;
     private final ArrayList<Transaction> transactions;
+    private double balance;
 
 
     /**

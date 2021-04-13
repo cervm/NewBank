@@ -9,6 +9,7 @@ import java.util.Collections;
  */
 public class NewBank {
 
+    private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
     private static NewBank bank = null;
 
     static {
@@ -19,12 +20,10 @@ public class NewBank {
         }
     }
 
-
+    private final Database users = new Database("users.json", true);
+    private final Database loanMarketplace = new Database("loans.json", true);
+    private final Database confirmedLoans = new Database("confirmedLoans.json", true);
     private int nextAvailableAccountNumber = 10000000;
-    private static final int MAXIMUM_ACCOUNT_NUMBER = 99999999;
-    private Database users = new Database("users.json", true);
-    private Database loanMarketplace = new Database("loans.json", true);
-    private Database confirmedLoans = new Database("confirmedLoans.json", true);
     private Customer currentUser;
 
     private NewBank() throws Exception {
@@ -42,16 +41,16 @@ public class NewBank {
     /**
      * New user sign up
      */
-    public String newCustomerSignup (String userName, String password, String address, String email) throws Exception{
+    public String newCustomerSignup(String userName, String password, String address, String email) throws Exception {
         StringBuilder output = new StringBuilder();
 
-        if(passwordComplexity(password).equals("Success")){
+        if (passwordComplexity(password).equals("Success")) {
             Customer newCustomer = new Customer(userName, password);
             newCustomer.addAccount(newAccount("Current Account", 0.0));
             users.writeUser(newCustomer);
-            output.append("Welcome to New Bank" + newCustomer.getUserName());
+            output.append("Welcome to New Bank").append(newCustomer.getUserName());
         } else {
-           output.append(printPasswordComplexityRules());
+            output.append(printPasswordComplexityRules());
         }
 
         return output.toString();
@@ -60,33 +59,34 @@ public class NewBank {
 
     /**
      * Checks the password complexity meets the required standard
+     *
      * @param password
      * @return String - Success if meets requirements or the rule it fails on
      */
-    public String passwordComplexity(String password){
+    public String passwordComplexity(String password) {
         StringBuilder output = new StringBuilder();
         boolean hasNumber = false;
         boolean hasLetter = false;
         boolean isGreater = false;
 
-        for(char character : password.toCharArray()){
-            if(Character.isAlphabetic(character)){
+        for (char character : password.toCharArray()) {
+            if (Character.isAlphabetic(character)) {
                 hasLetter = true;
             }
-            if(Character.isDigit(character)){
+            if (Character.isDigit(character)) {
                 hasNumber = true;
             }
         }
 
-        if(password.length() > 8){
+        if (password.length() > 8) {
             isGreater = true;
         }
 
-        if (!hasNumber){
+        if (!hasNumber) {
             output.append("Fail: Please enter a password with at least 1 number\n");
-        } else if(!hasLetter){
+        } else if (!hasLetter) {
             output.append("Fail: Please enter a password with at least 1 letter\n");
-        } else if(!isGreater){
+        } else if (!isGreater) {
             output.append("Fail: Please enter a password longer than 8 characters\n");
         } else {
             output.append("Success");
@@ -97,10 +97,11 @@ public class NewBank {
 
     /**
      * To hash the user password for database storage.
+     *
      * @param password
      * @return
      */
-    private String hashPassword(String password){
+    private String hashPassword(String password) {
         return password;
     }
 
@@ -138,8 +139,8 @@ public class NewBank {
 // commands from the NewBank customer are processed in this method
     public synchronized String processRequest(CustomerID customer, String request) {
         String currentUID = currentUser.getCustomerID().getKey();
-        String custoID = customer.getKey();
-        if (currentUID.equals(custoID)) {
+        String customerID = customer.getKey();
+        if (currentUID.equals(customerID)) {
             String[] tokens = request.split("\\s+");
             switch (tokens[0]) {
                 case "SHOWMYACCOUNTS":
@@ -197,7 +198,7 @@ public class NewBank {
                 case "SHOWTRANSACTIONS":
                     return showTransactions();
                 case "REQUESTLOAN":
-                    if (tokens.length < 4){
+                    if (tokens.length < 4) {
                         break;
                     }
                     return requestLoan(customer, tokens[1], tokens[2], tokens[3]);
@@ -228,7 +229,7 @@ public class NewBank {
                 case "LOANMARKETPLACE":
                     return printLoans();
                 case "PICKLOAN":
-                    if (tokens.length < 1) {
+                    if (tokens.length < 2) {
                         break;
                     }
                     return pickLoan(tokens[1]);
@@ -244,11 +245,11 @@ public class NewBank {
      *
      * @return success or error message
      */
-    private String requestLoan(CustomerID customer, String loanAmount, String APR, String term)  {
+    private String requestLoan(CustomerID customer, String loanAmount, String APR, String term) {
         StringBuilder output = new StringBuilder();
-        try{
+        try {
             LoanMarketplace loan = new LoanMarketplace(currentUser, Double.parseDouble(loanAmount), APR, term);
-            output.append(loan.checkLoanMeetsCriteria() + "\n");
+            output.append(loan.checkLoanMeetsCriteria()).append("\n");
             loanMarketplace.writeLoan(loan);
             output.append("\nLoan Submitted to Marketplace");
         } catch (Exception e) {
@@ -258,8 +259,6 @@ public class NewBank {
 
         return output.toString();
     }
-
-    //FR1.2
 
     /**
      * Returns an authenticated users accounts upon them entering SHOWMYACCOUNTS into the console.
@@ -292,7 +291,7 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String resetPassword(String newPassword1, String newPassword2) {
-        if(passwordComplexity(newPassword1).equals("Success")) {
+        if (passwordComplexity(newPassword1).equals("Success")) {
             if (newPassword1.equals(newPassword2)) {
                 currentUser.setPassword(newPassword1);
                 try {
@@ -315,13 +314,11 @@ public class NewBank {
      * @return A string to print to the user
      */
     private String printPasswordComplexityRules() {
-        StringBuilder output = new StringBuilder();
-
-        output.append("A password length must be greater then 8 characters\n");
-        output.append("A password must contain at least 1 character\n");
-        output.append("A password must contain at least 1 number\n");
-
-        return output.toString();
+        return """
+                A password length must be greater then 8 characters
+                A password must contain at least 1 character
+                A password must contain at least 1 number
+                """;
     }
 
     /**
@@ -351,9 +348,9 @@ public class NewBank {
     /**
      * Moves money between the customer's accounts from one account to the other
      *
-     * @param amount   The Amount to transfer
-     * @param from     The account to transfer FROM
-     * @param to       The account to transfer TO
+     * @param amount The Amount to transfer
+     * @param from   The account to transfer FROM
+     * @param to     The account to transfer TO
      * @return A string to print to the user
      */
     private String move(double amount, String from, String to) {
@@ -373,9 +370,9 @@ public class NewBank {
     /**
      * Transfers an amount of money from the selected customer's account to any account in the bank
      *
-     * @param amount   The Amount to transfer
-     * @param from     The account name to transfer FROM
-     * @param to       The account number to transfer TO
+     * @param amount The Amount to transfer
+     * @param from   The account name to transfer FROM
+     * @param to     The account number to transfer TO
      * @return A string to print to the user
      */
     private String transfer(double amount, String from, int to) {
@@ -501,7 +498,6 @@ public class NewBank {
         return stringOut.toString();
     }
 
-    //TODO: Please add posible inputs accepted into here
     private String help() {
         return """
                 Type in one of the following commands
@@ -513,11 +509,11 @@ public class NewBank {
                 PAY <Person/Company> <Amount> = To pay an amount of money to another person or company
                 SHOWACCOUNT <Account Name> = To return the details and transactions to and from an account
                 SHOWTRANSACTIONS = To return a list of all your transactions to and from all of your accounts
-                SHOWACCOUNTINFO = To return a list of your personal details 
+                SHOWACCOUNTINFO = To return a list of your personal details
                 EDITADDRESS <password> <new address> = To update your address
                 EDITPHONENUMBER <password> <new phone number> = To update your phone number
                 EDITFULLNAME <password> <new full name> = To update your Full Name
-                EDITSECURITYQUESTION <password> <new security question> = To update your security question      
+                EDITSECURITYQUESTION <password> <new security question> = To update your security question
                 REQUESTLOAN <VALUE> <APR> <TERM> = Request a loan and have it submitted to the marketplace pending approval/funding.
                 LOANMARKETPLACE = Prints out all requested loans
                 PICKLOAN <LOAN ID> = Allows you to pick a loan to fulfill the request
@@ -530,15 +526,13 @@ public class NewBank {
      * @return Customers personal details
      */
     private String accountInfo() {
-        StringBuilder stringOut = new StringBuilder();
-        stringOut.append(currentUser.getAccountInfo());
-        return stringOut.toString();
+        return String.valueOf(currentUser.getAccountInfo());
     }
 
     /**
      * Edits the users address.
      *
-     * @param password Customers password
+     * @param password   Customers password
      * @param newAddress New address entry
      * @return A string to print to the user
      */
@@ -559,7 +553,7 @@ public class NewBank {
     /**
      * Edits the users phone number.
      *
-     * @param password Customers password
+     * @param password       Customers password
      * @param newPhoneNumber New address entry
      * @return A string to print to the user
      */
@@ -580,7 +574,7 @@ public class NewBank {
     /**
      * Edits the users full Name.
      *
-     * @param password Customers password
+     * @param password    Customers password
      * @param newFullName New address entry
      * @return A string to print to the user
      */
@@ -601,7 +595,7 @@ public class NewBank {
     /**
      * Edits the users security question.
      *
-     * @param password Customers password
+     * @param password            Customers password
      * @param newSecurityQuestion New address entry
      * @return A string to print to the user
      */
@@ -624,12 +618,12 @@ public class NewBank {
      *
      * @return A string to print to the user
      */
-    private String printLoans(){
+    private String printLoans() {
         StringBuilder output = new StringBuilder();
         output.append("Loan ID | Lender | Max Amount | APR | Lend Term (Months)\n");
-        ArrayList<LoanMarketplace> loans = new ArrayList<LoanMarketplace>();
+        ArrayList<LoanMarketplace> loans;
         try {
-            loans.addAll(loanMarketplace.readLoans());
+            loans = new ArrayList<>(loanMarketplace.readLoans());
         } catch (IOException e) {
             e.printStackTrace();
             return "Fail";
@@ -647,21 +641,21 @@ public class NewBank {
      * @param loanNumber the loan number picked by the user
      * @return A string to print to the user
      */
-    private String pickLoan(String loanNumber){
+    private String pickLoan(String loanNumber) {
         Double totalBalance = currentUser.getTotalBalance();
 
         try {
-            for(LoanMarketplace loan : loanMarketplace.readLoans()){
-                if(loan.getLoanID() == Double.parseDouble(loanNumber)){
-                   if(loan.getLoanAmount() <= totalBalance){
-                       loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
-                       transfer(loan.getLoanAmount(),
-                               currentUser.getAccount(),
-                               users.readUser(loan.getCustomer().getCustomerID()).getAccount());
-                       return "Loan is a success";
-                   } else {
-                       return "Insufficient funds: Can not loan more than 50% of your total balance";
-                   }
+            for (LoanMarketplace loan : loanMarketplace.readLoans()) {
+                if (loan.getLoanID() == Double.parseDouble(loanNumber)) {
+                    if (loan.getLoanAmount() <= totalBalance) {
+                        loanMarketplace.moveLoanToConfirmed(Double.parseDouble(loanNumber), currentUser.getCustomerID());
+                        transfer(loan.getLoanAmount(),
+                                currentUser.getAccount(),
+                                users.readUser(loan.getCustomer().getCustomerID()).getAccount());
+                        return "Loan is a success";
+                    } else {
+                        return "Insufficient funds: Can not loan more than 50% of your total balance";
+                    }
                 }
             }
             return "Loan not found. Please try another number";

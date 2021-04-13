@@ -12,10 +12,10 @@ import java.net.UnknownHostException;
  */
 public class ExampleClient extends Thread {
 
-    private Socket server;
-    private PrintWriter bankServerOut;
-    private BufferedReader userInput;
-    private Thread bankServerResponceThread;
+    private final Socket server;
+    private final PrintWriter bankServerOut;
+    private final BufferedReader userInput;
+    private final Thread bankServerResponseThread;
 
     /**
      * Instantiates a new Example client.
@@ -30,8 +30,8 @@ public class ExampleClient extends Thread {
         userInput = new BufferedReader(new InputStreamReader(System.in));
         bankServerOut = new PrintWriter(server.getOutputStream(), true);
 
-        bankServerResponceThread = new Thread() {
-            private BufferedReader bankServerIn = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        bankServerResponseThread = new Thread() {
+            private final BufferedReader bankServerIn = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
             public void run() {
                 try {
@@ -47,7 +47,7 @@ public class ExampleClient extends Thread {
                 }
             }
         };
-        bankServerResponceThread.start();
+        bankServerResponseThread.start();
     }
 
 

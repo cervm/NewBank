@@ -2,10 +2,10 @@ package newbank.server;
 
 public class CustomerInfo {
 
-    private String address;
-    private String phoneNumber;
-    private String fullName;
-    private String securityQuestion;
+    private final String address;
+    private final String phoneNumber;
+    private final String fullName;
+    private final String securityQuestion;
 
     /**
      * Instantiates Customer Details.
@@ -18,6 +18,7 @@ public class CustomerInfo {
         this.fullName = fullName;
         this.securityQuestion = securityQuestion;
     }
+
     /**
      * Parses account details as a string
      *
@@ -25,7 +26,7 @@ public class CustomerInfo {
      */
     public String toString() {
         return "Address" + " | " + address + " | " + "\n" +
-                "Phone Number" + " | " + phoneNumber + " | " + "\n"+
+                "Phone Number" + " | " + phoneNumber + " | " + "\n" +
                 "Full Name" + " | " + fullName + " | " + "\n" +
                 "Security Question" + " | " + securityQuestion + "|";
     }

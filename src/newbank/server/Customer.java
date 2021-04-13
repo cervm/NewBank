@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Customer {
     private final String userName;
     private final ArrayList<Account> accounts;
+    private final CustomerID customerID;
     private String password;
     private CustomerInfo accountDetails;
     private String address;
     private String phoneNumber;
     private String fullName;
     private String securityQuestion;
-    private CustomerID customerID;
     private ArrayList<Loan> loansTo;
     private ArrayList<Loan> loansFrom;
 
@@ -27,17 +27,18 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.accounts = new ArrayList<>();
-        this.accountDetails = new CustomerInfo("","","","");
+        this.accountDetails = new CustomerInfo("", "", "", "");
         this.customerID = new CustomerID(userName);
     }
 
     /**
      * Instantiates a new Customer.
-     * @param userName the user name
-     * @param password the password
-     * @param accounts the accounts
+     *
+     * @param userName       the user name
+     * @param password       the password
+     * @param accounts       the accounts
      * @param accountDetails the account details
-     * @param customerID the customer id
+     * @param customerID     the customer id
      */
     public Customer(String userName, String password, ArrayList<Account> accounts, CustomerInfo accountDetails, CustomerID customerID) {
         this.userName = userName;
@@ -52,13 +53,12 @@ public class Customer {
      *
      * @return the string
      */
-    //FR1.2
     public String accountsToString() {
         StringBuilder s = new StringBuilder();
         double totalBalance = 0;
         for (Account account : accounts) {
             totalBalance += account.getBalance();
-            s.append(account.toString()).append("\n");
+            s.append(account).append("\n");
         }
         s.append("\nYour Balance across all your accounts is: £").append(totalBalance);
         return s.toString();
@@ -69,13 +69,6 @@ public class Customer {
      */
     public boolean authenticateUser(String password) {
         return this.password.equals(password);
-    }
-
-    /**
-     * Set the password
-     */
-    public void setPassword(String newPW) {
-        this.password = newPW;
     }
 
     /**
@@ -149,9 +142,9 @@ public class Customer {
     /**
      * Adds a string containing the customers personal details
      *
-     * @param address     Customer address
-     * @param phoneNumber   Customer phone number
-     * @param fullName Customers full name
+     * @param address          Customer address
+     * @param phoneNumber      Customer phone number
+     * @param fullName         Customers full name
      * @param securityQuestion Customers security question
      */
     public void addAccountInfo(String address, String phoneNumber, String fullName, String securityQuestion) {
@@ -160,6 +153,7 @@ public class Customer {
 
     /**
      * Returns a string containing the customers personal details
+     *
      * @return Account details
      */
     public CustomerInfo getAccountInfo() {
@@ -169,14 +163,16 @@ public class Customer {
 
     /**
      * Sets the address for the user
-     * @param newAddress The customers new address
+     *
+     * @param address The customers new address
      */
-    public void setAddress(String newAddress) {
-        this.address = newAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
      * Get the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -184,39 +180,50 @@ public class Customer {
     }
 
     /**
-     * Sets the phone number for the user
-     * @param newPhoneNumber The customers new phone number
+     * Set the password
      */
-    public void setPhoneNumber(String newPhoneNumber) {
-        this.phoneNumber = newPhoneNumber;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Sets the phone number for the user
+     *
+     * @param phoneNumber The customers new phone number
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     /**
      * Sets the Full Name for the user
-     * @param newFullName The customers new Full Name
+     *
+     * @param fullName The customers new Full Name
      */
-    public void setFullName(String newFullName) {
-        this.fullName = newFullName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
      * Sets the Security Question for the user
-     * @param newSecurityQuestion The customers new security question
+     *
+     * @param securityQuestion The customers new security question
      */
-    public void setSecurityQuestion(String newSecurityQuestion) {
-        this.securityQuestion = newSecurityQuestion;
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
     }
 
     /**
      * Gets the customerID
+     *
      * @return CustomerID
      */
-    public CustomerID getCustomerID(){
+    public CustomerID getCustomerID() {
         return this.customerID;
     }
 
-    public Double getTotalBalance(){
-        Double totalBalance = 0.0;
+    public Double getTotalBalance() {
+        double totalBalance = 0.0;
         for (Account account : this.getAccounts()) {
             totalBalance = totalBalance + account.getBalance();
         }

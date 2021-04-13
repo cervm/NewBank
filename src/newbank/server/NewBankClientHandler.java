@@ -1,11 +1,7 @@
 package newbank.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.io.Console;
 import java.util.Arrays;
 
 /**
@@ -30,7 +26,7 @@ public class NewBankClientHandler extends Thread {
         in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         out = new PrintWriter(s.getOutputStream(), true);
         console = System.console();
-        if (console == null){
+        if (console == null) {
             out.println("Try using your computers built in terminal for increased security");
         }
     }
@@ -38,54 +34,54 @@ public class NewBankClientHandler extends Thread {
     public void run() {
         // keep getting requests from the client and processing them
         out.println("1. Existing user. 2. New user");
-        try{
+        try {
             String ans = in.readLine();
 
-            if(ans.equals("1")){
-            try {
-                CustomerID customer;
-                while (true) {
-                    // ask for user name
-                    out.println("Enter Username");
-                    String userName = in.readLine();
-                    // ask for password
-                    String password;
-                    try{
-                        char [] pass = console.readPassword("Enter Password");
-                        password = Arrays.toString(pass);
-                    } catch(Exception e){
-                        out.println("Enter Password");
-                        password = in.readLine();
+            if (ans.equals("1")) {
+                try {
+                    CustomerID customer;
+                    while (true) {
+                        // ask for user name
+                        out.println("Enter Username");
+                        String userName = in.readLine();
+                        // ask for password
+                        String password;
+                        try {
+                            char[] pass = console.readPassword("Enter Password");
+                            password = Arrays.toString(pass);
+                        } catch (Exception e) {
+                            out.println("Enter Password");
+                            password = in.readLine();
+                        }
+                        out.println("Checking Details...");
+                        // authenticate user and get customer ID token from bank for use in subsequent requests
+                        customer = bank.checkLogInDetails(userName, password);
+                        if (customer != null) {
+                            break;
+                        }
+                        out.println("Log In Failed. Please try again:");
                     }
-                    out.println("Checking Details...");
-                    // authenticate user and get customer ID token from bank for use in subsequent requests
-                    customer = bank.checkLogInDetails(userName, password);
-                    if (customer != null) {
-                        break;
+                    // if the user is authenticated then get requests from the user and process them
+                    out.println("Log In Successful. What do you want to do?\nType \"HELP\" to " +
+                            "discover what you can do");
+                    while (true) {
+                        String request = in.readLine();
+                        System.out.println("Request from " + customer.getKey());
+                        String response = bank.processRequest(customer, request);
+                        out.println(response);
                     }
-                    out.println("Log In Failed. Please try again:");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                // if the user is authenticated then get requests from the user and process them
-                out.println("Log In Successful. What do you want to do?\nType \"HELP\" to " +
-                        "discover what you can do");
-                while (true) {
-                    String request = in.readLine();
-                    System.out.println("Request from " + customer.getKey());
-                    String response = bank.processRequest(customer, request);
-                    out.println(response);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-             }
             }
-            if(ans.equals("2")){
+            if (ans.equals("2")) {
                 out.println("Set up your Username:");
                 String userName = in.readLine();
                 String passWord;
-                while(true){
+                while (true) {
                     String passWord1 = "";
-                    String passWord2 = "";
-                    while(!bank.passwordComplexity(passWord1).equals("Success")) {
+                    String passWord2;
+                    while (!bank.passwordComplexity(passWord1).equals("Success")) {
                         try {
                             char[] pass = console.readPassword("Set up your password");
                             passWord1 = Arrays.toString(pass);
@@ -93,42 +89,38 @@ public class NewBankClientHandler extends Thread {
                             out.println("Set up your password:");
                             passWord1 = in.readLine();
                         }
-                        if(!bank.passwordComplexity(passWord1).equals("Success")){
+                        if (!bank.passwordComplexity(passWord1).equals("Success")) {
                             out.println(bank.passwordComplexity(passWord1));
-                        }
-                        else{
+                        } else {
                             break;
                         }
                     }
 
-                    try{
+                    try {
                         char[] pass = console.readPassword("Confirm Password");
                         passWord2 = Arrays.toString(pass);
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         out.println("Confirm your password:");
                         passWord2 = in.readLine();
                     }
-                  if(passWord1.equals(passWord2)){
-                      passWord = passWord1;
-                      break;
-                  }
-                  else{
-                      out.println("Password not match, please try again");
-                  }
+                    if (passWord1.equals(passWord2)) {
+                        passWord = passWord1;
+                        break;
+                    } else {
+                        out.println("Password not match, please try again");
+                    }
                 }
                 out.println("Enter your address:");
                 String address = in.readLine();
                 out.println("Enter your email:");
                 String email = in.readLine();
-                bank.newCustomerSignup(userName, passWord,address, email);
+                bank.newCustomerSignup(userName, passWord, address, email);
                 out.println("Sign up successful. Please continue");
                 run();
-             }
             }
-           catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-           }
-            finally {
+        } finally {
             try {
                 in.close();
                 out.close();
