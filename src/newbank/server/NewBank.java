@@ -229,7 +229,7 @@ public class NewBank {
                 case "LOANMARKETPLACE":
                     return printLoans();
                 case "PICKLOAN":
-                    if (tokens.length < 1) {
+                    if (tokens.length < 2) {
                         break;
                     }
                     return pickLoan(tokens[1]);
