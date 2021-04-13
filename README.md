@@ -4,33 +4,69 @@ Group 12 Coursework 1 project in Software Engineering 2 - March 2021, University
 
 ## Protocol
 
-This section details the protocol for interacting with the NewBank server.  
-
-A customer enters the command below and sees the messages returned 
-
-`SHOWMYACCOUNTS`
-
-Returns a list of all the customers accounts along with their current balance 
-
-e.g. Main: 1000.0 
+This section details the protocol for interacting with the NewBank server.
 
 
-`NEWACCOUNT <Name>`
+```SHOWMYACCOUNTS```
 
-e.g. NEWACCOUNT Savings
+- To return a list of your accounts.
 
-Returns SUCCESS or FAIL
+```RESETPASSWORD <new password> <new password>```
 
+- To reset your password. Password must be entered twice to check they match.
 
-`MOVE <Amount> <From> <To>`
+```ADDACCOUNT <account name>```
 
-e.g. MOVE 100 Main Savings 
+- To create a new account.
 
+```MOVE <Amount> <From> <To>```
 
-Returns SUCCESS or FAIL
+- To move an amount of money from one account to another.
 
-`PAY <Person/Company> <Ammount>`
+```TRANSFER <Amount> <From> <To>```
 
-e.g. PAY John 100
+- To transfer an amount of money from the selected customer's account to any account in the bank.
 
-Returns SUCCESS or FAIL
+```PAY <Person/Company> <Amount>```
+
+- To pay an amount of money to another person or company.
+
+```SHOWACCOUNT <Account Name>```
+
+- To return the details and transactions to and from an account.
+
+```SHOWTRANSACTIONS```
+
+- To return a list of all your transactions to and from all of your accounts.
+
+```SHOWACCOUNTINFO```
+
+- To return a list of your personal details.
+
+```EDITADDRESS <password> <new address>```
+
+- To update your address.
+
+```EDITPHONENUMBER <password> <new phone number>```
+
+- To update your phone number.
+
+```EDITFULLNAME <password> <new full name>```
+
+- To update your Full Name.
+
+```EDITSECURITYQUESTION <password> <new security question>```
+
+- To update your security question.
+
+```REQUESTLOAN <VALUE> <APR> <TERM>```
+
+- Request a loan and have it submitted to the marketplace pending approval/funding.
+
+```LOANMARKETPLACE```
+
+- Prints out all requested loans.
+
+```PICKLOAN <LOAN ID>```
+
+- Allows you to pick a loan to fulfill the request.
